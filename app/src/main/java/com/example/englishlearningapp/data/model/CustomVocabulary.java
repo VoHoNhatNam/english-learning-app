@@ -1,9 +1,8 @@
 package com.example.englishlearningapp.data.model;
 
-public class Vocabulary {
+public class CustomVocabulary {
 
-    private int id;
-    private int lessonId;
+    private String lessonId;
     private String word;
     private String meaning;
     private String example;

@@ -4,8 +4,10 @@ import java.util.Date;
 
 public class TestResult {
 
-    String userId;
-    int lessonId;
-    int score;
-    Date date;
+    private String userId;
+    private int lessonId;
+    private int score;
+    private long timeSpent;
+    private Date createdAt;
+
 }

@@ -1,10 +1,10 @@
 package com.example.englishlearningapp.data.model;
 
-public class UserProgress {
+public class UserActivity {
 
     private String userId;
     private int lessonId;
-    private boolean completed;
-    private int score;
+    private int attempts;
+    private int mistakes;
 
 }

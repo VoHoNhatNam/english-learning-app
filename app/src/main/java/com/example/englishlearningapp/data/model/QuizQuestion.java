@@ -4,9 +4,10 @@ import java.util.List;
 
 public class QuizQuestion {
 
-    int id;
-    String question;
-    List<String> answers;
-    int correctIndex;
-    int lessonId;
+    private int id;
+    private int lessonId;
+    private String question;
+    private List<String> answers;
+    private int correctAnswer;
+
 }
