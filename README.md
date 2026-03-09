@@ -170,6 +170,7 @@ Thanh toán sử dụng **Google Play Billing**.
 com.example.englishlearningapp
 
 ads
+ai
 billing
 
 data
@@ -181,10 +182,12 @@ data
 
 ui
    auth
+   chat
+   customlesson
    home
    lesson
+   onboarding     
    quiz
-   chat
    profile
 
 viewmodel
@@ -196,14 +199,22 @@ utils
 # 8. Model chính
 
 ```
-User
+AIAnalysis
+AIQuestion
+AIRecommendation
+ChatMessage
+CustomLesson
+CustomVocabulary
+LearningSession
 Lesson
-Vocabulary
 QuizQuestion
 TestResult
+User
+UserActivity
+UserProfile
 UserProgress
-ChatMessage
-AIRecommendation
+VipSubscription
+Vocabulary
 ```
 
 ---
