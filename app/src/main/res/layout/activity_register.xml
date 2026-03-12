@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6FB">
+
+    <LinearLayout
+        android:id="@+id/registerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="28dp">
+
+        <!-- Logo -->
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/logo_bg"
+            android:padding="12dp"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="30dp"/>
+
+        <!-- Username -->
+        <EditText
+            android:id="@+id/edtUser"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Tên đăng nhập"
+            android:textColor="#333333"
+            android:textColorHint="#9AA0A6"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColor="#333333"
+            android:textColorHint="#9AA0A6"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- Phone -->
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:textColor="#333333"
+            android:textColorHint="#9AA0A6"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/edtPass"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:textColor="#333333"
+            android:textColorHint="#9AA0A6"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- Confirm Password -->
+        <EditText
+            android:id="@+id/edtPass2"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Xác nhận mật khẩu"
+            android:inputType="textPassword"
+            android:textColor="#333333"
+            android:textColorHint="#9AA0A6"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="26dp"/>
+
+        <!-- Register button -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="ĐĂNG KÝ"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4A6CF7"/>
+
+        <!-- Login link -->
+        <TextView
+            android:id="@+id/txtLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã có tài khoản? Đăng nhập"
+            android:textColor="#2563EB"
+            android:textSize="14sp"
+            android:layout_marginTop="22dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

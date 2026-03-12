@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- khi bấm -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#7B2FF7"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+
+    <!-- khi hover -->
+    <item android:state_hovered="true">
+        <shape>
+            <solid android:color="#E0E0E0"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+
+    <!-- bình thường -->
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+
+</selector>
