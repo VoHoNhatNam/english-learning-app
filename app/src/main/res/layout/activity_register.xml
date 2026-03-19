@@ -1,146 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F8FC"
-    android:fillViewport="true">
+    android:background="#F6F8FC">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:fillViewport="true">
 
-        <!-- Logo -->
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_a_steady_logo"
-            android:layout_marginTop="40dp"/>
-
-        <!-- Title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#2C3E50"
-            android:layout_marginTop="12dp"/>
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:layout_marginTop="24dp"/>
-
-        <!-- Username -->
-        <EditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Username"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Confirm Password -->
-        <EditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Register Button -->
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Register"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/bg_button"
-            android:layout_marginTop="24dp"/>
-
-        <!-- Divider -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OR"
-            android:textColor="#95A5A6"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Google Register -->
         <LinearLayout
-            android:id="@+id/btnGoogleRegister"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@drawable/bg_google_button"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
+            <!-- Logo -->
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_google"/>
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_a_steady_logo"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@null"/>
+
+            <!-- App name & Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cheeky_lingua"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  Register with Google"
+                android:text="@string/join_us_to_start_learning"
+                android:textSize="14sp"
+                android:textColor="#7F8C8D"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="8dp"
+                android:textSize="15sp"
+                android:autofillHints="emailAddress" />
+
+            <!-- Username -->
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="16dp"
+                android:textSize="15sp"
+                android:autofillHints="username" />
+
+            <!-- PASSWORD -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_input"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="2dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_lock"
+                    app:tint="#7F8C8D"
+                    android:contentDescription="@null"/>
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    android:autofillHints="password" />
+
+                <ImageView
+                    android:id="@+id/imgTogglePassword"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_visibility"
+                    app:tint="#7F8C8D"
+                    android:padding="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/password" />
+            </LinearLayout>
+
+            <!-- Password Requirements (Initial view) -->
+            <TextView
+                android:id="@+id/tvPasswordRequirements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password_requirements"
+                android:textSize="12sp"
+                android:textColor="#7F8C8D"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="4dp"
+                android:visibility="visible"/>
+
+            <!-- Strength Info (Hidden initially) -->
+            <LinearLayout
+                android:id="@+id/layoutPasswordStrength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="4dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    android:id="@+id/progressPassword"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:max="100"
+                    android:progressDrawable="@android:drawable/progress_horizontal" />
+
+                <TextView
+                    android:id="@+id/tvStrength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password_too_weak"
+                    android:textSize="11sp"
+                    android:textColor="#F44336"
+                    android:layout_marginTop="2dp"
+                    tools:ignore="SmallSp" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/tvRuleLength"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/rule_length"
+                        android:textSize="11sp"
+                        android:textColor="#9E9E9E"
+                        tools:ignore="SmallSp" />
+
+                    <TextView
+                        android:id="@+id/tvRuleUpper"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/rule_upper"
+                        android:textSize="11sp"
+                        android:textColor="#9E9E9E"
+                        tools:ignore="SmallSp" />
+
+                    <TextView
+                        android:id="@+id/tvRuleNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/rule_number"
+                        android:textSize="11sp"
+                        android:textColor="#9E9E9E"
+                        android:layout_marginTop="2dp"
+                        tools:ignore="SmallSp" />
+
+                    <TextView
+                        android:id="@+id/tvRuleSpecial"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/rule_special"
+                        android:textSize="11sp"
+                        android:textColor="#9E9E9E"
+                        android:layout_marginTop="2dp"
+                        tools:ignore="SmallSp" />
+                </GridLayout>
+            </LinearLayout>
+
+            <!-- CONFIRM PASSWORD -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_input"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="2dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_lock"
+                    app:tint="#7F8C8D"
+                    android:contentDescription="@null"/>
+
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    android:autofillHints="password" />
+
+                <ImageView
+                    android:id="@+id/imgToggleConfirm"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_visibility"
+                    app:tint="#7F8C8D"
+                    android:padding="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/confirm_password" />
+            </LinearLayout>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="@string/register"
+                android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#333333"/>
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_button"
+                android:layout_marginTop="32dp"
+                android:elevation="2dp"/>
+
+            <!-- Already have account -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/already_have_account"
+                    android:textColor="#7F8C8D"/>
+
+                <TextView
+                    android:id="@+id/tvLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:text="@string/login_now"
+                    android:textColor="#3498DB"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Back to login -->
-        <LinearLayout
+    <!-- Loading Overlay -->
+    <LinearLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminateTint="#FFFFFF"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp">
-
-            <TextView
-                android:text="Already have an account?"
-                android:textColor="#7F8C8D"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tvLogin"
-                android:text=" Login"
-                android:textColor="#3498DB"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
+            android:text="@string/creating_account"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="12dp"/>
     </LinearLayout>
 
-</ScrollView>
+</FrameLayout>
