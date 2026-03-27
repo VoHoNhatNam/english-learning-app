@@ -9,13 +9,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.englishlearningapp.MainActivity; // 1. Import MainActivity
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.viewmodel.AuthViewModel;
 
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.*;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,15 +38,9 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        // Nếu user đã login rồi → vào Home luôn
+        // 2. Nếu user đã login rồi → Chuyển hướng sang MainActivity
         if (authViewModel.getCurrentUser() != null) {
-
-            startActivity(new Intent(
-                    LoginActivity.this,
-                    com.example.englishlearningapp.ui.home.HomeActivity.class
-            ));
-
-            finish();
+            navigateToMain();
         }
 
         GoogleSignInOptions gso =
@@ -60,78 +54,46 @@ public class LoginActivity extends AppCompatActivity {
         btnGoogleLogin.setOnClickListener(v -> signInGoogle());
 
         tvRegister.setOnClickListener(v -> {
-
-            startActivity(new Intent(
-                    LoginActivity.this,
-                    RegisterActivity.class
-            ));
-
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
     }
 
     private void signInGoogle() {
-
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
-
-            Task<GoogleSignInAccount> task =
-                    GoogleSignIn.getSignedInAccountFromIntent(data);
-
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-
-                GoogleSignInAccount account =
-                        task.getResult(ApiException.class);
-
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
-
             } catch (ApiException e) {
-
-                Toast.makeText(this,
-                        "Google Sign-In Failed",
-                        Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, "Google Sign-In Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
-
-        AuthCredential credential =
-                GoogleAuthProvider.getCredential(idToken, null);
-
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         authViewModel.loginWithGoogle(credential, task -> {
-
             if (task.isSuccessful()) {
-
-                Toast.makeText(this,
-                        "Login Success",
-                        Toast.LENGTH_SHORT).show();
-
-                // Chuyển sang HomeActivity
-                Intent intent = new Intent(
-                        LoginActivity.this,
-                        com.example.englishlearningapp.ui.home.HomeActivity.class
-                );
-
-                startActivity(intent);
-                finish();
-
+                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+                // 3. Đăng nhập thành công → Chuyển hướng sang MainActivity
+                navigateToMain();
             } else {
-
-                Toast.makeText(this,
-                        "Login Failed: " + task.getException().getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
-
         });
+    }
+
+    // Hàm bổ trợ để chuyển trang và đóng LoginActivity
+    private void navigateToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish(); // Quan trọng: Đóng Login để khi nhấn Back không bị quay lại màn hình đăng nhập
     }
 }

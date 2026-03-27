@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Màu nền của hình tròn (Màu xanh chủ đạo của app) -->
+    <solid android:color="#4A6CF7" />
+
+    <!-- Kích thước mặc định (sẽ tự co giãn theo View) -->
+    <size
+        android:width="60dp"
+        android:height="60dp" />
+
+    <!-- Hiệu ứng đổ bóng nhẹ hoặc viền nếu muốn (tùy chọn) -->
+    <!-- <stroke android:width="2dp" android:color="#FFFFFF" /> -->
+
+</shape>
