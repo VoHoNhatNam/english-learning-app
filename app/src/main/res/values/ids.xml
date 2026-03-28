@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="edtLessonName" type="id" />
+    <item name="edtLessonDesc" type="id" />
+    <item name="btnSaveLesson" type="id" />
+</resources>

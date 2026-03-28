@@ -1,26 +1,29 @@
-package com.example.englishlearningapp.data.model;
+package com.example.englishlearningapp.data.model; // Hoặc package chứa Adapter của bạn
 
-import android.view.LayoutInflater; // Thêm dòng này
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.englishlearningapp.R; // Thêm dòng này để nhận diện R.layout và R.id
+import com.example.englishlearningapp.R;
+import com.example.englishlearningapp.data.model.CustomLesson;
 
 import java.util.List;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.ViewHolder> {
-    private List<String> lessons;
+
+    private List<CustomLesson> lessons;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(String lessonName);
+        void onItemClick(CustomLesson lesson);
     }
 
-    public LessonAdapter(List<String> lessons, OnItemClickListener listener) {
+    public LessonAdapter(List<CustomLesson> lessons, OnItemClickListener listener) {
         this.lessons = lessons;
         this.listener = listener;
     }
@@ -28,18 +31,21 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // LayoutInflater đã được import ở trên nên sẽ hết báo đỏ
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String name = lessons.get(position);
-        holder.txtName.setText(name);
+        CustomLesson lesson = lessons.get(position);
+
+        // Đổ dữ liệu vào đúng ID trong layout mới
+        holder.txtName.setText(lesson.getTitle());
+        holder.txtDescription.setText(lesson.getDescription());
+
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(name);
+                listener.onItemClick(lesson);
             }
         });
     }
@@ -50,11 +56,15 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtName;
+        TextView txtName, txtDescription;
+        ImageView imgIcon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // txtLessonName phải trùng khớp với ID trong file item_lesson.xml
+            // Ánh xạ ĐÚNG ID từ file item_lesson.xml bạn gửi
             txtName = itemView.findViewById(R.id.txtLessonName);
+            txtDescription = itemView.findViewById(R.id.txtLessonDescription);
+            imgIcon = itemView.findViewById(R.id.imgLessonIcon);
         }
     }
 }
