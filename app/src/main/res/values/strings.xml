@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">EnglishLearningApp</string>
+    <string name="cheeky_lingua">CheekyLingua</string>
+    <string name="create_account">Create Account</string>
+    <string name="join_us_to_start_learning">Join us to start learning</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="login_now">Login</string>
+    <string name="password_requirements">Yêu cầu mật khẩu:</string>
+    <string name="password_too_weak">Mật khẩu quá yếu</string>
+    <string name="password_weak">Mật khẩu yếu</string>
+    <string name="password_medium">Mật khẩu trung bình</string>
+    <string name="password_strong">Mật khẩu khá</string>
+    <string name="password_very_strong">Mật khẩu rất mạnh</string>
+    <string name="rule_length">Ít nhất 8 ký tự</string>
+    <string name="rule_upper">Chữ in hoa</string>
+    <string name="rule_number">Chữ số</string>
+    <string name="rule_special">Ký tự đặc biệt</string>
+    <string name="creating_account">Creating account&#8230;</string>
+    <string name="registration_success">Đăng ký thành công</string>
+    <string name="can_login_now">Bạn có thể đăng nhập ngay</string>
+    <string name="password_not_match">Mật khẩu không khớp</string>
+    <string name="invalid_email">Email không hợp lệ</string>
+    <string name="enter_username">Vui lòng nhập username</string>
 </resources>

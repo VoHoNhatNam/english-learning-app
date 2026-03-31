@@ -1,141 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F6F8FC">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- ================= MAIN CONTENT ================= -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:fillViewport="true"
+        android:background="#F6F8FC">
 
-        <!-- Mascot / Logo -->
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_a_steady_logo"
-            android:layout_marginTop="40dp"/>
-
-        <!-- App name -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CheekyLingua"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="#2C3E50"
-            android:layout_marginTop="12dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Learn English the smart way"
-            android:textSize="14sp"
-            android:textColor="#7F8C8D"
-            android:layout_marginBottom="32dp"/>
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:background="@drawable/bg_input"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Forgot password -->
-        <TextView
-            android:id="@+id/tvForgot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:textColor="#3498DB"
-            android:layout_gravity="end"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Login"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/bg_button"/>
-
-        <!-- Divider -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OR"
-            android:textColor="#95A5A6"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"/>
-        <!-- Login with Google -->
         <LinearLayout
-            android:id="@+id/btnGoogleLogin"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@drawable/bg_google_button"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
+            <!-- Logo -->
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_google"/>
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_a_steady_logo"
+                android:layout_marginTop="40dp" />
+
+            <!-- App name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CheekyLingua"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginTop="12dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  Continue with Google"
+                android:text="Learn English the smart way"
+                android:textSize="14sp"
+                android:textColor="#7F8C8D"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/bg_input"
+                android:padding="16dp"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Password -->
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:background="@drawable/bg_input"
+                android:padding="16dp"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Forgot -->
+            <TextView
+                android:id="@+id/tvForgot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot Password?"
+                android:textColor="#3498DB"
+                android:layout_gravity="end"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Login -->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Login"
+                android:textAllCaps="false"
                 android:textSize="16sp"
-                android:textColor="#333333"
-                android:textStyle="bold"/>
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_button"/>
+
+            <!-- Divider -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OR"
+                android:textColor="#95A5A6"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Google -->
+            <LinearLayout
+                android:id="@+id/btnGoogleLogin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/bg_google_button"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_google"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Continue with Google"
+                    android:textSize="16sp"
+                    android:textColor="#333"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Register -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't have an account?"
+                    android:textColor="#7F8C8D"/>
+
+                <TextView
+                    android:id="@+id/tvRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Register"
+                    android:textColor="#3498DB"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
         </LinearLayout>
-        <!-- Register -->
-        <LinearLayout
+
+    </ScrollView>
+
+    <!-- ================= LOADING OVERLAY ================= -->
+    <LinearLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't have an account?"
-                android:textColor="#7F8C8D"/>
-
-            <TextView
-                android:id="@+id/tvRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Register"
-                android:textColor="#3498DB"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
+            android:text="Đang đăng nhập..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="12dp"/>
 
     </LinearLayout>
 
-</ScrollView>
+</FrameLayout>
