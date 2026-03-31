@@ -16,21 +16,34 @@ public class AuthViewModel extends ViewModel {
         repository = new AuthRepository();
     }
 
+    // 🔹 Get current user
     public FirebaseUser getCurrentUser() {
         return repository.getCurrentUser();
     }
 
-    // Login Google
+    // 🔹 Login Email + Password (THIẾU → thêm)
+    public void login(String email, String password,
+                      OnCompleteListener<AuthResult> listener) {
+
+        repository.login(email, password, listener);
+    }
+
+    // 🔹 Login Google
     public void loginWithGoogle(AuthCredential credential,
                                 OnCompleteListener<AuthResult> listener) {
 
         repository.loginWithCredential(credential, listener);
     }
 
-    // Register Email + Password
+    // 🔹 Register
     public void register(String email, String password,
                          OnCompleteListener<AuthResult> listener) {
 
         repository.register(email, password, listener);
+    }
+
+    // 🔹 Logout
+    public void logout() {
+        repository.logout();
     }
 }

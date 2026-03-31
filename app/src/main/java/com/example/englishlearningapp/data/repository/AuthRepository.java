@@ -18,7 +18,16 @@ public class AuthRepository {
         return authManager.getCurrentUser();
     }
 
-    // Login bằng Google
+    // 🔐 Login Email + Password
+    public void login(String email, String password,
+                      OnCompleteListener<AuthResult> listener) {
+
+        authManager.getAuth()
+                .signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(listener);
+    }
+
+    // 🔐 Login Google
     public void loginWithCredential(AuthCredential credential,
                                     OnCompleteListener<AuthResult> listener) {
 
@@ -27,7 +36,7 @@ public class AuthRepository {
                 .addOnCompleteListener(listener);
     }
 
-    // Register bằng Email + Password
+    // 📝 Register
     public void register(String email, String password,
                          OnCompleteListener<AuthResult> listener) {
 
@@ -36,4 +45,8 @@ public class AuthRepository {
                 .addOnCompleteListener(listener);
     }
 
+    // 🚪 Logout
+    public void logout() {
+        authManager.getAuth().signOut();
+    }
 }
