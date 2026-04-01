@@ -26,4 +26,5 @@
     <string name="password_not_match">Mật khẩu không khớp</string>
     <string name="invalid_email">Email không hợp lệ</string>
     <string name="enter_username">Vui lòng nhập username</string>
+    <string name="default_web_client_id">304353532828-nd5h3cb5dt2i4cal8o683e50rtinu1ch.apps.googleusercontent.com</string>
 </resources>

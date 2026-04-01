@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- BẮT BUỘC: Thêm quyền Internet để dùng Firebase và Google Login -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,19 +16,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EnglishLearningApp"
         tools:targetApi="31">
+
+        <!-- 1. Splash Screen: Màn hình khởi đầu -->
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Design.NoActionBar"> <!-- Thường Splash sẽ không có ActionBar -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.auth.LoginActivity"/>
+
+        <!-- 2. Màn hình Đăng nhập -->
         <activity
-            android:name=".ui.home.HomeActivity"/>
-        <activity android:name=".ui.auth.RegisterActivity"/>
+            android:name=".ui.auth.LoginActivity"
+            android:windowSoftInputMode="adjustResize" /> <!-- Giúp bàn phím không che mất nút khi hiện lên -->
+
+        <!-- 3. Màn hình Đăng ký -->
+        <activity android:name=".ui.auth.RegisterActivity" />
+
+        <!-- 4. Màn hình Chính (MainActivity) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="Trang chủ" />
+
+        <!-- 5. Màn hình Onboarding (Nếu bạn có một Activity riêng cho chọn Level) -->
+        <!-- Nếu bạn dùng Fragment cho Level thì không cần khai báo thêm ở đây -->
+
     </application>
 
 </manifest>
