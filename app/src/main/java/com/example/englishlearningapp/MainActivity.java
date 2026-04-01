@@ -47,7 +47,11 @@ public class MainActivity extends AppCompatActivity {
             updateUIActive(iconHome);
         });
 
-
+        navLesson.setOnClickListener(v -> {
+            // Load danh sách bài học
+            replaceFragment(new LessonListFragment(), false);
+            updateUIActive(iconLesson);
+        });
 
         navAdd.setOnClickListener(v -> {
             // Ví dụ: Mở Quiz hoặc màn hình thêm mới
