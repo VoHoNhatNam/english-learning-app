@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trình độ tiếng Anh của bạn?"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#2C3E50"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hãy chọn mức độ gần nhất với khả năng hiện tại của bạn."
+        android:textSize="14sp"
+        android:textColor="#7F8C8D"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:paddingHorizontal="20dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="8dp">
+
+        <RadioButton
+            android:id="@+id/rbBeginner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Mới bắt đầu (Beginner)"
+            android:textSize="16sp"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_survey_option"
+            android:button="@null"/>
+
+        <RadioButton
+            android:id="@+id/rbIntermediate"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Trung bình (Intermediate)"
+            android:textSize="16sp"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_survey_option"
+            android:button="@null"/>
+
+        <RadioButton
+            android:id="@+id/rbAdvanced"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Nâng cao (Advanced)"
+            android:textSize="16sp"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_survey_option"
+            android:button="@null"/>
+
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.englishlearningapp.ui.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,11 +24,18 @@ import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LOGIN_DEBUG";
     private static final int RC_SIGN_IN = 100;
+    
+    // Constants cho tính năng lưu thông tin đăng nhập
+    private static final String PREFS_NAME = "auth_prefs";
+    private static final String KEY_EMAIL = "last_email";
+    private static final String KEY_PASSWORD = "last_password";
 
     private EditText etEmail, etPassword;
     private Button btnLogin;
@@ -35,6 +45,21 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private AuthViewModel authViewModel;
 
+    // Sử dụng ActivityResultLauncher để nhận dữ liệu từ RegisterActivity
+    private final ActivityResultLauncher<Intent> registerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String email = result.getData().getStringExtra("email");
+                    String password = result.getData().getStringExtra("password");
+                    if (email != null) etEmail.setText(email);
+                    if (password != null) etPassword.setText(password);
+                    saveCredentials(email, password);
+                    Toast.makeText(this, "Đã tự động điền thông tin đăng ký", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +68,12 @@ public class LoginActivity extends AppCompatActivity {
         initViews();
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        // Kiểm tra nếu đã login thì vào luôn Main
+        // Load thông tin đã lưu từ lần đăng nhập trước
+        loadSavedCredentials();
+
+        // Kiểm tra nếu đã login thì chuyển sang luồng check Onboarding
         if (authViewModel.getCurrentUser() != null) {
-            navigateToMain();
+            checkUserSurvey();
         }
 
         // Cấu hình Google Sign-In - Kiểm tra ID Token để tránh Crash
@@ -63,9 +91,10 @@ public class LoginActivity extends AppCompatActivity {
         // Sự kiện Click
         btnLogin.setOnClickListener(v -> loginWithEmail());
         btnGoogleLogin.setOnClickListener(v -> signInGoogle());
+        
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            registerLauncher.launch(intent);
         });
 
         if (tvForgot != null) {
@@ -85,6 +114,46 @@ public class LoginActivity extends AppCompatActivity {
         loadingOverlay = findViewById(R.id.loadingOverlay);
     }
 
+    private void loadSavedCredentials() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String savedEmail = prefs.getString(KEY_EMAIL, "");
+        String savedPassword = prefs.getString(KEY_PASSWORD, "");
+        if (!savedEmail.isEmpty()) etEmail.setText(savedEmail);
+        if (!savedPassword.isEmpty()) etPassword.setText(savedPassword);
+    }
+
+    private void saveCredentials(String email, String password) {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefs.edit()
+                .putString(KEY_EMAIL, email)
+                .putString(KEY_PASSWORD, password)
+                .apply();
+    }
+
+    private void checkUserSurvey() {
+        String uid = authViewModel.getCurrentUser().getUid();
+        showLoading(true);
+        FirebaseFirestore.getInstance().collection("users").document(uid).get()
+                .addOnCompleteListener(task -> {
+                    showLoading(false);
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null && document.exists()) {
+                            Boolean onboardingCompleted = document.getBoolean("onboardingCompleted");
+                            if (onboardingCompleted != null && onboardingCompleted) {
+                                navigateToMain();
+                            } else {
+                                navigateToOnboarding();
+                            }
+                        } else {
+                            navigateToOnboarding();
+                        }
+                    } else {
+                        navigateToMain();
+                    }
+                });
+    }
+
     private void loginWithEmail() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -95,12 +164,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         showLoading(true);
-        // Gọi hàm login từ ViewModel (đã sửa lỗi callback ở đây)
+        // Gọi hàm login từ ViewModel
         authViewModel.login(email, password, task -> {
             showLoading(false);
             if (task.isSuccessful()) {
                 Log.d(TAG, "Đăng nhập Email thành công");
-                navigateToMain();
+                saveCredentials(email, password); 
+                checkUserSurvey(); 
             } else {
                 String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi không xác định";
                 Log.e(TAG, "Đăng nhập thất bại: " + errorMsg);
@@ -144,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
         authViewModel.loginWithGoogle(credential, task -> {
             showLoading(false);
             if (task.isSuccessful()) {
-                navigateToMain();
+                checkUserSurvey();
             } else {
                 Log.e(TAG, "Firebase Google Auth Failed", task.getException());
                 Toast.makeText(this, "Lỗi xác thực Firebase", Toast.LENGTH_SHORT).show();
@@ -159,8 +229,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToMain() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    private void navigateToOnboarding() {
+        startActivity(new Intent(this, OnboardingSurveyActivity.class));
         finish();
     }
 }
