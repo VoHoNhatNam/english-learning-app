@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6FB"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- ICON + TITLE -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/imgResultStatus"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/ic_trophy"
+            android:elevation="6dp"
+            app:tint="#FFD54F" />
+
+        <TextView
+            android:id="@+id/txtResultTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chúc mừng!"
+            android:textColor="#222"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã hoàn thành bài học 🎉"
+            android:textColor="#777"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <!-- SCORE CARD -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm của bạn"
+                android:textSize="16sp"
+                android:textColor="#666"/>
+
+            <TextView
+                android:id="@+id/txtFinalScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8/10"
+                android:textColor="#4A6CF7"
+                android:textSize="52sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"/>
+
+            <!-- Progress bar mini -->
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="120dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="12dp"
+                android:progress="80"
+                android:progressTint="#4A6CF7"
+                android:backgroundTint="#E5E7EB"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- BUTTONS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Primary -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTryAgain"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Làm lại"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4A6CF7"
+            app:cornerRadius="30dp"
+            android:elevation="4dp"/>
+
+        <!-- Secondary -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBackHome"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:text="Về màn hình chính"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textColor="#4A6CF7"
+            app:cornerRadius="30dp"
+            app:strokeColor="#4A6CF7"/>
+
+    </LinearLayout>
+
+</LinearLayout>

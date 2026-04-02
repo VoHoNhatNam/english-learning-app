@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9FAFB"
+    android:padding="24dp">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn bao nhiêu tuổi?"
+        android:textColor="#222"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Điều này giúp chúng tôi cá nhân hóa nội dung học tập của bạn."
+        android:textColor="#666"
+        android:textSize="14sp"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Lựa chọn độ tuổi -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgeKids"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="12dp"
+        android:text="Dưới 12 tuổi"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:strokeColor="#D1D5DB"
+        app:backgroundTint="#FFFFFF"
+        app:rippleColor="#E0E0E0"/> <!-- Sửa thành app:rippleColor -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgeTeens"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="12dp"
+        android:text="13 - 18 tuổi"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:strokeColor="#D1D5DB"
+        app:backgroundTint="#FFFFFF"
+        app:rippleColor="#E0E0E0"/> <!-- Sửa thành app:rippleColor -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgeAdults"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="12dp"
+        android:text="19 - 30 tuổi"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:strokeColor="#D1D5DB"
+        app:backgroundTint="#FFFFFF"
+        app:rippleColor="#E0E0E0"/> <!-- Sửa thành app:rippleColor -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgeSenior"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:text="Trên 30 tuổi"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:strokeColor="#D1D5DB"
+        app:backgroundTint="#FFFFFF"
+        app:rippleColor="#E0E0E0"/> <!-- Sửa thành app:rippleColor -->
+
+    <!-- Khoảng trống linh hoạt -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Nút tiếp tục -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgeNext"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Tiếp tục"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="30dp"
+        android:enabled="false"
+        app:backgroundTint="#4A6CF7"
+        android:textColor="#FFFFFF"
+        app:rippleColor="#81C784"/> <!-- Sửa thành app:rippleColor -->
+
+</LinearLayout>

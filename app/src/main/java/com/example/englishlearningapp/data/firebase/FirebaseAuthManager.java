@@ -12,9 +12,8 @@ public class FirebaseAuthManager {
     }
 
     public FirebaseAuth getAuth() {
-        return firebaseAuth;
+        return FirebaseAuth.getInstance();
     }
-
     public FirebaseUser getCurrentUser() {
         return firebaseAuth.getCurrentUser();
     }
