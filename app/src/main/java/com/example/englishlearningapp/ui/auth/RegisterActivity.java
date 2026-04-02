@@ -19,6 +19,7 @@ import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.viewmodel.AuthViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,10 @@ public class RegisterActivity extends AppCompatActivity {
     private int currentPasswordScore = 0;
     private boolean isPasswordVisible = false;
     private boolean isConfirmVisible = false;
+
+    // Lưu lại thông tin để truyền ngược về trang đăng nhập
+    private String registeredEmail = "";
+    private String registeredPassword = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupListeners() {
         btnRegister.setOnClickListener(v -> {
-            hideKeyboard();
-            clearFocusAll();
             registerUser();
         });
 
@@ -170,8 +173,8 @@ public class RegisterActivity extends AppCompatActivity {
         setRule(tvRuleNumber, hasNumber);
         setRule(tvRuleSpecial, hasSpecial);
 
-        btnRegister.setEnabled(score >= 75);
-        btnRegister.setAlpha(score >= 75 ? 1f : 0.5f);
+        btnRegister.setEnabled(true);
+        btnRegister.setAlpha(score >= 75 ? 1f : 0.6f);
     }
 
     private void setRule(TextView tv, boolean ok) {
@@ -179,12 +182,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
+        hideKeyboard();
+        clearFocusAll();
+
         String email = etEmail.getText().toString().trim();
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
         if (!validateInput(email, username, password, confirmPassword)) return;
+
+        registeredEmail = email;
+        registeredPassword = password;
 
         showLoading(true);
 
@@ -202,25 +211,54 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateInput(String email, String username, String password, String confirmPassword) {
         if (email.isEmpty()) {
-            etEmail.setError(getString(R.string.email));
+            showTopMessage("Vui lòng nhập Email", false);
+            etEmail.setError("Không được để trống");
+            etEmail.requestFocus();
             return false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError(getString(R.string.invalid_email));
+            showTopMessage("Email không hợp lệ", false);
+            etEmail.setError("Sai định dạng");
+            etEmail.requestFocus();
             return false;
         }
+
         if (username.isEmpty()) {
-            etUsername.setError(getString(R.string.enter_username));
+            showTopMessage("Vui lòng nhập Username", false);
+            etUsername.setError("Không được để trống");
+            etUsername.requestFocus();
+            return false;
+        }
+        if (username.length() < 3) {
+            showTopMessage("Username quá ngắn", false);
+            etUsername.setError("Tối thiểu 3 ký tự");
+            etUsername.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            showTopMessage("Vui lòng nhập mật khẩu", false);
+            etPassword.requestFocus();
             return false;
         }
         if (currentPasswordScore < 75) {
-            showTopMessage(getString(R.string.password_too_weak), false);
+            showTopMessage("Mật khẩu chưa đủ độ mạnh", false);
+            etPassword.requestFocus();
+            return false;
+        }
+
+        if (confirmPassword.isEmpty()) {
+            showTopMessage("Vui lòng xác nhận mật khẩu", false);
+            etConfirmPassword.requestFocus();
             return false;
         }
         if (!password.equals(confirmPassword)) {
-            etConfirmPassword.setError(getString(R.string.password_not_match));
+            showTopMessage("Mật khẩu xác nhận không khớp", false);
+            etConfirmPassword.setError("Không khớp");
+            etConfirmPassword.requestFocus();
             return false;
         }
+
         return true;
     }
 
@@ -230,18 +268,20 @@ public class RegisterActivity extends AppCompatActivity {
         user.put("uid", uid);
         user.put("email", email);
         user.put("username", username);
+        user.put("isVip", false);
+        user.put("onboardingCompleted", false);
         user.put("createdAt", System.currentTimeMillis());
 
         db.collection("users")
                 .document(uid)
-                .set(user)
+                .set(user, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     showLoading(false);
                     showSuccessScreen();
                 })
                 .addOnFailureListener(e -> {
                     showLoading(false);
-                    showTopMessage("Lưu dữ liệu thất bại", false);
+                    showTopMessage("Lỗi lưu dữ liệu: " + e.getMessage(), false);
                 });
     }
 
@@ -251,12 +291,22 @@ public class RegisterActivity extends AppCompatActivity {
         root.addView(successView);
         successView.setAlpha(0f);
         successView.animate().alpha(1f).setDuration(250).start();
-        successView.postDelayed(this::finish, 1800);
+        successView.postDelayed(() -> {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("email", registeredEmail);
+            resultIntent.putExtra("password", registeredPassword);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        }, 1800);
     }
 
     private void showTopMessage(String message, boolean isSuccess) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
         FrameLayout root = findViewById(android.R.id.content);
-        if (currentTopMessage != null) root.removeView(currentTopMessage);
+        if (currentTopMessage != null) {
+            root.removeView(currentTopMessage);
+        }
 
         View view = getLayoutInflater().inflate(R.layout.layout_top_message, root, false);
         TextView tv = view.findViewById(R.id.tvMessage);
@@ -277,23 +327,27 @@ public class RegisterActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        params.topMargin = getStatusBarHeight();
+        params.topMargin = getStatusBarHeight() + 20;
         view.setLayoutParams(params);
+        view.setElevation(1000f);
 
         root.addView(view);
+        view.bringToFront();
         currentTopMessage = view;
 
-        view.setTranslationY(-200f);
+        view.setTranslationY(-500f);
         view.setAlpha(0f);
-        view.animate().translationY(0).alpha(1).setDuration(250).start();
+        view.animate().translationY(0).alpha(1).setDuration(300).start();
 
         view.postDelayed(() -> {
-            view.animate().translationY(-200f).alpha(0).setDuration(250)
-                    .withEndAction(() -> {
-                        root.removeView(view);
-                        currentTopMessage = null;
-                    }).start();
-        }, 2000);
+            if (currentTopMessage == view) {
+                view.animate().translationY(-500f).alpha(0).setDuration(300)
+                        .withEndAction(() -> {
+                            root.removeView(view);
+                            if (currentTopMessage == view) currentTopMessage = null;
+                        }).start();
+            }
+        }, 3500);
     }
 
     private void hideKeyboard() {
@@ -318,17 +372,46 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String mapFirebaseError(String error) {
         if (error == null) return "Có lỗi xảy ra";
-        if (error.contains("already")) return "Email đã tồn tại";
-        if (error.contains("badly")) return "Email sai định dạng";
-        if (error.contains("network")) return "Lỗi kết nối mạng";
-        return "Đăng ký thất bại";
+        String lowercaseError = error.toLowerCase();
+        if (lowercaseError.contains("already") || lowercaseError.contains("collision")) return "Email này đã được sử dụng";
+        if (lowercaseError.contains("badly") || lowercaseError.contains("format")) return "Định dạng Email không hợp lệ";
+        if (lowercaseError.contains("network")) return "Lỗi kết nối mạng, vui lòng kiểm tra internet";
+        if (lowercaseError.contains("weak-password")) return "Mật khẩu quá yếu (tối thiểu 6 ký tự)";
+        return "Lỗi đăng ký: " + error;
     }
 
     private void clearErrorOnFocus() {
-        etEmail.setOnFocusChangeListener((v, f) -> { if (f) etEmail.setError(null); });
-        etUsername.setOnFocusChangeListener((v, f) -> { if (f) etUsername.setError(null); });
-        etPassword.setOnFocusChangeListener((v, f) -> { if (f) etPassword.setError(null); });
-        etConfirmPassword.setOnFocusChangeListener((v, f) -> { if (f) etConfirmPassword.setError(null); });
+        etEmail.setOnFocusChangeListener((v, f) -> {
+            if (f) {
+                hideTopMessage();
+                etEmail.setError(null);
+            }
+        });
+        etUsername.setOnFocusChangeListener((v, f) -> {
+            if (f) {
+                hideTopMessage();
+                etUsername.setError(null);
+            }
+        });
+        etPassword.setOnFocusChangeListener((v, f) -> { if (f) hideTopMessage(); });
+        etConfirmPassword.setOnFocusChangeListener((v, f) -> {
+            if (f) {
+                hideTopMessage();
+                etConfirmPassword.setError(null);
+            }
+        });
+    }
+
+    private void hideTopMessage() {
+        if (currentTopMessage != null) {
+            FrameLayout root = findViewById(android.R.id.content);
+            View view = currentTopMessage;
+            view.animate().translationY(-500f).alpha(0).setDuration(250)
+                    .withEndAction(() -> {
+                        root.removeView(view);
+                        if (currentTopMessage == view) currentTopMessage = null;
+                    }).start();
+        }
     }
 
     private void showLoading(boolean isLoading) {

@@ -2,43 +2,54 @@ package com.example.englishlearningapp.data.model;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-@IgnoreExtraProperties // Giúp Firebase bỏ qua các trường không khớp nếu có
+@IgnoreExtraProperties
 public class User {
-    private String id;
-    private String name;
+    private String uid;
+    private String username;
     private String email;
-    private String password; // Lưu ý: Chỉ dùng cho đăng ký bằng Email/Pass
     private boolean isVip;
-    private String profilePicture; // Thêm trường này nếu dùng Google Login
+    private String profilePicture;
+    private int age;
+    private String englishLevel;
+    private boolean onboardingCompleted;
+    private long createdAt;
 
-    // 1. BẮT BUỘC: Constructor rỗng để Firebase có thể ép kiểu (toObject)
     public User() {
     }
 
-    // 2. Constructor dùng cho Đăng ký mới (Email/Pass)
-    public User(String id, String name, String email) {
-        this.id = id;
-        this.name = name;
+    public User(String uid, String username, String email) {
+        this.uid = uid;
+        this.username = username;
         this.email = email;
-        this.isVip = false; // Mặc định mới tạo không phải VIP
+        this.isVip = false;
+        this.onboardingCompleted = false;
+        this.createdAt = System.currentTimeMillis();
     }
 
-    // 3. ĐẦY ĐỦ Getter và Setter (Firebase cần các hàm này để đọc/ghi dữ liệu)
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getUid() { return uid; }
+    public void setUid(String uid) { this.uid = uid; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 
     public boolean isVip() { return isVip; }
     public void setVip(boolean vip) { isVip = vip; }
 
     public String getProfilePicture() { return profilePicture; }
     public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+
+    public String getEnglishLevel() { return englishLevel; }
+    public void setEnglishLevel(String englishLevel) { this.englishLevel = englishLevel; }
+
+    public boolean isOnboardingCompleted() { return onboardingCompleted; }
+    public void setOnboardingCompleted(boolean onboardingCompleted) { this.onboardingCompleted = onboardingCompleted; }
+
+    public long getCreatedAt() { return createdAt; }
+    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 }
