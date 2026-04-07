@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.data.model.CustomLesson;
-import com.example.englishlearningapp.data.model.Lesson; // ĐÃ ĐỔI SANG LessonAdapter
+import com.example.englishlearningapp.data.model.Lesson;
+import com.example.englishlearningapp.ui.home.LessonAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,36 +31,36 @@ public class CustomLessonFragment extends Fragment {
     private FloatingActionButton fabAdd;
     private FirebaseFirestore db;
     private String currentUserId;
-    private List<CustomLesson> lessonList;
-    private Lesson adapter; // ĐÃ ĐỔI TÊN BIẾN CHO KHỚP
+
+    // ĐIỀU CHỈNH 1: Đổi List sang kiểu Lesson để khớp với LessonAdapter
+    private List<Lesson> lessonList;
+    private LessonAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_custom_lesson, container, false);
 
-        // 1. Khởi tạo Firebase
         db = FirebaseFirestore.getInstance();
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
-        // 2. Ánh xạ View
         rvLessons = view.findViewById(R.id.rvCustomLessons);
         fabAdd = view.findViewById(R.id.fabAddLesson);
 
-        // 3. Cấu hình RecyclerView
         rvLessons.setLayoutManager(new LinearLayoutManager(getContext()));
         lessonList = new ArrayList<>();
 
-        // Khởi tạo LessonAdapter (Dùng class LessonAdapter bạn đã viết)
-        adapter = new Lesson(lessonList, lesson -> {
-            // Khi người dùng click vào một bài học trong danh sách
-            navigateToVocabulary(lesson);
+        // ĐIỀU CHỈNH 2: Khởi tạo adapter với danh sách kiểu Lesson
+        adapter = new LessonAdapter(lessonList, lesson -> {
+            // Ép kiểu ngược lại thành CustomLesson để lấy ID chi tiết
+            if (lesson instanceof CustomLesson) {
+                navigateToVocabulary((CustomLesson) lesson);
+            }
         });
         rvLessons.setAdapter(adapter);
 
-        // 4. Sự kiện khi bấm nút FAB (Thêm bài học)
         fabAdd.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new CreateLessonFragment())
@@ -68,7 +69,6 @@ public class CustomLessonFragment extends Fragment {
         });
 
         loadCustomLessons();
-
         return view;
     }
 
@@ -82,10 +82,10 @@ public class CustomLessonFragment extends Fragment {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     lessonList.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        CustomLesson lesson = doc.toObject(CustomLesson.class);
-                        // Gán Document ID từ Firestore vào Model
-                        lesson.setId(doc.getId());
-                        lessonList.add(lesson);
+                        // ĐIỀU CHỈNH 3: CustomLesson phải kế thừa Lesson (extends Lesson)
+                        CustomLesson customLesson = doc.toObject(CustomLesson.class);
+                        customLesson.setId(doc.getId());
+                        lessonList.add(customLesson); // Thêm CustomLesson vào danh sách Lesson
                     }
                     adapter.notifyDataSetChanged();
                 })
@@ -95,7 +95,6 @@ public class CustomLessonFragment extends Fragment {
     }
 
     private void navigateToVocabulary(CustomLesson lesson) {
-        // Chuyển sang màn hình quản lý từ vựng chi tiết
         CustomVocabularyFragment vocabFragment = new CustomVocabularyFragment();
         Bundle bundle = new Bundle();
         bundle.putString("LESSON_ID", lesson.getId());

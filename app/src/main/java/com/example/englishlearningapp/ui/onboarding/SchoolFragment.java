@@ -35,7 +35,6 @@ public class SchoolFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        btnStudent = view.findViewById(R.id.btnSchoolStudent);
         btnUni = view.findViewById(R.id.btnSchoolUni);
         btnWorker = view.findViewById(R.id.btnSchoolWorker);
         btnOther = view.findViewById(R.id.btnSchoolOther);

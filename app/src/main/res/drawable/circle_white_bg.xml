@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#E0E0E0"> <!-- Hiệu ứng khi nhấn vào (Ripple) -->
+
+    <item>
+        <shape android:shape="oval">
+            <!-- Màu nền trắng -->
+            <solid android:color="#FFFFFF" />
+
+            <!-- Kích thước mặc định (sẽ tự co dãn theo View) -->
+            <size
+                android:width="45dp"
+                android:height="45dp" />
+        </shape>
+    </item>
+</ripple>

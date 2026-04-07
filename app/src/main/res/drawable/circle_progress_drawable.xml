@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. Vòng tròn nền màu xám (Background circle) -->
+    <item android:id="@android:id/background">
+        <shape
+            android:shape="ring"
+            android:thickness="4dp"
+            android:useLevel="false">
+            <solid android:color="#E0E0E0" />
+        </shape>
+    </item>
+
+    <!-- 2. Vòng tròn tiến độ màu xanh (Progress circle) -->
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="270"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="4dp"
+                android:useLevel="true">
+                <gradient
+                    android:endColor="#4A6CF7"
+                    android:startColor="#4A6CF7"
+                    android:type="sweep" />
+                <!-- Bo góc đầu vạch tiến độ -->
+                <corners android:radius="10dp" />
+            </shape>
+        </rotate>
+    </item>
+
+</layer-list>

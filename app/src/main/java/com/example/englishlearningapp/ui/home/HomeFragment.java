@@ -4,48 +4,54 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.englishlearningapp.R;
+import com.example.englishlearningapp.data.model.Lesson;
 import com.example.englishlearningapp.ui.quiz.QuizFragment;
 import com.example.englishlearningapp.ui.lesson.VocabularyFragment;
-import com.example.englishlearningapp.ui.lesson.FlashcardFragment; // Thêm import này
-import com.example.englishlearningapp.ui.lesson.FillWordFragment;  // Thêm import này
+import com.example.englishlearningapp.ui.lesson.FlashcardFragment;
+import com.example.englishlearningapp.ui.lesson.FillWordFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private ListView listLesson;
+    private RecyclerView rvLessons; // Đổi từ ListView sang RecyclerView
+    private LessonAdapter lessonAdapter;
+    private List<Lesson> lessonList;
+    private FirebaseFirestore db;
+
     private Button btnFlashcard, btnQuiz, btnFill, btnListening;
     private EditText searchInput;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // 1. Nạp layout fragment_home
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // 2. Ánh xạ các View từ XML
+        db = FirebaseFirestore.getInstance();
         initViews(view);
-
-        // 3. Thiết lập danh sách bài học mẫu
-        setupLessonList();
-
-        // 4. Thiết lập sự kiện click cho các nút chức năng
+        setupRecyclerView();
+        loadLessonsFromFirestore();
         setupButtons();
 
         return view;
     }
 
     private void initViews(View view) {
-        listLesson = view.findViewById(R.id.listLesson);
+        rvLessons = view.findViewById(R.id.listLesson); // Đảm bảo trong XML ID này là RecyclerView
         btnFlashcard = view.findViewById(R.id.btnFlashcard);
         btnQuiz = view.findViewById(R.id.btnQuiz);
         btnFill = view.findViewById(R.id.btnFill);
@@ -53,68 +59,63 @@ public class HomeFragment extends Fragment {
         searchInput = view.findViewById(R.id.searchInput);
     }
 
-    private void setupLessonList() {
-        String[] lessons = {
-                "Bài 1: Greetings",
-                "Bài 2: Family & Friends",
-                "Bài 3: Daily Activities",
-                "Bài 4: Food & Drinks",
-                "Bài 5: Travel"
-        };
+    private void setupRecyclerView() {
+        lessonList = new ArrayList<>();
+        // Thiết lập LayoutManager (dạng danh sách dọc)
+        rvLessons.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                lessons
-        );
-        listLesson.setAdapter(adapter);
-
-        // Sự kiện khi click vào một bài học trong danh sách
-        listLesson.setOnItemClickListener((parent, view, position, id) -> {
-            // Khi nhấn vào bài học, có thể dẫn thẳng tới VocabularyFragment để học từ vựng bài đó
-            navigateToFragment(new VocabularyFragment());
+        // Khởi tạo Adapter với listener để xử lý click
+        lessonAdapter = new LessonAdapter(lessonList, lesson -> {
+            // Khi nhấn vào một bài học cụ thể
+            navigateToVocabulary(lesson.getId());
         });
+
+        rvLessons.setAdapter(lessonAdapter);
+    }
+
+    private void loadLessonsFromFirestore() {
+        db.collection("lessons")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    lessonList.clear();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Lesson lesson = document.toObject(Lesson.class);
+                        lessonList.add(lesson);
+                    }
+                    lessonAdapter.notifyDataSetChanged(); // Cập nhật giao diện khi có dữ liệu mới
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error loading lessons: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void setupButtons() {
-        // 1. Chuyển sang màn hình Flashcard (Lật thẻ)
-        btnFlashcard.setOnClickListener(v -> {
-            navigateToFragment(new FlashcardFragment());
-        });
-
-        // 2. Chuyển sang màn hình Trắc nghiệm (Quiz)
-        btnQuiz.setOnClickListener(v -> {
-            navigateToFragment(new QuizFragment());
-        });
-
-        // 3. Chuyển sang màn hình Điền từ (Fill Word)
-        btnFill.setOnClickListener(v -> {
-            navigateToFragment(new FillWordFragment());
-        });
-
-        // 4. Chuyển sang màn hình Luyện nghe (Vocabulary/Speech)
-        btnListening.setOnClickListener(v -> {
-            navigateToFragment(new VocabularyFragment());
-        });
+        btnFlashcard.setOnClickListener(v -> navigateToFragment(new FlashcardFragment()));
+        btnQuiz.setOnClickListener(v -> navigateToFragment(new QuizFragment()));
+        btnFill.setOnClickListener(v -> navigateToFragment(new FillWordFragment()));
+        btnListening.setOnClickListener(v -> navigateToVocabulary(101)); // Mặc định chuyển sang 101 nếu click nghe chung
     }
 
     /**
-     * Hàm hỗ trợ chuyển đổi Fragment mượt mà
+     * Hàm điều hướng sang VocabularyFragment có truyền ID bài học
      */
+    private void navigateToVocabulary(int lessonId) {
+        VocabularyFragment vocabFragment = new VocabularyFragment();
+
+        // Gửi lessonId qua Bundle để VocabularyFragment biết cần tải từ bài nào
+        Bundle bundle = new Bundle();
+        bundle.putInt("lessonId", lessonId);
+        vocabFragment.setArguments(bundle);
+
+        navigateToFragment(vocabFragment);
+    }
+
     private void navigateToFragment(Fragment fragment) {
         if (getActivity() != null) {
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-
-            // Hiệu ứng chuyển cảnh (Fade in/out)
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-            // Thay thế fragment hiện tại
-            // Lưu ý: ID R.id.fragment_container phải khớp với FrameLayout trong activity_main.xml
             transaction.replace(R.id.fragment_container, fragment);
-
-            // Lưu vào BackStack để người dùng nhấn nút Back có thể quay về Home thay vì thoát App
             transaction.addToBackStack(null);
-
             transaction.commit();
         }
     }

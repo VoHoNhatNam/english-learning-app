@@ -1,139 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F4F6FB"
-    android:padding="16dp">
+    android:background="#F8F9FB"
+    android:padding="20dp">
 
-    <!-- HEADER -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp">
+    <!-- TOP NAVIGATION -->
+    <ImageButton
+        android:id="@+id/btnBackVocab"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#263238" />
 
-        <ImageButton
-            android:id="@+id/btnBackVocab"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_back"
-            app:tint="#333" />
+    <ProgressBar
+        android:id="@+id/vocabProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginHorizontal="16dp"
+        android:progress="10"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackVocab"
+        app:layout_constraintEnd_toStartOf="@id/txtProgressIndex"
+        app:layout_constraintStart_toEndOf="@id/btnBackVocab"
+        app:layout_constraintTop_toTopOf="@id/btnBackVocab" />
 
-        <TextView
-            android:id="@+id/txtProgressIndex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="1 / 10"
-            android:textSize="16sp"
-            android:textColor="#666"
-            android:textStyle="bold"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/txtProgressIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 / 10"
+        android:textColor="#90A4AE"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBackVocab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBackVocab" />
 
-    <!-- FLASHCARD -->
-    <androidx.cardview.widget.CardView
+    <!-- MAIN ACADEMIC FLASHCARD -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFlashcard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="25dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="6dp"
-        app:cardUseCompatPadding="true">
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="40dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#CFD8DC"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutNavButtons"
+        app:layout_constraintTop_toBottomOf="@id/btnBackVocab">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- WORD -->
+            <!-- English Word -->
             <TextView
                 android:id="@+id/txtWord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello"
-                android:textColor="#4A6CF7"
-                android:textSize="42sp"
-                android:textStyle="bold"/>
+                android:text="Resilience"
+                android:textColor="#1A237E"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toTopOf="@id/txtPhonetic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- PHONETIC -->
+            <!-- Phonetic -->
             <TextView
                 android:id="@+id/txtPhonetic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/həˈloʊ/"
-                android:textColor="#888"
+                android:layout_marginTop="4dp"
+                android:text="/rɪˈzɪliəns/"
+                android:textColor="#78909C"
                 android:textSize="18sp"
-                android:layout_marginTop="6dp"/>
+                app:layout_constraintBottom_toTopOf="@id/btnSpeak"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtWord" />
 
-            <!-- SPEAK BUTTON -->
-            <ImageButton
+            <!-- Audio/Speak Button -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSpeak"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/circle_bg"
                 android:src="@drawable/ic_volume"
-                android:elevation="4dp"
-                app:tint="#FFFFFF" />
+                app:backgroundTint="#FFFFFF"
+                app:elevation="2dp"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toTopOf="@id/divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPhonetic"
+                app:tint="#4A6CF7" />
 
-            <!-- DIVIDER -->
+            <!-- Subtle Divider -->
             <View
-                android:layout_width="80dp"
-                android:layout_height="2dp"
-                android:background="#E5E7EB"
+                android:id="@+id/divider"
+                android:layout_width="60dp"
+                android:layout_height="1dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"/>
+                android:background="#ECEFF1"
+                app:layout_constraintBottom_toTopOf="@id/txtMeaning"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnSpeak" />
 
-            <!-- MEANING -->
+            <!-- Vietnamese Meaning -->
             <TextView
                 android:id="@+id/txtMeaning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xin chào"
-                android:textColor="#222"
-                android:textSize="26sp"
-                android:textStyle="bold"/>
+                android:layout_marginTop="24dp"
+                android:text="Khả năng phục hồi"
+                android:textColor="#37474F"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/txtExample"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            <!-- ACADEMIC EXAMPLE (Added) -->
+            <TextView
+                android:id="@+id/txtExample"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:text="The university showed great resilience during the crisis."
+                android:textColor="#607D8B"
+                android:textSize="15sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtMeaning" />
 
-    <!-- BUTTON NAV -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- NAVIGATION BUTTONS -->
     <LinearLayout
+        android:id="@+id/layoutNavButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrev"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Quay lại"
+            android:text="Previous"
             android:textAllCaps="false"
-            android:textColor="#333"
-
-            android:backgroundTint="#E5E7EB"
-            app:cornerRadius="14dp"
-            android:layout_marginEnd="8dp"/>
+            android:textColor="#546E7A"
+            app:cornerRadius="12dp"
+            app:strokeColor="#CFD8DC" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Tiếp theo"
+            android:text="Continue"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-
-            android:backgroundTint="#4A6CF7"
-            app:cornerRadius="14dp"
-            android:layout_marginStart="8dp"/>
+            android:backgroundTint="#1A237E"
+            app:cornerRadius="12dp" />
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,128 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F4F6FB"
-    android:padding="16dp">
+    android:background="#F8F9FE">
 
-    <!-- HEADER -->
-    <RelativeLayout
+    <!-- 1. HEADER TOP BAR (Gradient & Title) -->
+    <View
+        android:id="@+id/headerBackground"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp">
+        android:layout_height="220dp"
+        android:background="@drawable/bg_header_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_back"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#333" />
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/circle_white_bg"
+        android:elevation="8dp"
+        android:padding="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#4A6CF7" />
 
-        <TextView
-            android:id="@+id/txtLessonDetailTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Tên bài học"
-            android:textColor="#222"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/txtLessonDetailTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        android:text="Greetings &amp; Intro"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
-    <!-- CARD TIẾN ĐỘ -->
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/txtLessonSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cấp độ: Cơ bản • 15 từ vựng"
+        android:textColor="#E0E0E0"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/txtLessonDetailTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtLessonDetailTitle" />
+
+    <!-- 2. TIẾN ĐỘ HỌC TẬP (NẰM ĐÈ LÊN HEADER) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        android:layout_marginBottom="24dp"
-        app:cardUseCompatPadding="true">
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/headerBackground"
+        app:layout_constraintTop_toBottomOf="@+id/headerBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="65dp">
+                <ProgressBar
+                    android:id="@+id/progressCircle"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="65"
+                    android:progressDrawable="@drawable/circle_progress_drawable" />
+                <TextView
+                    android:id="@+id/txtProgressPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="65%"
+                    android:textColor="#4A6CF7"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiến độ bài học"
+                    android:textColor="#1A1C1E"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chỉ còn 5 từ nữa là hoàn thành!"
+                    android:textColor="#626A71"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 3. CONTENT AREA (Các hoạt động học tập) -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardProgress">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tiến độ hoàn thành"
-                android:textColor="#666"
-                android:textSize="14sp"/>
+                android:layout_marginBottom="16dp"
+                android:text="Lộ trình học hôm nay"
+                android:textColor="#1A1C1E"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <ProgressBar
-                android:id="@+id/progressLesson"
-                style="?android:attr/progressBarStyleHorizontal"
+            <!-- OPTION 1: FLASHCARD (VOCABULARY) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnVocabulary"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_marginTop="10dp"
-                android:progress="40"
-                android:progressDrawable="@drawable/progress_custom"/>
-
-            <TextView
-                android:id="@+id/txtProgressPercent"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="6dp"
-                android:text="40%"
-                android:textColor="#4A6CF7"
-                android:textStyle="bold"/>
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/rounded_blue_light_bg"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_vocab" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Học từ vựng"
+                            android:textColor="#1A1C1E"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ghi nhớ qua Flashcard 3D"
+                            android:textColor="#626A71"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_next"
+                        app:tint="#4A6CF7" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- OPTION 2: FILL WORD (Mới thêm) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnFillWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="#FFF3E0"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_quiz"
+                        app:tint="#FF9800" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Luyện viết"
+                            android:textColor="#1A1C1E"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Điền từ đúng vào chỗ trống"
+                            android:textColor="#626A71"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_next"
+                        app:tint="#FF9800" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- OPTION 3: QUIZ (TRẮC NGHIỆM) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/rounded_purple_light_bg"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_quiz" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kiểm tra tổng hợp"
+                            android:textColor="#1A1C1E"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thử thách trắc nghiệm nhanh"
+                            android:textColor="#626A71"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_next"
+                        app:tint="#6C63FF" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- TITLE -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bạn muốn học gì?"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#222"
-        android:layout_marginBottom="12dp"/>
-
-    <!-- BUTTON VOCAB -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnVocabulary"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="Học từ vựng"
-        android:textColor="#333"
-        android:textAllCaps="false"
-        android:layout_marginBottom="12dp"
-
-        android:backgroundTint="#FFFFFF"
-        app:cornerRadius="16dp"
-        app:strokeColor="#4A6CF7"
-        app:strokeWidth="1dp"
-
-        app:icon="@drawable/ic_vocab"
-        app:iconTint="#4A6CF7"
-        app:iconPadding="12dp"
-        app:iconGravity="textStart"/>
-
-    <!-- BUTTON QUIZ -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnQuiz"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="Làm trắc nghiệm"
-        android:textColor="#333"
-        android:textAllCaps="false"
-
-        android:backgroundTint="#FFFFFF"
-        app:cornerRadius="16dp"
-        app:strokeColor="#6C63FF"
-        app:strokeWidth="1dp"
-
-        app:icon="@drawable/ic_quiz"
-        app:iconTint="#6C63FF"
-        app:iconPadding="12dp"
-        app:iconGravity="textStart"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

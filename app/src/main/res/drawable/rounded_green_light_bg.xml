@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền xanh lá cây rất nhạt (Mint/Light Green) -->
+    <solid android:color="#E8F5E9" />
+
+    <!-- Độ bo góc 12dp để đồng bộ với các icon Blue/Purple/Orange trước đó -->
+    <corners android:radius="12dp" />
+</shape>

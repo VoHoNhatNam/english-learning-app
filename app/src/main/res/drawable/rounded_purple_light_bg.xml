@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền tím nhạt (Light Purple) -->
+    <solid android:color="#F0EFFF" />
+
+    <!-- Độ bo góc (thường là 12dp hoặc 16dp để khớp với icon) -->
+    <corners android:radius="12dp" />
+</shape>

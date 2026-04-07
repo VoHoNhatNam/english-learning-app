@@ -4,112 +4,171 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F8FC"
-    android:padding="20dp">
+    android:background="#F8F9FD"
+    android:padding="24dp">
 
-    <!-- Progress -->
+    <!-- Thanh tiến độ ở trên cùng -->
     <TextView
         android:id="@+id/txtProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1 / 20"
-        android:textColor="#888"
+        android:textColor="#546E7A"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Flashcard -->
-    <androidx.cardview.widget.CardView
+    <!-- Flashcard Container: Nơi chứa nội dung -->
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardFlashcard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
+        app:strokeColor="#E0E4EC"
+        app:strokeWidth="1dp"
         app:layout_constraintTop_toBottomOf="@id/txtProgress"
         app:layout_constraintBottom_toTopOf="@id/layoutButtons"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="24dp">
+            android:padding="32dp">
 
-            <!-- Word -->
-            <TextView
-                android:id="@+id/txtWord"
+            <!-- MẶT TRƯỚC: Từ vựng & Phát âm -->
+            <LinearLayout
+                android:id="@+id/cardFront"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Apple"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                android:textColor="#4A6CF7"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_gravity="center"/>
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            <!-- Meaning (ẩn ban đầu) -->
-            <TextView
-                android:id="@+id/txtMeaning"
+                <TextView
+                    android:id="@+id/txtWord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Academic"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#4A6CF7"
+                    android:gravity="center"/>
+
+                <!-- Nút loa phát âm (Bổ sung mới) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSpeak"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Listen"
+                    app:icon="@drawable/ic_volume"
+                    app:iconTint="#4A6CF7" />
+            </LinearLayout>
+
+            <!-- MẶT SAU: Nghĩa & Ví dụ học thuật -->
+            <LinearLayout
+                android:id="@+id/cardBack"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quả táo"
-                android:textSize="20sp"
-                android:textColor="#333"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:visibility="gone"
-                android:layout_gravity="center"/>
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MEANING"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.1"
+                    android:textColor="#90A4AE"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/txtMeaning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thuộc về học thuật"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#263238"
+                    android:gravity="center"/>
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="2dp"
+                    android:background="#E0E4EC"
+                    android:layout_marginVertical="24dp"/>
+
+                <TextView
+                    android:id="@+id/txtExample"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Example: The university is known for its high academic standards."
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:textColor="#546E7A"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
 
         </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    </androidx.cardview.widget.CardView>
-
-    <!-- Hint -->
+    <!-- Hướng dẫn người dùng -->
     <TextView
         android:id="@+id/txtHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chạm để lật thẻ"
-        android:textColor="#999"
+        android:text="Tap card to flip"
+        android:textColor="#90A4AE"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/cardFlashcard"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutButtons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Buttons -->
+    <!-- Hệ thống nút điều hướng -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrev"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="← Trước"
-            android:backgroundTint="#E0E7FF"
-            android:textColor="#4A6CF7"/>
+            android:text="Previous"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            app:strokeColor="#4A6CF7"/>
 
         <Space
-            android:layout_width="16dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="Tiếp →"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textSize="16sp"
             android:backgroundTint="#4A6CF7"
-            android:textColor="#FFFFFF"/>
+            app:cornerRadius="16dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,67 +1,36 @@
 package com.example.englishlearningapp.data.model;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.englishlearningapp.R;
-import java.util.List;
+import java.io.Serializable;
 
-public class Lesson extends RecyclerView.Adapter<Lesson.ViewHolder> {
+/**
+ * Model đại diện cho một bài học (Lesson) - Dùng để nhận dữ liệu từ Firebase
+ */
+public class Lesson implements Serializable {
+    private int id;
+    private String title;
+    private String description;
+    private String category;
 
-    private List<CustomLesson> lessons;
-    private OnItemClickListener listener;
+    // Constructor mặc định bắt buộc cho Firebase Firestore
+    public Lesson() {}
 
-    // Interface trả về cả đối tượng CustomLesson thay vì chỉ String
-    public interface OnItemClickListener {
-        void onItemClick(CustomLesson lesson);
+    public Lesson(int id, String title, String description, String category) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.category = category;
     }
 
-    public Lesson(List<CustomLesson> lessons, OnItemClickListener listener) {
-        this.lessons = lessons;
-        this.listener = listener;
-    }
+    // Getters và Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
-        return new ViewHolder(view);
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CustomLesson lesson = lessons.get(position);
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-        if (lesson != null) {
-            holder.txtName.setText(lesson.getTitle());
-            holder.txtDescription.setText(lesson.getDescription());
-
-            holder.itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onItemClick(lesson);
-                }
-            });
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return lessons != null ? lessons.size() : 0;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtName, txtDescription;
-        ImageView imgIcon;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txtName = itemView.findViewById(R.id.txtLessonName);
-            txtDescription = itemView.findViewById(R.id.txtLessonDescription);
-            imgIcon = itemView.findViewById(R.id.imgLessonIcon);
-        }
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 }
