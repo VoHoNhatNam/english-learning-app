@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LOGIN_DEBUG";
     private static final int RC_SIGN_IN = 100;
+    
+    // Constants cho tính năng lưu thông tin đăng nhập
     private static final String PREFS_NAME = "auth_prefs";
     private static final String KEY_EMAIL = "last_email";
     private static final String KEY_PASSWORD = "last_password";
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private AuthViewModel authViewModel;
 
+    // Sử dụng ActivityResultLauncher để nhận dữ liệu từ RegisterActivity
     private final ActivityResultLauncher<Intent> registerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -52,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (email != null) etEmail.setText(email);
                     if (password != null) etPassword.setText(password);
                     saveCredentials(email, password);
+                    Toast.makeText(this, "Đã tự động điền thông tin đăng ký", Toast.LENGTH_SHORT).show();
                 }
             }
     );
@@ -64,12 +68,15 @@ public class LoginActivity extends AppCompatActivity {
         initViews();
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
+        // Load thông tin đã lưu từ lần đăng nhập trước
         loadSavedCredentials();
 
+        // Kiểm tra nếu đã login thì chuyển sang luồng check Onboarding
         if (authViewModel.getCurrentUser() != null) {
             checkUserSurvey();
         }
 
+        // Cấu hình Google Sign-In - Kiểm tra ID Token để tránh Crash
         try {
             String webClientId = getString(R.string.default_web_client_id);
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -81,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e(TAG, "Lỗi cấu hình Google Sign-In: " + e.getMessage());
         }
 
+        // Sự kiện Click
         btnLogin.setOnClickListener(v -> loginWithEmail());
         btnGoogleLogin.setOnClickListener(v -> signInGoogle());
         
@@ -91,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (tvForgot != null) {
             tvForgot.setOnClickListener(v ->
-                    Toast.makeText(this, "Tính năng đang cập nhật", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Tính năng lấy lại mật khẩu đang được cập nhật", Toast.LENGTH_SHORT).show()
             );
         }
     }
@@ -124,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkUserSurvey() {
         FirebaseUser currentUser = authViewModel.getCurrentUser();
+        // Kiểm tra null an toàn (từ nhánh feature) để tránh crash
         if (currentUser == null) return;
         
         String uid = currentUser.getUid();
@@ -154,27 +163,33 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng không để trống Email/Mật khẩu", Toast.LENGTH_SHORT).show();
             return;
         }
 
         showLoading(true);
+        // Gọi hàm login từ ViewModel
         authViewModel.login(email, password, task -> {
             if (task.isSuccessful()) {
-                saveCredentials(email, password);
-                checkUserSurvey();
+                Log.d(TAG, "Đăng nhập Email thành công");
+                saveCredentials(email, password); 
+                checkUserSurvey(); 
             } else {
                 showLoading(false);
-                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi đăng nhập";
-                Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi không xác định";
+                Log.e(TAG, "Đăng nhập thất bại: " + errorMsg);
+                Toast.makeText(this, "Đăng nhập thất bại: " + errorMsg, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void signInGoogle() {
-        if (googleSignInClient == null) return;
+        if (googleSignInClient == null) {
+            Toast.makeText(this, "Dịch vụ Google chưa sẵn sàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
         showLoading(true);
-        // Luôn đăng xuất trước khi lấy SignInIntent để buộc Google hiển thị hộp thoại chọn tài khoản
+        // Luôn đăng xuất trước khi lấy SignInIntent để buộc Google hiển thị hộp thoại chọn tài khoản (từ nhánh feature)
         googleSignInClient.signOut().addOnCompleteListener(task -> {
             Intent signInIntent = googleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -195,8 +210,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (ApiException e) {
                 showLoading(false);
-                Log.e(TAG, "Google Sign-In failed: " + e.getStatusCode());
-                Toast.makeText(this, "Đã hủy hoặc lỗi đăng nhập Google", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Google Sign-In lỗi (Code: " + e.getStatusCode() + ")");
+                // Lỗi 10: Thường do SHA-1 chưa đăng ký trên Firebase
+                // Lỗi 12500: Lỗi file google-services.json hoặc Play Services
+                Toast.makeText(this, "Lỗi Google (Code: " + e.getStatusCode() + ")", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -208,7 +225,8 @@ public class LoginActivity extends AppCompatActivity {
                 checkUserSurvey();
             } else {
                 showLoading(false);
-                Toast.makeText(this, "Lỗi xác thực với Firebase", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Firebase Google Auth Failed", task.getException());
+                Toast.makeText(this, "Lỗi xác thực Firebase", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -221,13 +239,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void navigateToMain() {
         Intent intent = new Intent(this, MainActivity.class);
+        // Xóa sạch ngăn xếp (backstack) để người dùng không thể bấm nút Back quay lại màn hình Login (từ nhánh feature)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
     private void navigateToOnboarding() {
-        startActivity(new Intent(this, OnboardingSurveyActivity.class));
+        Intent intent = new Intent(this, OnboardingSurveyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 }

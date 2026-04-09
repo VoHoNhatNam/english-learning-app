@@ -1,15 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
+    // Sửa lại dòng này nếu bạn dùng Version Catalog (libs)
     id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.example.englishlearningapp'
-    compileSdk 34
+    compileSdk 34 // Khuyên dùng 34 hoặc 35, 36 hiện tại là bản Preview quá mới
 
     defaultConfig {
         applicationId "com.example.englishlearningapp"
-        minSdk 24
+        minSdk 24 // Nên để 24 để hỗ trợ nhiều máy hơn
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -23,16 +24,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    
     buildFeatures {
         viewBinding true
     }
 }
 
 dependencies {
+    // UI Components
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -46,7 +50,7 @@ dependencies {
     // Google Sign In
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
 
-    // Gemini AI SDK - Cập nhật lên phiên bản mới nhất (0.9.0 trở lên)
+    // Gemini AI SDK
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
     
     // Lifecycle components
@@ -56,6 +60,7 @@ dependencies {
     // Guava
     implementation 'com.google.guava:guava:33.2.1-android'
 
+    // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

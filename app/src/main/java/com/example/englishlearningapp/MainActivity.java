@@ -40,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         initView();
 
+        // Mở màn hình Home mặc định khi khởi chạy app
         if (savedInstanceState == null) {
             replaceFragment(new HomeFragment(), false);
         }
 
+        // Xử lý sự kiện click trên thanh điều hướng Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navHome) {
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navAdd) {
                 showAddWordDialog();
-                return false; // Trả về false để không chọn item này trên UI (vì nó mở dialog)
+                return false; // Trả về false để không highlight tab này (vì nó mở Dialog)
             } else if (itemId == R.id.navProgress) {
                 replaceFragment(new ProgressFragment(), false);
                 return true;
@@ -67,15 +69,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddWordDialog() {
+        // Khởi tạo Dialog
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_vocabulary);
 
+        // Cấu hình giao diện Dialog (Full width, nền trong suốt để bo góc)
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        // Ánh xạ các View trong Dialog XML
         TextInputEditText edtNewWord = dialog.findViewById(R.id.edtNewWord);
         TextInputEditText edtNewMeaning = dialog.findViewById(R.id.edtNewMeaning);
         MaterialButton btnAddWord = dialog.findViewById(R.id.btnAddWord);

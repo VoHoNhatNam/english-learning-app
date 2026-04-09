@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Header: Personalization -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,10 +39,8 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Removed Avatar because it's already in Bottom Navigation -->
-        </RelativeLayout>
+            </RelativeLayout>
 
-        <!-- Progress Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,7 +156,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Quick Actions Grid -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -175,7 +171,6 @@
             android:columnCount="4"
             android:layout_marginBottom="24dp">
 
-            <!-- Flashcard -->
             <LinearLayout
                 android:id="@+id/lnFlashcard"
                 android:layout_width="0dp"
@@ -205,7 +200,6 @@
                     android:textColor="#424242"/>
             </LinearLayout>
 
-            <!-- Quiz -->
             <LinearLayout
                 android:id="@+id/lnQuiz"
                 android:layout_width="0dp"
@@ -235,7 +229,6 @@
                     android:textColor="#424242"/>
             </LinearLayout>
 
-            <!-- Chat AI -->
             <LinearLayout
                 android:id="@+id/lnChat"
                 android:layout_width="0dp"
@@ -265,7 +258,6 @@
                     android:textColor="#424242"/>
             </LinearLayout>
 
-            <!-- More -->
             <LinearLayout
                 android:id="@+id/lnMore"
                 android:layout_width="0dp"
@@ -296,7 +288,6 @@
             </LinearLayout>
         </GridLayout>
 
-        <!-- Lesson List: Visual Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

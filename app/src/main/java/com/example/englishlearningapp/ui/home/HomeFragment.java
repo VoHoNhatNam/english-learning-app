@@ -18,10 +18,10 @@ import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.data.model.CustomLesson;
 import com.example.englishlearningapp.data.model.Lesson;
 import com.example.englishlearningapp.ui.chat.ChatFragment;
-import com.example.englishlearningapp.ui.quiz.QuizFragment;
-import com.example.englishlearningapp.ui.lesson.FlashcardFragment;
 import com.example.englishlearningapp.ui.lesson.FillWordFragment;
+import com.example.englishlearningapp.ui.lesson.FlashcardFragment;
 import com.example.englishlearningapp.ui.lesson.VocabularyFragment;
+import com.example.englishlearningapp.ui.quiz.QuizFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -37,11 +37,19 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // 1. Nạp layout fragment_home
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // 2. Ánh xạ các View từ XML
         initViews(view);
+        
+        // 3. Thiết lập tiến độ và tên người dùng từ Firebase
         setupProgress();
+        
+        // 4. Thiết lập danh sách bài học (Dùng RecyclerView tối ưu hiệu năng)
         setupLessonList();
+        
+        // 5. Thiết lập sự kiện click cho các nút chức năng
         setupButtons();
 
         return view;
@@ -78,6 +86,7 @@ public class HomeFragment extends Fragment {
         lessonData.add(new CustomLesson("Bài 4: Food & Drinks", "Ẩm thực và đồ uống"));
 
         Lesson adapter = new Lesson(lessonData, lesson -> {
+            // Khi nhấn vào bài học, dẫn thẳng tới VocabularyFragment để học từ vựng bài đó
             navigateToFragment(new VocabularyFragment());
         });
 
@@ -87,18 +96,35 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupButtons() {
+        // Chuyển sang màn hình Flashcard (Lật thẻ)
         lnFlashcard.setOnClickListener(v -> navigateToFragment(new FlashcardFragment()));
+        
+        // Chuyển sang màn hình Trắc nghiệm (Quiz)
         lnQuiz.setOnClickListener(v -> navigateToFragment(new QuizFragment()));
+        
+        // Chuyển sang màn hình Chat AI/Giao tiếp
         lnChat.setOnClickListener(v -> navigateToFragment(new ChatFragment()));
+        
+        // Chuyển sang màn hình Điền từ (Gắn tạm vào nút More)
         lnMore.setOnClickListener(v -> navigateToFragment(new FillWordFragment()));
     }
 
+    /**
+     * Hàm hỗ trợ chuyển đổi Fragment mượt mà
+     */
     private void navigateToFragment(Fragment fragment) {
         if (getActivity() != null) {
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            
+            // Hiệu ứng chuyển cảnh
             transaction.setCustomAnimations(R.anim.logo_scale, android.R.anim.fade_out);
+            
+            // Thay thế fragment hiện tại. Lưu ý: R.id.fragment_container phải khớp với activity_main.xml
             transaction.replace(R.id.fragment_container, fragment);
+            
+            // Lưu vào BackStack để người dùng nhấn nút Back có thể quay về Home thay vì thoát App
             transaction.addToBackStack(null);
+            
             transaction.commit();
         }
     }
