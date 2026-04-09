@@ -37,7 +37,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="Trang chủ" />
+            android:label="Trang chủ"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

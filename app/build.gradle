@@ -1,32 +1,62 @@
 plugins {
     alias(libs.plugins.android.application)
-    // Sửa lại dòng này nếu bạn dùng Version Catalog (libs)
     id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.example.englishlearningapp'
-    compileSdk 34 // Khuyên dùng 34 hoặc 35, 36 hiện tại là bản Preview quá mới
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.englishlearningapp"
-        minSdk 24 // Nên để 24 để hỗ trợ nhiều máy hơn
+        minSdk 24
         targetSdk 34
-        // ... giữ nguyên ...
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
 dependencies {
-    // Xóa dòng trùng lặp: implementation libs.material
-    // Chỉ giữ lại một dòng Material mới nhất
     implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // Firebase (Giữ nguyên cụm này là đúng)
+    // Firebase
     implementation platform('com.google.firebase:firebase-bom:33.1.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
 
-    // Google Sign In (Cập nhật bản mới)
+    // Google Sign In
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
+
+    // Gemini AI SDK - Cập nhật lên phiên bản mới nhất (0.9.0 trở lên)
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    
+    // Lifecycle components
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.2'
+
+    // Guava
+    implementation 'com.google.guava:guava:33.2.1-android'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

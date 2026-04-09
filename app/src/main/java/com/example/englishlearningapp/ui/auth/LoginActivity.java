@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private AuthViewModel authViewModel;
 
-    // Sử dụng ActivityResultLauncher để nhận dữ liệu từ RegisterActivity
     private final ActivityResultLauncher<Intent> registerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -53,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (email != null) etEmail.setText(email);
                     if (password != null) etPassword.setText(password);
                     saveCredentials(email, password);
-                    Toast.makeText(this, "Đã tự động điền thông tin đăng ký", Toast.LENGTH_SHORT).show();
                 }
             }
     );
@@ -66,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         initViews();
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        // Load saved credentials
         loadSavedCredentials();
 
         if (authViewModel.getCurrentUser() != null) {
@@ -126,7 +123,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserSurvey() {
-        String uid = authViewModel.getCurrentUser().getUid();
+        FirebaseUser currentUser = authViewModel.getCurrentUser();
+        if (currentUser == null) return;
+        
+        String uid = currentUser.getUid();
         showLoading(true);
         FirebaseFirestore.getInstance().collection("users").document(uid).get()
                 .addOnCompleteListener(task -> {
@@ -161,11 +161,11 @@ public class LoginActivity extends AppCompatActivity {
         showLoading(true);
         authViewModel.login(email, password, task -> {
             if (task.isSuccessful()) {
-                saveCredentials(email, password); // Lưu lại thông tin khi đăng nhập thành công
+                saveCredentials(email, password);
                 checkUserSurvey();
             } else {
                 showLoading(false);
-                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi";
+                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi đăng nhập";
                 Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
             }
         });
@@ -174,8 +174,11 @@ public class LoginActivity extends AppCompatActivity {
     private void signInGoogle() {
         if (googleSignInClient == null) return;
         showLoading(true);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Luôn đăng xuất trước khi lấy SignInIntent để buộc Google hiển thị hộp thoại chọn tài khoản
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     @Override
@@ -187,10 +190,13 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if (account != null) {
                     firebaseAuthWithGoogle(account.getIdToken());
+                } else {
+                    showLoading(false);
                 }
             } catch (ApiException e) {
                 showLoading(false);
-                Toast.makeText(this, "Lỗi Google", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Google Sign-In failed: " + e.getStatusCode());
+                Toast.makeText(this, "Đã hủy hoặc lỗi đăng nhập Google", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -202,7 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                 checkUserSurvey();
             } else {
                 showLoading(false);
-                Toast.makeText(this, "Lỗi xác thực", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lỗi xác thực với Firebase", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -214,7 +220,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToMain() {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 
