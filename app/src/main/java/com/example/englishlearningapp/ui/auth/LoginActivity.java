@@ -131,7 +131,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserSurvey() {
-        String uid = authViewModel.getCurrentUser().getUid();
+        FirebaseUser currentUser = authViewModel.getCurrentUser();
+        // Kiểm tra null an toàn (từ nhánh feature) để tránh crash
+        if (currentUser == null) return;
+        
+        String uid = currentUser.getUid();
         showLoading(true);
         FirebaseFirestore.getInstance().collection("users").document(uid).get()
                 .addOnCompleteListener(task -> {
@@ -166,12 +170,12 @@ public class LoginActivity extends AppCompatActivity {
         showLoading(true);
         // Gọi hàm login từ ViewModel
         authViewModel.login(email, password, task -> {
-            showLoading(false);
             if (task.isSuccessful()) {
                 Log.d(TAG, "Đăng nhập Email thành công");
                 saveCredentials(email, password); 
                 checkUserSurvey(); 
             } else {
+                showLoading(false);
                 String errorMsg = task.getException() != null ? task.getException().getMessage() : "Lỗi không xác định";
                 Log.e(TAG, "Đăng nhập thất bại: " + errorMsg);
                 Toast.makeText(this, "Đăng nhập thất bại: " + errorMsg, Toast.LENGTH_LONG).show();
@@ -185,8 +189,11 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         showLoading(true);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Luôn đăng xuất trước khi lấy SignInIntent để buộc Google hiển thị hộp thoại chọn tài khoản (từ nhánh feature)
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     @Override
@@ -198,6 +205,8 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if (account != null) {
                     firebaseAuthWithGoogle(account.getIdToken());
+                } else {
+                    showLoading(false);
                 }
             } catch (ApiException e) {
                 showLoading(false);
@@ -212,10 +221,10 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         authViewModel.loginWithGoogle(credential, task -> {
-            showLoading(false);
             if (task.isSuccessful()) {
                 checkUserSurvey();
             } else {
+                showLoading(false);
                 Log.e(TAG, "Firebase Google Auth Failed", task.getException());
                 Toast.makeText(this, "Lỗi xác thực Firebase", Toast.LENGTH_SHORT).show();
             }
@@ -229,12 +238,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToMain() {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        // Xóa sạch ngăn xếp (backstack) để người dùng không thể bấm nút Back quay lại màn hình Login (từ nhánh feature)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 
     private void navigateToOnboarding() {
-        startActivity(new Intent(this, OnboardingSurveyActivity.class));
+        Intent intent = new Intent(this, OnboardingSurveyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 }

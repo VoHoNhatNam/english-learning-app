@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.ui.auth.LoginActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -44,12 +46,23 @@ public class ProfileFragment extends Fragment {
             transaction.commit();
         });
 
-        // Xử lý đăng xuất (Giữ nguyên)
+        // Xử lý đăng xuất (Đã cập nhật để đăng xuất cả Firebase và Google)
         btnLogout.setOnClickListener(v -> {
+            // 1. Đăng xuất khỏi Firebase
             mAuth.signOut();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            
+            // 2. Đăng xuất khỏi Google để lần sau có thể chọn tài khoản khác
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            
+            GoogleSignIn.getClient(requireActivity(), gso).signOut().addOnCompleteListener(task -> {
+                // Xóa lịch sử màn hình và quay về Login
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            });
         });
 
         return view;

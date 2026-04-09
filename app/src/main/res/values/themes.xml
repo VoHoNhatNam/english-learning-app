@@ -2,8 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.EnglishLearningApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#4A6CF7</item>
+        <item name="colorSecondary">#6C63FF</item>
     </style>
 
     <style name="Theme.EnglishLearningApp" parent="Base.Theme.EnglishLearningApp" />
+
+    <style name="CircleImage" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

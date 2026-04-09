@@ -4,28 +4,36 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.englishlearningapp.R;
-import com.example.englishlearningapp.ui.quiz.QuizFragment;
+import com.example.englishlearningapp.data.model.CustomLesson;
+import com.example.englishlearningapp.data.model.Lesson;
+import com.example.englishlearningapp.ui.chat.ChatFragment;
+import com.example.englishlearningapp.ui.lesson.FillWordFragment;
+import com.example.englishlearningapp.ui.lesson.FlashcardFragment;
 import com.example.englishlearningapp.ui.lesson.VocabularyFragment;
-import com.example.englishlearningapp.ui.lesson.FlashcardFragment; // Thêm import này
-import com.example.englishlearningapp.ui.lesson.FillWordFragment;  // Thêm import này
+import com.example.englishlearningapp.ui.quiz.QuizFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private ListView listLesson;
-    private Button btnFlashcard, btnQuiz, btnFill, btnListening;
-    private EditText searchInput;
+    private RecyclerView rvLessons;
+    private View lnFlashcard, lnQuiz, lnChat, lnMore;
+    private ProgressBar progressBar;
+    private TextView tvUserName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,68 +42,71 @@ public class HomeFragment extends Fragment {
 
         // 2. Ánh xạ các View từ XML
         initViews(view);
-
-        // 3. Thiết lập danh sách bài học mẫu
+        
+        // 3. Thiết lập tiến độ và tên người dùng từ Firebase
+        setupProgress();
+        
+        // 4. Thiết lập danh sách bài học (Dùng RecyclerView tối ưu hiệu năng)
         setupLessonList();
-
-        // 4. Thiết lập sự kiện click cho các nút chức năng
+        
+        // 5. Thiết lập sự kiện click cho các nút chức năng
         setupButtons();
 
         return view;
     }
 
     private void initViews(View view) {
-        listLesson = view.findViewById(R.id.listLesson);
-        btnFlashcard = view.findViewById(R.id.btnFlashcard);
-        btnQuiz = view.findViewById(R.id.btnQuiz);
-        btnFill = view.findViewById(R.id.btnFill);
-        btnListening = view.findViewById(R.id.btnListening);
-        searchInput = view.findViewById(R.id.searchInput);
+        rvLessons = view.findViewById(R.id.rvLessons);
+        lnFlashcard = view.findViewById(R.id.lnFlashcard);
+        lnQuiz = view.findViewById(R.id.lnQuiz);
+        lnChat = view.findViewById(R.id.lnChat);
+        lnMore = view.findViewById(R.id.lnMore);
+        progressBar = view.findViewById(R.id.progressBar);
+        tvUserName = view.findViewById(R.id.tvUserName);
+    }
+
+    private void setupProgress() {
+        // Lấy tên người dùng thực tế từ Firebase
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            tvUserName.setText((name != null && !name.isEmpty()) ? name + "!" : "Người dùng!");
+        } else {
+            tvUserName.setText("Người dùng!");
+        }
+
+        progressBar.setProgress(65);
     }
 
     private void setupLessonList() {
-        String[] lessons = {
-                "Bài 1: Greetings",
-                "Bài 2: Family & Friends",
-                "Bài 3: Daily Activities",
-                "Bài 4: Food & Drinks",
-                "Bài 5: Travel"
-        };
+        List<CustomLesson> lessonData = new ArrayList<>();
+        lessonData.add(new CustomLesson("Bài 1: Greetings", "Học cách chào hỏi cơ bản"));
+        lessonData.add(new CustomLesson("Bài 2: Family & Friends", "Từ vựng về gia đình"));
+        lessonData.add(new CustomLesson("Bài 3: Daily Activities", "Hoạt động thường ngày"));
+        lessonData.add(new CustomLesson("Bài 4: Food & Drinks", "Ẩm thực và đồ uống"));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                lessons
-        );
-        listLesson.setAdapter(adapter);
-
-        // Sự kiện khi click vào một bài học trong danh sách
-        listLesson.setOnItemClickListener((parent, view, position, id) -> {
-            // Khi nhấn vào bài học, có thể dẫn thẳng tới VocabularyFragment để học từ vựng bài đó
+        Lesson adapter = new Lesson(lessonData, lesson -> {
+            // Khi nhấn vào bài học, dẫn thẳng tới VocabularyFragment để học từ vựng bài đó
             navigateToFragment(new VocabularyFragment());
         });
+
+        rvLessons.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvLessons.setHasFixedSize(true);
+        rvLessons.setAdapter(adapter);
     }
 
     private void setupButtons() {
-        // 1. Chuyển sang màn hình Flashcard (Lật thẻ)
-        btnFlashcard.setOnClickListener(v -> {
-            navigateToFragment(new FlashcardFragment());
-        });
-
-        // 2. Chuyển sang màn hình Trắc nghiệm (Quiz)
-        btnQuiz.setOnClickListener(v -> {
-            navigateToFragment(new QuizFragment());
-        });
-
-        // 3. Chuyển sang màn hình Điền từ (Fill Word)
-        btnFill.setOnClickListener(v -> {
-            navigateToFragment(new FillWordFragment());
-        });
-
-        // 4. Chuyển sang màn hình Luyện nghe (Vocabulary/Speech)
-        btnListening.setOnClickListener(v -> {
-            navigateToFragment(new VocabularyFragment());
-        });
+        // Chuyển sang màn hình Flashcard (Lật thẻ)
+        lnFlashcard.setOnClickListener(v -> navigateToFragment(new FlashcardFragment()));
+        
+        // Chuyển sang màn hình Trắc nghiệm (Quiz)
+        lnQuiz.setOnClickListener(v -> navigateToFragment(new QuizFragment()));
+        
+        // Chuyển sang màn hình Chat AI/Giao tiếp
+        lnChat.setOnClickListener(v -> navigateToFragment(new ChatFragment()));
+        
+        // Chuyển sang màn hình Điền từ (Gắn tạm vào nút More)
+        lnMore.setOnClickListener(v -> navigateToFragment(new FillWordFragment()));
     }
 
     /**
@@ -104,17 +115,16 @@ public class HomeFragment extends Fragment {
     private void navigateToFragment(Fragment fragment) {
         if (getActivity() != null) {
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-
-            // Hiệu ứng chuyển cảnh (Fade in/out)
-            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-            // Thay thế fragment hiện tại
-            // Lưu ý: ID R.id.fragment_container phải khớp với FrameLayout trong activity_main.xml
+            
+            // Hiệu ứng chuyển cảnh
+            transaction.setCustomAnimations(R.anim.logo_scale, android.R.anim.fade_out);
+            
+            // Thay thế fragment hiện tại. Lưu ý: R.id.fragment_container phải khớp với activity_main.xml
             transaction.replace(R.id.fragment_container, fragment);
-
+            
             // Lưu vào BackStack để người dùng nhấn nút Back có thể quay về Home thay vì thoát App
             transaction.addToBackStack(null);
-
+            
             transaction.commit();
         }
     }

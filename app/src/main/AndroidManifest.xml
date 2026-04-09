@@ -19,7 +19,8 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.NoActionBar"> <intent-filter>
+            android:theme="@style/Theme.Design.NoActionBar">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -27,14 +28,17 @@
 
         <activity
             android:name=".ui.auth.LoginActivity"
-            android:windowSoftInputMode="adjustResize" /> <activity android:name=".ui.auth.RegisterActivity" />
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".ui.auth.RegisterActivity" />
 
         <activity android:name=".ui.auth.OnboardingSurveyActivity" />
 
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="Trang chủ" />
+            android:label="Trang chủ"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

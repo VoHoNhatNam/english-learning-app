@@ -8,11 +8,10 @@ public class User {
     private String uid;
     private String username;
     private String email;
-    private String password; // Lưu ý: Chỉ dùng trung gian, KHÔNG nên lưu trữ mật khẩu thực tế lên Firestore!
     private boolean isVip;
     private String profilePicture;
 
-    // --- Các thông tin từ Onboarding (nhánh feature/login) ---
+    // --- Các thông tin từ Onboarding ---
     private int age;
     private String englishLevel;
     private boolean onboardingCompleted;
@@ -33,6 +32,8 @@ public class User {
     }
 
     // 3. ĐẦY ĐỦ Getter và Setter (Firebase cần các hàm này để đọc/ghi dữ liệu)
+    
+    // --- Getter & Setter cơ bản ---
     public String getUid() { return uid; }
     public void setUid(String uid) { this.uid = uid; }
 
@@ -41,9 +42,6 @@ public class User {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 
     public boolean isVip() { return isVip; }
     public void setVip(boolean vip) { this.isVip = vip; }

@@ -6,22 +6,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.englishlearningapp.ui.home.HomeFragment;
 import com.example.englishlearningapp.ui.lesson.LessonListFragment;
-import com.example.englishlearningapp.ui.quiz.QuizFragment;
 import com.example.englishlearningapp.ui.profile.ProgressFragment;
 import com.example.englishlearningapp.ui.profile.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,8 +28,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout navHome, navLesson, navAdd, navProgress, navProfile;
-    ImageView iconHome, iconLesson, iconProgress, iconProfile;
+    BottomNavigationView bottomNavigationView;
     FirebaseFirestore db;
 
     @Override
@@ -44,33 +40,31 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         initView();
 
+        // Mở màn hình Home mặc định khi khởi chạy app
         if (savedInstanceState == null) {
             replaceFragment(new HomeFragment(), false);
-            updateUIActive(iconHome);
         }
 
-        // --- CÁC SỰ KIỆN CLICK ---
-        navHome.setOnClickListener(v -> {
-            replaceFragment(new HomeFragment(), false);
-            updateUIActive(iconHome);
-        });
-
-        navLesson.setOnClickListener(v -> {
-            replaceFragment(new LessonListFragment(), false);
-            updateUIActive(iconLesson);
-        });
-
-        // THAY ĐỔI Ở ĐÂY: Nhấn nút Add sẽ hiện Dialog thay vì Fragment
-        navAdd.setOnClickListener(v -> showAddWordDialog());
-
-        navProgress.setOnClickListener(v -> {
-            replaceFragment(new ProgressFragment(), false);
-            updateUIActive(iconProgress);
-        });
-
-        navProfile.setOnClickListener(v -> {
-            replaceFragment(new ProfileFragment(), false);
-            updateUIActive(iconProfile);
+        // Xử lý sự kiện click trên thanh điều hướng Bottom Navigation
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.navHome) {
+                replaceFragment(new HomeFragment(), false);
+                return true;
+            } else if (itemId == R.id.navLesson) {
+                replaceFragment(new LessonListFragment(), false);
+                return true;
+            } else if (itemId == R.id.navAdd) {
+                showAddWordDialog();
+                return false; // Trả về false để không highlight tab này (vì nó mở Dialog)
+            } else if (itemId == R.id.navProgress) {
+                replaceFragment(new ProgressFragment(), false);
+                return true;
+            } else if (itemId == R.id.navProfile) {
+                replaceFragment(new ProfileFragment(), false);
+                return true;
+            }
+            return false;
         });
     }
 
@@ -78,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         // Khởi tạo Dialog
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_vocabulary); // Tên file XML của bạn
+        dialog.setContentView(R.layout.dialog_add_vocabulary);
 
         // Cấu hình giao diện Dialog (Full width, nền trong suốt để bo góc)
         if (dialog.getWindow() != null) {
@@ -123,16 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        navHome = findViewById(R.id.navHome);
-        navLesson = findViewById(R.id.navLesson);
-        navAdd = findViewById(R.id.navAdd);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
-
-        iconHome = findViewById(R.id.iconHome);
-        iconLesson = findViewById(R.id.iconLesson);
-        iconProgress = findViewById(R.id.iconProgress);
-        iconProfile = findViewById(R.id.iconProfile);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
     }
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack) {
@@ -141,17 +126,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         if (addToBackStack) transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    private void updateUIActive(ImageView activeIcon) {
-        int defaultColor = ContextCompat.getColor(this, android.R.color.darker_gray);
-        int activeColor = ContextCompat.getColor(this, R.color.blue);
-
-        if (iconHome != null) iconHome.setColorFilter(defaultColor);
-        if (iconLesson != null) iconLesson.setColorFilter(defaultColor);
-        if (iconProgress != null) iconProgress.setColorFilter(defaultColor);
-        if (iconProfile != null) iconProfile.setColorFilter(defaultColor);
-
-        if (activeIcon != null) activeIcon.setColorFilter(activeColor);
     }
 }
