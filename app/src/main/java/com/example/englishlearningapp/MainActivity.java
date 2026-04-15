@@ -17,10 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.englishlearningapp.ui.chat.ChatFragment;
 import com.example.englishlearningapp.ui.home.HomeFragment;
-import com.example.englishlearningapp.ui.lesson.GrammarFragment;
 import com.example.englishlearningapp.ui.lesson.LessonListFragment;
 import com.example.englishlearningapp.ui.profile.ProfileFragment;
-import com.example.englishlearningapp.ui.profile.VipFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,21 +42,26 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         initView();
 
+        // Mở màn hình Home mặc định khi khởi chạy app
         if (savedInstanceState == null) {
             replaceFragment(new HomeFragment(), false);
             bottomNavigationView.setSelectedItemId(R.id.navHome);
         }
 
+        // Xử lý sự kiện click trên thanh điều hướng Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navHome) {
                 replaceFragment(new HomeFragment(), false);
                 return true;
-            } else if (itemId == R.id.navTutor) {
-                replaceFragment(new ChatFragment(), false);
-                return true;
-            } else if (itemId == R.id.navStorage) {
+            } else if (itemId == R.id.navLesson || itemId == R.id.navStorage) { // Hỗ trợ cả 2 ID phòng khi XML chưa đổi
                 replaceFragment(new LessonListFragment(), false);
+                return true;
+            } else if (itemId == R.id.navAdd) {
+                showAddWordDialog();
+                return false; // Trả về false để không highlight tab này (vì nó mở Dialog)
+            } else if (itemId == R.id.navTutor || itemId == R.id.navProgress) { // Ưu tiên mở Chat AI thay cho Progress
+                replaceFragment(new ChatFragment(), false);
                 return true;
             } else if (itemId == R.id.navProfile) {
                 replaceFragment(new ProfileFragment(), false);
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        // Lắng nghe sự thay đổi của BackStack để ẩn/hiện Bottom Nav nếu cần
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
             updateBottomNavVisibility(currentFragment);
@@ -74,15 +78,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddWordDialog() {
+        // Khởi tạo Dialog
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_vocabulary);
 
+        // Cấu hình giao diện Dialog (Full width, nền trong suốt để bo góc)
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        // Ánh xạ các View trong Dialog XML
         TextInputEditText edtNewWord = dialog.findViewById(R.id.edtNewWord);
         TextInputEditText edtNewMeaning = dialog.findViewById(R.id.edtNewMeaning);
         MaterialButton btnAddWord = dialog.findViewById(R.id.btnAddWord);
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavContainer = findViewById(R.id.bottomNavContainer);
+        bottomNavContainer = findViewById(R.id.bottomNavContainer); // Từ nhánh HEAD
     }
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack) {

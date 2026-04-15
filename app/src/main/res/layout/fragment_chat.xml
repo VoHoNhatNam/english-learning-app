@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#F7F9F8">
 
-    <!-- Header -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -105,7 +104,6 @@
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Suggestion Chips -->
         <HorizontalScrollView
             android:id="@+id/scrollSuggestions"
             android:layout_width="match_parent"
@@ -142,7 +140,6 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <!-- Input Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

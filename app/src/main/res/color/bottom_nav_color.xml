@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
     <!-- Trạng thái được chọn (Active) - Chuyển sang màu xanh -->
     <item android:color="#2E7D32" android:state_checked="true" />
     <item android:color="#2E7D32" android:state_selected="true" />
 
     <!-- Trạng thái mặc định (Inactive) - Màu xám -->
     <item android:color="#9AA0A6" />
+=======
+    <item android:color="@color/blue" android:state_checked="true" />
+    <item android:color="@color/gray" android:state_checked="false" />
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 </selector>

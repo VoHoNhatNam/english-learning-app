@@ -20,7 +20,7 @@ public class ChatMessage {
     public String getText() { return text; }
     public int getType() { return type; }
     public long getTimestamp() { return timestamp; }
-    
+
     public String getLabel() { return label; }
     public void setLabel(String label) { this.label = label; }
 

@@ -49,12 +49,11 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Lesson Header Section -->
             <TextView
                 android:id="@+id/tvLessonTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bài 1: Từ vựng Học thuật (Academic Words)"
+                android:text="Tên Bài Học"
                 android:textColor="#1A1A1A"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -66,7 +65,6 @@
                 android:layout_marginTop="16dp"
                 android:background="#2D6A4F" />
 
-            <!-- Body: Context Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,13 +81,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="The study demonstrates a significant correlation between environmental factors and urban development. Researchers emphasize that sustainable practices are essential for long-term growth in modern society."
+                android:text="Đang tải dữ liệu bài học..."
                 android:textColor="#333333"
                 android:textSize="18sp"
                 android:lineSpacingMultiplier="1.6"
                 android:fontFamily="serif" />
 
-            <!-- Body: Theory Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,22 +104,72 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="16dp">
-                <!-- Theory items like word explanation will be added here -->
             </LinearLayout>
 
-            <!-- Footer: Action Button -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:background="#EEEEEE" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thực hành (Practice)"
+                android:textColor="#9E9E9E"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVocabulary"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="Luyện phát âm từ vựng"
+                android:textColor="#333"
+                android:textAllCaps="false"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#FFFFFF"
+                app:cornerRadius="16dp"
+                app:strokeColor="#4A6CF7"
+                app:strokeWidth="1dp"
+                app:icon="@drawable/ic_vocab"
+                app:iconTint="#4A6CF7"
+                app:iconPadding="12dp"
+                app:iconGravity="textStart"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="Làm bài kiểm tra ngắn"
+                android:textColor="#333"
+                android:textAllCaps="false"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#FFFFFF"
+                app:cornerRadius="16dp"
+                app:strokeColor="#6C63FF"
+                app:strokeWidth="1dp"
+                app:icon="@drawable/ic_quiz"
+                app:iconTint="#6C63FF"
+                app:iconPadding="12dp"
+                app:iconGravity="textStart"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPracticeAI"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
                 android:text="Thực hành bài này với Gia sư AI"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:backgroundTint="#1B4332"
-                app:cornerRadius="32dp"
+                app:cornerRadius="16dp"
                 app:icon="@drawable/ic_chat"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp" />

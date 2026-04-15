@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+<<<<<<< HEAD
 import android.widget.RadioButton;
+=======
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.englishlearningapp.R;
+<<<<<<< HEAD
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 
@@ -22,10 +26,19 @@ import java.util.List;
 public class VipFragment extends Fragment {
 
     private ImageView btnBack;
+=======
+import com.google.android.material.button.MaterialButton;
+
+public class VipFragment extends Fragment {
+
+    private ImageView btnBack;
+    private MaterialButton btnUpgrade;
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+<<<<<<< HEAD
         View view = inflater.inflate(R.layout.fragment_vip, container, false);
 
         btnBack = view.findViewById(R.id.btnBackVip);
@@ -105,11 +118,37 @@ public class VipFragment extends Fragment {
             Toast.makeText(getContext(), "Đã chọn thanh toán qua: " + method, Toast.LENGTH_SHORT).show();
             bottomSheetDialog.dismiss();
 
+=======
+        // 1. Nạp layout fragment_vip (Cái có nút Back mà bạn vừa viết)
+        View view = inflater.inflate(R.layout.fragment_vip, container, false);
+
+        // 2. Ánh xạ các view từ XML
+        btnBack = view.findViewById(R.id.btnBackVip);
+        btnUpgrade = view.findViewById(R.id.btnUpgradeVip);
+
+        // 3. Xử lý sự kiện nút Quay lại
+        btnBack.setOnClickListener(v -> {
+            // Kiểm tra xem FragmentManager có tồn tại không và thực hiện quay lại
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
             if (getParentFragmentManager() != null) {
                 getParentFragmentManager().popBackStack();
             }
         });
 
+<<<<<<< HEAD
         bottomSheetDialog.show();
     }
 }
+=======
+        // 4. Xử lý sự kiện nút Nâng cấp
+        btnUpgrade.setOnClickListener(v -> {
+            // Thông báo giả lập thanh toán
+            Toast.makeText(getContext(),
+                    "Chức năng thanh toán đang được bảo trì!",
+                    Toast.LENGTH_LONG).show();
+        });
+
+        return view;
+    }
+}
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0

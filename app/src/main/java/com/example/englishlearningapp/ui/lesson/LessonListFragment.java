@@ -44,7 +44,7 @@ public class LessonListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerLessons);
         progressBar = view.findViewById(R.id.progressBar);
         tabLayoutLevels = view.findViewById(R.id.tabLayoutLevels);
-        
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         lessonList = new ArrayList<>();
         adapter = new Lesson(lessonList, lesson -> openLessonDetail(lesson));
@@ -191,8 +191,12 @@ public class LessonListFragment extends Fragment {
     }
 
     private void openLessonDetail(CustomLesson lesson) {
-        LessonDetailFragment detailFragment = new LessonDetailFragment();
-        Bundle bundle = new Bundle();
+        // Sử dụng phương thức khởi tạo tĩnh newInstance để truyền Object (theo thiết kế ở LessonDetailFragment)
+        LessonDetailFragment detailFragment = LessonDetailFragment.newInstance(lesson);
+
+        // Vẫn giữ việc truyền Bundle String phòng trường hợp bạn kia cần
+        Bundle bundle = detailFragment.getArguments();
+        if (bundle == null) bundle = new Bundle();
         bundle.putString("lessonName", lesson.getTitle());
         bundle.putString("lessonId", lesson.getId());
         detailFragment.setArguments(bundle);

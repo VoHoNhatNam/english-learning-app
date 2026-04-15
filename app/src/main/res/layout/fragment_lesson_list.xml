@@ -16,7 +16,6 @@
         android:textColor="#222"
         android:layout_alignParentTop="true"/>
 
-    <!-- Level Selector -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutLevels"
         android:layout_width="match_parent"

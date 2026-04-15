@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +47,7 @@ public class ChatFragment extends Fragment {
 
     private RecyclerView rvChat;
     private EditText edtMessage;
-    private View btnSend;
+    private ImageButton btnSend;
     private ChatAdapter adapter;
     private List<ChatMessage> messageList;
     private View scrollSuggestions;
@@ -66,7 +67,8 @@ public class ChatFragment extends Fragment {
 
         initViews(view);
         setupToolbar(view);
-        initModel("gemini-2.5-flash"); // luôn luôn cố định gemini-2.5-flash cho bất cứ trường hợp nào.Không được phép can thiệp chỉnh sửa tại model gemini-2.5-flash.
+        // luôn luôn cố định gemini-2.5-flash cho bất cứ trường hợp nào.Không được phép can thiệp chỉnh sửa tại model gemini-2.5-flash.
+        initModel("gemini-2.5-flash");
 
         messageList = new ArrayList<>();
         adapter = new ChatAdapter(messageList);
@@ -163,6 +165,8 @@ public class ChatFragment extends Fragment {
     private void initModel(String modelName) {
         GenerationConfig.Builder configBuilder = new GenerationConfig.Builder();
         configBuilder.temperature = 0.7f;
+        configBuilder.topK = 40;
+        configBuilder.topP = 0.95f;
         GenerationConfig config = configBuilder.build();
 
         Content systemInstruction = new Content.Builder()
@@ -187,8 +191,9 @@ public class ChatFragment extends Fragment {
         messageList.add(new ChatMessage(text, ChatMessage.TYPE_USER));
         adapter.notifyItemInserted(messageList.size() - 1);
         rvChat.scrollToPosition(messageList.size() - 1);
-        
+
         if (scrollSuggestions != null) scrollSuggestions.setVisibility(View.GONE);
+
         callGemini(text);
     }
 
@@ -207,8 +212,28 @@ public class ChatFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Throwable t) {
-                Log.e(TAG, "Gemini Error", t);
+                Log.e(TAG, "Gemini API Error: " + t.getMessage(), t);
+                handleError(t);
             }
         }, executor);
+    }
+
+    private void handleError(Throwable t) {
+        if (getActivity() == null) return;
+
+        getActivity().runOnUiThread(() -> {
+            String errorMsg = t.getMessage() != null ? t.getMessage() : "Unknown error";
+            String displayError;
+
+            if (errorMsg.contains("404")) {
+                displayError = "Lỗi 404: Model không tồn tại hoặc không được hỗ trợ ở vùng của bạn.";
+            } else if (errorMsg.contains("403")) {
+                displayError = "Lỗi 403: Không có quyền truy cập. Kiểm tra lại API Key hoặc vùng hỗ trợ (có thể cần dùng VPN).";
+            } else {
+                displayError = "Lỗi kết nối: " + errorMsg;
+            }
+
+            addAiMessage(displayError, "LỖI HỆ THỐNG");
+        });
     }
 }

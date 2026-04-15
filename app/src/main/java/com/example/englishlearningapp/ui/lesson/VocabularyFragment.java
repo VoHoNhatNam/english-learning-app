@@ -88,7 +88,7 @@ public class VocabularyFragment extends Fragment {
 
     private void setupData() {
         vocabularyList = new ArrayList<>();
-        
+
         if (lessonName != null && lessonName.contains("Bài 1") && lessonName.contains("Greetings")) {
             // Nội dung Bài 1: Greetings & Introductions
             vocabularyList.add(new WordModel("Hello", "/həˈləʊ/", "Xin chào"));
@@ -116,7 +116,7 @@ public class VocabularyFragment extends Fragment {
 
     private void updateUI() {
         if (vocabularyList.isEmpty()) return;
-        
+
         WordModel currentWord = vocabularyList.get(currentIndex);
         txtWord.setText(currentWord.getWord());
         txtPhonetic.setText(currentWord.getPhonetic());

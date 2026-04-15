@@ -89,14 +89,12 @@
                 android:gravity="center"
                 android:lineHeight="22sp"/>
 
-            <!-- Features List -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
-                <!-- Feature 1 -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -132,7 +130,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Feature 2 -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,7 +165,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Feature 3 -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +200,6 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Subscription Plans -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -215,7 +210,6 @@
                 android:letterSpacing="0.1"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Monthly Plan -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -274,7 +268,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Annual Plan (Recommended) -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -344,7 +337,9 @@
                             android:text="✓ Quyền lợi đầy đủ nhất"
                             android:textColor="#757575"
                             android:textSize="13sp"/>
+
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnUpgradeVip"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
                             android:layout_marginTop="16dp"
@@ -373,7 +368,6 @@
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Lifetime Plan -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

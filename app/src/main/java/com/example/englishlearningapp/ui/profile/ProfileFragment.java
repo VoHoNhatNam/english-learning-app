@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+=======
+import android.widget.LinearLayout;
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.ui.auth.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+<<<<<<< HEAD
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
@@ -35,6 +40,16 @@ public class ProfileFragment extends Fragment {
     private View btnLogout, btnEditProfile, btnChangePassword, btnGoVip, cvUserLevel, btnAdjustGoals;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+=======
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class ProfileFragment extends Fragment {
+
+    private TextView txtName, txtEmail;
+    private LinearLayout btnLogout, btnEditProfile, btnChangePassword, btnGoVip;
+    private FirebaseAuth mAuth;
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 
     @Nullable
     @Override
@@ -42,11 +57,15 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+<<<<<<< HEAD
         db = FirebaseFirestore.getInstance();
+=======
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 
         initViews(view);
         loadUserInfo();
 
+<<<<<<< HEAD
         // Mở Bottom Sheet Nâng cấp VIP (Thay vì chuyển Fragment như trước)
         if (btnGoVip != null) {
             btnGoVip.setOnClickListener(v -> showVipUpgradeBottomSheet());
@@ -74,6 +93,35 @@ public class ProfileFragment extends Fragment {
                 });
             });
         }
+=======
+        // Chuyển sang màn hình VIP
+        btnGoVip.setOnClickListener(v -> {
+            Fragment vipFragment = new VipFragment();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, vipFragment);
+            transaction.addToBackStack(null); // Để khi nhấn Back thì quay lại trang Profile
+            transaction.commit();
+        });
+
+        // Xử lý đăng xuất (Đã cập nhật để đăng xuất cả Firebase và Google)
+        btnLogout.setOnClickListener(v -> {
+            // 1. Đăng xuất khỏi Firebase
+            mAuth.signOut();
+            
+            // 2. Đăng xuất khỏi Google để lần sau có thể chọn tài khoản khác
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            
+            GoogleSignIn.getClient(requireActivity(), gso).signOut().addOnCompleteListener(task -> {
+                // Xóa lịch sử màn hình và quay về Login
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            });
+        });
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
 
         return view;
     }
@@ -81,6 +129,7 @@ public class ProfileFragment extends Fragment {
     private void initViews(View view) {
         txtName = view.findViewById(R.id.txtProfileName);
         txtEmail = view.findViewById(R.id.txtProfileEmail);
+<<<<<<< HEAD
         tvUserLevelTag = view.findViewById(R.id.tvUserLevelTag);
         btnLogout = view.findViewById(R.id.btnLogout);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
@@ -88,11 +137,18 @@ public class ProfileFragment extends Fragment {
         btnGoVip = view.findViewById(R.id.btnGoVip);
         cvUserLevel = view.findViewById(R.id.cvUserLevel);
         btnAdjustGoals = view.findViewById(R.id.btnAdjustGoals);
+=======
+        btnLogout = view.findViewById(R.id.btnLogout);
+        btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        btnChangePassword = view.findViewById(R.id.btnChangePassword);
+        btnGoVip = view.findViewById(R.id.btnGoVip); // Ánh xạ nút VIP mới
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0
     }
 
     private void loadUserInfo() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
+<<<<<<< HEAD
             if (txtName != null) txtName.setText(user.getDisplayName() != null ? user.getDisplayName() : "Người dùng");
             if (txtEmail != null) txtEmail.setText(user.getEmail());
 
@@ -175,3 +231,10 @@ public class ProfileFragment extends Fragment {
         bottomSheetDialog.show();
     }
 }
+=======
+            txtName.setText(user.getDisplayName() != null ? user.getDisplayName() : "Người dùng");
+            txtEmail.setText(user.getEmail());
+        }
+    }
+}
+>>>>>>> 556415d64adb3e497a21be13cd4f6b0536fd6cc0

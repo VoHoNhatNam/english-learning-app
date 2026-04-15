@@ -26,7 +26,6 @@
             android:textColor="#333"
             android:textSize="15sp" />
 
-        <!-- Grammar/Word buttons (Visible only when needed) -->
         <LinearLayout
             android:id="@+id/layoutActionButtons"
             android:layout_width="wrap_content"
@@ -83,7 +82,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Correction block (Visible only when needed) -->
         <LinearLayout
             android:id="@+id/layoutCorrection"
             android:layout_width="match_parent"
