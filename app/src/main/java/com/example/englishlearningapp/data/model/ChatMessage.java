@@ -7,6 +7,9 @@ public class ChatMessage {
     private String text;
     private int type;
     private long timestamp;
+    private String label; // For "CONVERSATION STARTER"
+    private boolean hasGrammarFix;
+    private String correction;
 
     public ChatMessage(String text, int type) {
         this.text = text;
@@ -17,4 +20,13 @@ public class ChatMessage {
     public String getText() { return text; }
     public int getType() { return type; }
     public long getTimestamp() { return timestamp; }
+    
+    public String getLabel() { return label; }
+    public void setLabel(String label) { this.label = label; }
+
+    public boolean isHasGrammarFix() { return hasGrammarFix; }
+    public void setHasGrammarFix(boolean hasGrammarFix) { this.hasGrammarFix = hasGrammarFix; }
+
+    public String getCorrection() { return correction; }
+    public void setCorrection(String correction) { this.correction = correction; }
 }

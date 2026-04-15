@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,57 +13,98 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.englishlearningapp.R;
-import com.google.android.material.button.MaterialButton;
+import com.example.englishlearningapp.data.model.CustomLesson;
+import com.example.englishlearningapp.data.model.Example;
+import com.example.englishlearningapp.data.model.Vocabulary;
+import com.example.englishlearningapp.ui.chat.ChatFragment;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class LessonDetailFragment extends Fragment {
 
-    private TextView txtTitle, txtPercent;
-    private ProgressBar progressBar;
-    private MaterialButton btnVocabulary, btnQuiz;
-    private ImageButton btnBack;
+    private CustomLesson lesson;
+
+    public static LessonDetailFragment newInstance(CustomLesson lesson) {
+        LessonDetailFragment fragment = new LessonDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("lesson", lesson);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            lesson = (CustomLesson) getArguments().getSerializable("lesson");
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Nạp giao diện XML
         View view = inflater.inflate(R.layout.fragment_lesson_detail, container, false);
 
-        // Ánh xạ View
-        initViews(view);
-
-        // Nhận dữ liệu (ví dụ tên bài học) truyền từ Fragment trước đó
-        if (getArguments() != null) {
-            String lessonName = getArguments().getString("lessonName", "Bài học mặc định");
-            txtTitle.setText(lessonName);
+        if (lesson != null) {
+            initViews(view);
         }
-
-        // Xử lý sự kiện nút quay lại
-        btnBack.setOnClickListener(v -> {
-            if (getFragmentManager() != null) {
-                getFragmentManager().popBackStack(); // Quay lại Fragment trước đó
-            }
-        });
-
-        // Xử lý nút Học từ vựng
-        btnVocabulary.setOnClickListener(v -> {
-            // Sau này bạn sẽ chuyển đến VocabularyFragment ở đây
-            Toast.makeText(getContext(), "Bắt đầu học từ vựng!", Toast.LENGTH_SHORT).show();
-        });
-
-        // Xử lý nút Trắc nghiệm
-        btnQuiz.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Bắt đầu làm bài tập!", Toast.LENGTH_SHORT).show();
-        });
 
         return view;
     }
 
     private void initViews(View view) {
-        txtTitle = view.findViewById(R.id.txtLessonDetailTitle);
-        txtPercent = view.findViewById(R.id.txtProgressPercent);
-        progressBar = view.findViewById(R.id.progressLesson);
-        btnVocabulary = view.findViewById(R.id.btnVocabulary);
-        btnQuiz = view.findViewById(R.id.btnQuiz);
-        btnBack = view.findViewById(R.id.btnBack);
+        view.findViewById(R.id.toolbar).setOnClickListener(v -> getParentFragmentManager().popBackStack());
+
+        TextView tvTitle = view.findViewById(R.id.tvLessonTitle);
+        TextView tvContext = view.findViewById(R.id.tvLessonContext);
+        LinearLayout layoutTheoryContent = view.findViewById(R.id.layoutTheoryContent);
+        LinearProgressIndicator progressBar = view.findViewById(R.id.lessonProgressBar);
+
+        tvTitle.setText(lesson.getTitle());
+        
+        // Hiển thị Context (sử dụng description làm context nếu không có trường riêng)
+        if (lesson.getDescription() != null) {
+            tvContext.setText(lesson.getDescription());
+        }
+
+        // Cập nhật Progress Bar (giả lập dựa trên độ dài nội dung hoặc mặc định)
+        progressBar.setProgress(65);
+
+        // Thêm nội dung giải thích (Theory)
+        if (lesson.getVocabularies() != null) {
+            for (Vocabulary vocab : lesson.getVocabularies()) {
+                addTheoryItem(layoutTheoryContent, vocab);
+            }
+        }
+
+        // Nút Thực hành với AI
+        view.findViewById(R.id.btnPracticeAI).setOnClickListener(v -> {
+            // Chuyển sang tab Chat AI với ngữ cảnh bài học
+            Bundle bundle = new Bundle();
+            bundle.putString("initial_topic", "Practice " + lesson.getTitle());
+            
+            ChatFragment chatFragment = new ChatFragment();
+            chatFragment.setArguments(bundle);
+            
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, chatFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+    }
+
+    private void addTheoryItem(LinearLayout container, Vocabulary vocab) {
+        View theoryView = getLayoutInflater().inflate(R.layout.item_lesson_vocab, container, false);
+        TextView tvWord = theoryView.findViewById(R.id.tvWord);
+        TextView tvMeaning = theoryView.findViewById(R.id.tvMeaning);
+        
+        tvWord.setText(vocab.getWord());
+        tvMeaning.setText(vocab.getMeaning());
+        
+        // UX Tương tác chạm: Bấm vào để lưu (giả định có chức năng này)
+        theoryView.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Đã lưu \"" + vocab.getWord() + "\" vào Kho lưu trữ", Toast.LENGTH_SHORT).show();
+        });
+
+        container.addView(theoryView);
     }
 }

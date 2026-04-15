@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="logoLetter">
-        <item name="android:textSize">42sp</item>
+    <style name="ShapeAppearanceOverlay.App.CornerSize8dp" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="BottomNavText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="BottomNavText.Bold" parent="BottomNavText">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#2C3E50</item>
-        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="logoLetter">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#4A6CF7</item>
     </style>
 </resources>

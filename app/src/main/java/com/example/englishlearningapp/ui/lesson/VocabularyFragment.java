@@ -29,11 +29,16 @@ public class VocabularyFragment extends Fragment {
     private TextToSpeech tts;
     private List<WordModel> vocabularyList;
     private int currentIndex = 0;
+    private String lessonName;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vocabulary, container, false);
+
+        if (getArguments() != null) {
+            lessonName = getArguments().getString("lessonName");
+        }
 
         initViews(view);
         setupData();
@@ -59,8 +64,10 @@ public class VocabularyFragment extends Fragment {
         });
 
         btnSpeak.setOnClickListener(v -> {
-            String word = vocabularyList.get(currentIndex).getWord();
-            tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+            if (!vocabularyList.isEmpty()) {
+                String word = vocabularyList.get(currentIndex).getWord();
+                tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+            }
         });
 
         btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
@@ -81,10 +88,22 @@ public class VocabularyFragment extends Fragment {
 
     private void setupData() {
         vocabularyList = new ArrayList<>();
-        // Giả lập dữ liệu (Sau này bạn sẽ lấy từ Firebase Firestore)
-        vocabularyList.add(new WordModel("Apple", "/ˈæpl/", "Quả táo"));
-        vocabularyList.add(new WordModel("Banana", "/bəˈnænə/", "Quả chuối"));
-        vocabularyList.add(new WordModel("Orange", "/ˈɔːrɪndʒ/", "Quả cam"));
+        
+        if (lessonName != null && lessonName.contains("Bài 1") && lessonName.contains("Greetings")) {
+            // Nội dung Bài 1: Greetings & Introductions
+            vocabularyList.add(new WordModel("Hello", "/həˈləʊ/", "Xin chào"));
+            vocabularyList.add(new WordModel("Goodbye", "/ˌɡʊdˈbaɪ/", "Tạm biệt"));
+            vocabularyList.add(new WordModel("Name", "/neɪm/", "Tên"));
+            vocabularyList.add(new WordModel("Student", "/ˈstjuːdnt/", "Học sinh/Sinh viên"));
+            vocabularyList.add(new WordModel("Teacher", "/ˈtiːtʃə(r)/", "Giáo viên"));
+            vocabularyList.add(new WordModel("Friend", "/frend/", "Người bạn"));
+            vocabularyList.add(new WordModel("Nice to meet you", "/naɪs tu miːt ju/", "Rất vui được gặp bạn"));
+        } else {
+            // Dữ liệu mặc định nếu không khớp bài học
+            vocabularyList.add(new WordModel("Apple", "/ˈæpl/", "Quả táo"));
+            vocabularyList.add(new WordModel("Banana", "/bəˈnænə/", "Quả chuối"));
+            vocabularyList.add(new WordModel("Orange", "/ˈɔːrɪndʒ/", "Quả cam"));
+        }
     }
 
     private void setupTTS() {
@@ -96,6 +115,8 @@ public class VocabularyFragment extends Fragment {
     }
 
     private void updateUI() {
+        if (vocabularyList.isEmpty()) return;
+        
         WordModel currentWord = vocabularyList.get(currentIndex);
         txtWord.setText(currentWord.getWord());
         txtPhonetic.setText(currentWord.getPhonetic());

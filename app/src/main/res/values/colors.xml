@@ -5,4 +5,16 @@
     <color name="blue">#4F6CFF</color>
     <color name="purple_gradient_end">#8E2DE2</color>
     <color name="gray">#9AA0A6</color>
+
+    <color name="green_primary">#2E7D32</color>
+
+    <!-- Chủ đạo cho Lesson -->
+    <color name="primary_purple">#6A5ACD</color>
+    <color name="primary_purple_light">#F5F4FF</color>
+    <color name="category_grammar_bg">#E8EAF6</color>
+    <color name="category_grammar_text">#3F51B5</color>
+    <color name="level_beginner_bg">#E8F5E9</color>
+    <color name="level_beginner_text">#2E7D32</color>
+    <color name="level_intermediate_bg">#FFF3E0</color>
+    <color name="level_intermediate_text">#E65100</color>
 </resources>

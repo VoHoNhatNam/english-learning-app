@@ -28,4 +28,10 @@
     <string name="enter_username">Vui lòng nhập username</string>
     <string name="default_web_client_id">304353532828-nd5h3cb5dt2i4cal8o683e50rtinu1ch.apps.googleusercontent.com</string>
     <string name="chat_ai">Chat AI</string>
+
+    <!-- Bottom Navigation -->
+    <string name="menu_home">TRANG CHỦ</string>
+    <string name="menu_tutor">GIA SƯ</string>
+    <string name="menu_storage">KHO LƯU TRỮ</string>
+    <string name="menu_profile">CÁ NHÂN</string>
 </resources>
