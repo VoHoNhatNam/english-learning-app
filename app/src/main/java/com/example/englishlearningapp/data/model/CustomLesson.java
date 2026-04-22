@@ -22,16 +22,19 @@ public class CustomLesson implements Serializable {
     private List<Vocabulary> vocabularies; // Danh sách từ vựng đi kèm bài học
     private List<Example> examples;       // Danh sách ví dụ song ngữ
     
+    private int status; // 0: Locked/Chưa học, 1: Completed/Đã thuộc, 2: In progress/Đang học
     private long createdAt;
 
     public CustomLesson() {
         this.createdAt = System.currentTimeMillis();
+        this.status = 0;
     }
 
     public CustomLesson(String title, String description) {
         this.title = title;
         this.description = description;
         this.createdAt = System.currentTimeMillis();
+        this.status = 0;
     }
 
     // --- Getter và Setter ---
@@ -57,6 +60,8 @@ public class CustomLesson implements Serializable {
     public void setVocabularies(List<Vocabulary> vocabularies) { this.vocabularies = vocabularies; }
     public List<Example> getExamples() { return examples; }
     public void setExamples(List<Example> examples) { this.examples = examples; }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 }

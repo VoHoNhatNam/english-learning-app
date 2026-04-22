@@ -6,7 +6,7 @@
         android:title="@string/menu_home" />
     <item
         android:id="@+id/navTutor"
-        android:icon="@drawable/ic_chat"
+        android:icon="@drawable/ai_black_50"
         android:title="@string/menu_tutor" />
     <item
         android:id="@+id/navStorage"

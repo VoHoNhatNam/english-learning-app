@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class LessonListFragment extends Fragment {
     private List<CustomLesson> lessonList;
     private ProgressBar progressBar;
     private TabLayout tabLayoutLevels;
+    private ImageButton btnBack;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
@@ -44,11 +46,21 @@ public class LessonListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerLessons);
         progressBar = view.findViewById(R.id.progressBar);
         tabLayoutLevels = view.findViewById(R.id.tabLayoutLevels);
+        btnBack = view.findViewById(R.id.btnBack);
         
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         lessonList = new ArrayList<>();
         adapter = new Lesson(lessonList, lesson -> openLessonDetail(lesson));
         recyclerView.setAdapter(adapter);
+
+        // Xử lý nút quay lại
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            });
+        }
 
         // Xử lý sự kiện khi chuyển Tab cấp độ
         tabLayoutLevels.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -83,21 +95,27 @@ public class LessonListFragment extends Fragment {
                         selectTabByLevelName(level);
                     } else {
                         // Mặc định chọn tab Beginner (Index 0)
-                        tabLayoutLevels.getTabAt(0).select();
-                        loadLessonsByTabIndex(0);
+                        if (tabLayoutLevels.getTabCount() > 0) {
+                            tabLayoutLevels.getTabAt(0).select();
+                            loadLessonsByTabIndex(0);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Lỗi tải dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     // Mặc định nếu lỗi
-                    tabLayoutLevels.getTabAt(0).select();
+                    if (tabLayoutLevels.getTabCount() > 0) {
+                        tabLayoutLevels.getTabAt(0).select();
+                    }
                 });
     }
 
     private void selectTabByLevelName(String level) {
         if (level == null) {
-            tabLayoutLevels.getTabAt(0).select();
+            if (tabLayoutLevels.getTabCount() > 0) {
+                tabLayoutLevels.getTabAt(0).select();
+            }
             return;
         }
 
@@ -108,9 +126,11 @@ public class LessonListFragment extends Fragment {
             tabIndex = 2;
         }
 
-        TabLayout.Tab tab = tabLayoutLevels.getTabAt(tabIndex);
-        if (tab != null) {
-            tab.select();
+        if (tabLayoutLevels.getTabCount() > tabIndex) {
+            TabLayout.Tab tab = tabLayoutLevels.getTabAt(tabIndex);
+            if (tab != null) {
+                tab.select();
+            }
         }
         // Gọi load dữ liệu cho tab đã chọn
         loadLessonsByTabIndex(tabIndex);

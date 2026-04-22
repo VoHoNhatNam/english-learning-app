@@ -45,11 +45,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             UserViewHolder userHolder = (UserViewHolder) holder;
             userHolder.tvMessage.setText(message.getText());
             // In a real app, you'd format the timestamp
-            userHolder.tvTime.setText("SENT • 10:02 AM"); 
+            userHolder.tvTime.setText("SENT • 10:02 AM");
         } else {
             AiViewHolder aiHolder = (AiViewHolder) holder;
             aiHolder.tvMessage.setText(message.getText());
-            
+
             if (message.getLabel() != null) {
                 aiHolder.tvLabel.setVisibility(View.VISIBLE);
                 aiHolder.tvLabel.setText(message.getLabel());

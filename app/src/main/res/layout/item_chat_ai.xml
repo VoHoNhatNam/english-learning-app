@@ -10,12 +10,12 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="64dp"
         android:background="@drawable/bg_chat_ai"
+        android:backgroundTint="#9D50FF"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="16dp"
-        android:elevation="0dp">
+        android:paddingVertical="16dp">
 
         <TextView
             android:id="@+id/tvMessage"
@@ -23,10 +23,10 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="4dp"
             android:text="AI message"
-            android:textColor="#333"
+            android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
-        <!-- Grammar/Word buttons (Visible only when needed) -->
+        <!-- Grammar/Word buttons (Hidden by default for AI Curator) -->
         <LinearLayout
             android:id="@+id/layoutActionButtons"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_color_green"
-                android:backgroundTint="#D8F3DC"
+                android:backgroundTint="#FFDDA0"
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp">
@@ -47,13 +47,13 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_check"
-                    app:tint="#2D6A4F" />
+                    app:tint="#251A00" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="Grammar Fix"
-                    android:textColor="#2D6A4F"
+                    android:textColor="#251A00"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_color_blue"
-                android:backgroundTint="#E1EAFE"
+                android:backgroundTint="#D9E2FF"
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp">
@@ -71,25 +71,24 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/ic_book"
-                    app:tint="#3F37C9" />
+                    app:tint="#0066FF" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="Word Definition"
-                    android:textColor="#3F37C9"
+                    android:textColor="#0066FF"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Correction block (Visible only when needed) -->
         <LinearLayout
             android:id="@+id/layoutCorrection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="#F0F2F1"
+            android:background="#EADDFF"
             android:orientation="vertical"
             android:padding="12dp"
             android:visibility="gone">
@@ -98,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Correction details here..."
-                android:textColor="#666"
+                android:textColor="#24005A"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -109,9 +108,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:text="CONVERSATION STARTER"
-        android:textColor="#999"
+        android:textColor="#74777F"
         android:textSize="10sp"
         android:textStyle="bold"
         android:visibility="gone" />

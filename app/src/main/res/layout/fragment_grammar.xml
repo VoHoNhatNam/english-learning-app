@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9FBFA">
+    android:background="#F4F7FA">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -23,20 +23,21 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/left_arrow_100"
-                android:scaleType="fitCenter"
-                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#1B4332" />
+                app:tint="#4B5563" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngữ pháp"
-                android:textColor="#1B4332"
-                android:textSize="28sp"
+                android:text="NGỮ PHÁP"
+                android:textColor="#1A1C1E"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                android:letterSpacing="0.05"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +49,12 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_settings"
+                android:padding="8dp"
+                android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#333" />
+                app:tint="#4B5563" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -66,15 +69,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp">
 
             <!-- Tab Switcher -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="48dp"
                 android:background="@drawable/bg_search_gray"
-                android:backgroundTint="#F2F4F3"
-                android:padding="6dp"
+                android:backgroundTint="#EADDFF"
+                android:padding="4dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -83,10 +87,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/bg_button"
-                    android:backgroundTint="#2D6A4F"
+                    android:backgroundTint="#FFFFFF"
                     android:gravity="center"
-                    android:text="Lộ trình hệ thống"
-                    android:textColor="#FFFFFF"
+                    android:text="Lộ trình"
+                    android:textColor="#0066FF"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -97,9 +101,37 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Của tôi"
-                    android:textColor="#666"
+                    android:textColor="#74777F"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <!-- Level Tabs -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutLevels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                app:tabIndicatorColor="#0066FF"
+                app:tabSelectedTextColor="#0066FF"
+                app:tabTextColor="#74777F"
+                app:tabMode="fixed">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mới bắt đầu" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trung bình" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nâng cao" />
+            </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvGrammarLessons"
@@ -110,15 +142,29 @@
                 tools:itemCount="4"
                 tools:listitem="@layout/item_grammar_lesson" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="BÀI HỌC CỦA BẠN"
-                android:textColor="#A0A0A0"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.05"/>
+                android:layout_marginTop="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bài học cá nhân"
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="TRỐNG"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"/>
+            </RelativeLayout>
 
             <!-- Create New Lesson Button (Dashed Border) -->
             <FrameLayout
@@ -128,86 +174,67 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_dashed_border"
                 android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="20dp"
+                    android:padding="24dp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_add"
-                        app:tint="#CCC"
-                        android:background="@drawable/bg_dashed_border"
-                        android:padding="10dp"/>
+                        app:tint="#0066FF"
+                        android:background="@drawable/bg_circle_gray"
+                        android:backgroundTint="#EADDFF"
+                        android:padding="8dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="Tạo bài học mới"
-                        android:textColor="#999"
-                        android:textSize="16sp" />
+                        android:text="Thêm bài học mới"
+                        android:textColor="#0066FF"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Weekly Challenge Banner -->
+            <!-- Pure Learning Banner -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="32dp"
-                app:cardCornerRadius="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#A7F3D0">
+                    android:layout_height="wrap_content"
+                    android:background="#D9E2FF"
+                    android:orientation="vertical"
+                    android:padding="32dp">
 
-                    <!-- Background Image (Chế độ Thử thách học tập) -->
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/thu_thach_hoc_tap"
-                        android:scaleType="centerCrop"
-                        android:alpha="0.8"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="24dp">
+                        android:text="Pure Learning"
+                        android:textColor="#0066FF"
+                        android:textSize="24sp"
+                        android:textStyle="bold|italic" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Thử thách hàng tuần"
-                            android:textColor="#064E3B"
-                            android:textSize="22sp"
-                            android:textStyle="bold"
-                            android:shadowColor="#FFFFFF"
-                            android:shadowDx="1"
-                            android:shadowDy="1"
-                            android:shadowRadius="2"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Hoàn thành 5 bài học để nhận huy hiệu"
-                            android:textColor="#065F46"
-                            android:textSize="15sp"
-                            android:gravity="center"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-                </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Bản chất ngôn ngữ không cần sự xao nhãng."
+                        android:textColor="#1A1C1E"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="4dp"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

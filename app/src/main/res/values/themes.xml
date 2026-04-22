@@ -2,8 +2,27 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.EnglishLearningApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">#4A6CF7</item>
-        <item name="colorSecondary">#6C63FF</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_light</item>
+        <item name="colorOnPrimaryContainer">@color/primary_dark</item>
+
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/secondary_light</item>
+        <item name="colorOnSecondaryContainer">@color/secondary_dark</item>
+
+        <item name="colorTertiary">@color/tertiary</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/tertiary_light</item>
+        <item name="colorOnTertiaryContainer">@color/tertiary_dark</item>
+
+        <item name="android:windowBackground">@color/neutral_bg</item>
+        <item name="colorSurface">@color/neutral_surface</item>
+        <item name="colorOnSurface">@color/text_headline</item>
+        <item name="colorOnSurfaceVariant">@color/text_body</item>
+
+        <item name="colorOutline">@color/text_label</item>
 
         <!-- Loại bỏ màu nền của item được chọn trong Bottom Navigation (M3) -->
         <item name="colorContainer">@android:color/transparent</item>

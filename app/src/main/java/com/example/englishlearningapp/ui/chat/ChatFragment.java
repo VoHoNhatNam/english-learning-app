@@ -88,9 +88,9 @@ public class ChatFragment extends Fragment {
 
     private void initViews(View view) {
         rvChat = view.findViewById(R.id.rvChat);
-        edtMessage = view.findViewById(R.id.edtMessage);
+        edtMessage = view.findViewById(R.id.etMessage);
         btnSend = view.findViewById(R.id.btnSend);
-        scrollSuggestions = view.findViewById(R.id.scrollSuggestions);
+        scrollSuggestions = null; // scrollSuggestions không có trong layout hiện tại
 
         // Giảm lag: Xử lý nhẹ nhàng việc hiển thị suggestion
         edtMessage.setOnFocusChangeListener((v, hasFocus) -> {
@@ -152,12 +152,19 @@ public class ChatFragment extends Fragment {
     }
 
     private void setupToolbar(View view) {
-        view.findViewById(R.id.btnMenu).setOnClickListener(v -> {
-            // Logic for menu
-        });
-        view.findViewById(R.id.btnHistory).setOnClickListener(v -> {
-            // Logic for history
-        });
+        View btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) getActivity().onBackPressed();
+            });
+        }
+        
+        View btnSettings = view.findViewById(R.id.btnSettings);
+        if (btnSettings != null) {
+            btnSettings.setOnClickListener(v -> {
+                // Logic for settings
+            });
+        }
     }
 
     private void initModel(String modelName) {

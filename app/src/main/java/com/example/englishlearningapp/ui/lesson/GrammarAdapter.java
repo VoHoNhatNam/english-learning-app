@@ -1,5 +1,7 @@
 package com.example.englishlearningapp.ui.lesson;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,21 +40,39 @@ public class GrammarAdapter extends RecyclerView.Adapter<GrammarAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GrammarLesson lesson = lessons.get(position);
-        holder.tvIndex.setText(String.format("%02d", position + 1));
+        holder.tvLessonNumber.setText(String.format("LESSON %02d", position + 1));
         holder.tvTitle.setText(lesson.getTitle());
         holder.tvSubtitle.setText(lesson.getDescription());
 
-        // Status icons
+        // Status logic based on design
+        // 0: Locked/Chưa học, 1: Completed/Đã thuộc, 2: In progress/Đang học
         if (lesson.getStatus() == 1) {
-            holder.ivStatus.setImageResource(R.drawable.ic_check);
-            holder.ivStatus.setVisibility(View.VISIBLE);
+            // ĐÃ THUỘC
+            holder.tvStatusTag.setText("ĐÃ THUỘC");
+            holder.tvStatusTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D1E7DD")));
+            holder.tvStatusTag.setTextColor(Color.parseColor("#1B4332"));
+            
+            holder.ivStatusIcon.setImageResource(R.drawable.ic_check);
+            holder.ivStatusIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D1E7DD")));
+            holder.ivStatusIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#1B4332")));
         } else if (lesson.getStatus() == 2) {
-            // Assuming you have a refresh/in-progress icon, or reuse history for now
-            holder.ivStatus.setImageResource(R.drawable.ic_history); 
-            holder.ivStatus.setVisibility(View.VISIBLE);
+            // ĐANG HỌC
+            holder.tvStatusTag.setText("ĐANG HỌC");
+            holder.tvStatusTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E8F0")));
+            holder.tvStatusTag.setTextColor(Color.parseColor("#475569"));
+
+            holder.ivStatusIcon.setImageResource(R.drawable.ic_more_horiz);
+            holder.ivStatusIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E2E8F0")));
+            holder.ivStatusIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#475569")));
         } else {
-            holder.ivStatus.setImageResource(R.drawable.ic_arrow_right);
-            holder.ivStatus.setVisibility(View.VISIBLE);
+            // CHƯA HỌC
+            holder.tvStatusTag.setText("CHƯA HỌC");
+            holder.tvStatusTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
+            holder.tvStatusTag.setTextColor(Color.parseColor("#64748B"));
+
+            holder.ivStatusIcon.setImageResource(R.drawable.ic_arrow_right);
+            holder.ivStatusIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F1F5F9")));
+            holder.ivStatusIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#1B4332")));
         }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(lesson));
@@ -64,15 +84,16 @@ public class GrammarAdapter extends RecyclerView.Adapter<GrammarAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvIndex, tvTitle, tvSubtitle;
-        ImageView ivStatus;
+        TextView tvLessonNumber, tvTitle, tvSubtitle, tvStatusTag;
+        ImageView ivStatusIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
-            tvIndex = itemView.findViewById(R.id.tvIndex);
+            tvLessonNumber = itemView.findViewById(R.id.tvLessonNumber);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSubtitle = itemView.findViewById(R.id.tvSubtitle);
-            ivStatus = itemView.findViewById(R.id.ivStatus);
+            tvStatusTag = itemView.findViewById(R.id.tvStatusTag);
+            ivStatusIcon = itemView.findViewById(R.id.ivStatusIcon);
         }
     }
 }

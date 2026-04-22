@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.ui.auth.LoginActivity;
+import com.example.englishlearningapp.utils.UserStateManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
     private TextView txtName, txtEmail, tvUserLevelTag;
-    private View btnLogout, btnEditProfile, btnChangePassword, btnGoVip, cvUserLevel, btnAdjustGoals;
+    private View btnLogout, btnAdjustGoals, btnShowLevelSheet, btnGoVip;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -45,18 +46,28 @@ public class ProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         initViews(view);
+        setupGlobalStateObserver();
         loadUserInfo();
 
-        // Mở Bottom Sheet Nâng cấp VIP (Thay vì chuyển Fragment như trước)
+        // Mở Bottom Sheet Nâng cấp VIP
         if (btnGoVip != null) {
-            btnGoVip.setOnClickListener(v -> showVipUpgradeBottomSheet());
+            btnGoVip.setOnClickListener(v -> {
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new VipFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            });
         }
 
-        // Mở Bottom Sheet điều chỉnh mục tiêu & trình độ
-        View.OnClickListener adjustGoalsListener = v -> showAdjustGoalsBottomSheet();
-        if (btnAdjustGoals != null) btnAdjustGoals.setOnClickListener(adjustGoalsListener);
-        if (cvUserLevel != null) cvUserLevel.setOnClickListener(adjustGoalsListener);
-        if (btnEditProfile != null) btnEditProfile.setOnClickListener(adjustGoalsListener);
+        // Mở Bottom Sheet điều chỉnh mục tiêu
+        if (btnAdjustGoals != null) {
+            btnAdjustGoals.setOnClickListener(v -> showAdjustGoalsBottomSheet());
+        }
+
+        // MỞ BOTTOM SHEET QUY ĐỔI TRÌNH ĐỘ (NEW)
+        if (btnShowLevelSheet != null) {
+            btnShowLevelSheet.setOnClickListener(v -> showLevelConversionBottomSheet());
+        }
 
         // Xử lý đăng xuất
         if (btnLogout != null) {
@@ -83,11 +94,17 @@ public class ProfileFragment extends Fragment {
         txtEmail = view.findViewById(R.id.txtProfileEmail);
         tvUserLevelTag = view.findViewById(R.id.tvUserLevelTag);
         btnLogout = view.findViewById(R.id.btnLogout);
-        btnEditProfile = view.findViewById(R.id.btnEditProfile);
-        btnChangePassword = view.findViewById(R.id.btnChangePassword);
-        btnGoVip = view.findViewById(R.id.btnGoVip);
-        cvUserLevel = view.findViewById(R.id.cvUserLevel);
         btnAdjustGoals = view.findViewById(R.id.btnAdjustGoals);
+        btnShowLevelSheet = view.findViewById(R.id.btnShowLevelSheet);
+        btnGoVip = view.findViewById(R.id.btnGoVip);
+    }
+
+    private void setupGlobalStateObserver() {
+        UserStateManager.getInstance().getCurrentLevel().observe(getViewLifecycleOwner(), level -> {
+            if (tvUserLevelTag != null) {
+                tvUserLevelTag.setText(level);
+            }
+        });
     }
 
     private void loadUserInfo() {
@@ -95,16 +112,34 @@ public class ProfileFragment extends Fragment {
         if (user != null) {
             if (txtName != null) txtName.setText(user.getDisplayName() != null ? user.getDisplayName() : "Người dùng");
             if (txtEmail != null) txtEmail.setText(user.getEmail());
-
-            db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    String level = documentSnapshot.getString("englishLevel");
-                    if (level != null && tvUserLevelTag != null) {
-                        tvUserLevelTag.setText(level);
-                    }
-                }
-            });
+            UserStateManager.getInstance().initLevel();
         }
+    }
+
+    private void showLevelConversionBottomSheet() {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_level_conversion, null);
+        dialog.setContentView(view);
+
+        View rowAdvanced = view.findViewById(R.id.rowAdvanced);
+        View rowIntermediate = view.findViewById(R.id.rowIntermediate);
+        View rowBeginner = view.findViewById(R.id.rowBeginner);
+        MaterialButton btnClose = view.findViewById(R.id.btnCloseSheet);
+
+        // Highlight hàng dựa trên trình độ hiện tại
+        String currentLevel = tvUserLevelTag.getText().toString();
+        int highlightColor = 0xFFFFB800; // Secondary Yellow
+
+        if (currentLevel.contains("Cao cấp")) {
+            rowAdvanced.setBackgroundColor(highlightColor);
+        } else if (currentLevel.contains("Trung bình")) {
+            rowIntermediate.setBackgroundColor(highlightColor);
+        } else if (currentLevel.contains("Mới bắt đầu")) {
+            rowBeginner.setBackgroundColor(highlightColor);
+        }
+
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     private void showAdjustGoalsBottomSheet() {
@@ -117,12 +152,10 @@ public class ProfileFragment extends Fragment {
         Slider sliderTime = bottomSheetView.findViewById(R.id.sliderTime);
         MaterialButton btnSaveGoals = bottomSheetView.findViewById(R.id.btnSaveGoals);
 
-        // Setup Spinner Level
-        String[] levels = {"Mới bắt đầu", "Trung bình", "Nâng cao"};
+        String[] levels = {"Mới bắt đầu", "Trung bình", "Cao cấp"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, levels);
         spinnerLevel.setAdapter(adapter);
 
-        // Load current data to Bottom Sheet
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             db.collection("users").document(user.getUid()).get().addOnSuccessListener(doc -> {
@@ -136,40 +169,8 @@ public class ProfileFragment extends Fragment {
 
         btnSaveGoals.setOnClickListener(v -> {
             String selectedLevel = spinnerLevel.getText().toString();
-            int vocabGoal = (int) sliderVocab.getValue();
-            int timeGoal = (int) sliderTime.getValue();
-
-            if (user != null) {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("englishLevel", selectedLevel);
-                updates.put("dailyVocabGoal", vocabGoal);
-                updates.put("dailyTimeGoal", timeGoal);
-
-                db.collection("users").document(user.getUid()).update(updates)
-                        .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(getContext(), "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-                            tvUserLevelTag.setText(selectedLevel);
-                            bottomSheetDialog.dismiss();
-                        })
-                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-            }
-        });
-
-        bottomSheetDialog.show();
-    }
-
-    private void showVipUpgradeBottomSheet() {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme);
-        View bottomSheetView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_vip_upgrade, null);
-        bottomSheetDialog.setContentView(bottomSheetView);
-
-        MaterialButton btnUnlockVip = bottomSheetView.findViewById(R.id.btnUnlockVip);
-        btnUnlockVip.setOnClickListener(v -> {
+            UserStateManager.getInstance().updateLevel(selectedLevel);
             bottomSheetDialog.dismiss();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, new VipFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
         });
 
         bottomSheetDialog.show();

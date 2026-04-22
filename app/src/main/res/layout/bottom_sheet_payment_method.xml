@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chọn phương thức thanh toán"
-        android:textColor="#1A1A1A"
+        android:textColor="#1A1C1E"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Mọi giao dịch đều được bảo mật tuyệt đối."
-        android:textColor="#757575"
+        android:textColor="#74777F"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ví MoMo"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thanh toán nhanh qua ứng dụng"
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -95,7 +95,7 @@
                     android:layout_centerVertical="true"
                     android:clickable="false"
                     android:checked="true"
-                    app:buttonTint="#2D6A4F" />
+                    app:buttonTint="#0066FF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ZaloPay"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tích hợp ví điện tử Zalo"
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:clickable="false"
-                    app:buttonTint="#2D6A4F" />
+                    app:buttonTint="#0066FF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -200,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="VietQR / Ngân hàng"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -208,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Quét mã QR để chuyển khoản"
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -219,7 +219,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:clickable="false"
-                    app:buttonTint="#2D6A4F" />
+                    app:buttonTint="#0066FF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
@@ -233,7 +233,7 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:backgroundTint="#2D6A4F"
+        app:backgroundTint="#0066FF"
         app:cornerRadius="32dp"
         android:textAllCaps="false" />
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Trạng thái được chọn (Active) - Chuyển sang màu xanh -->
-    <item android:color="#2E7D32" android:state_checked="true" />
-    <item android:color="#2E7D32" android:state_selected="true" />
+    <!-- Trạng thái được chọn (Active) - Material 3 Primary -->
+    <item android:color="#0066FF" android:state_checked="true" />
+    <item android:color="#0066FF" android:state_selected="true" />
 
-    <!-- Trạng thái mặc định (Inactive) - Màu xám -->
+    <!-- Trạng thái mặc định (Inactive) - Giữ màu xám mặc định để đảm bảo Accessibility -->
     <item android:color="#9AA0A6" />
 </selector>

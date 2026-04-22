@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="blue">#4F6CFF</color>
-    <color name="purple_gradient_end">#8E2DE2</color>
-    <color name="gray">#9AA0A6</color>
+    <!-- Material 3 Base Colors -->
+    <color name="primary">#0066FF</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#D9E2FF</color>
+    <color name="on_primary_container">#001945</color>
 
-    <color name="green_primary">#2E7D32</color>
+    <color name="secondary">#FFB800</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#FFDDA0</color>
+    <color name="on_secondary_container">#251A00</color>
 
-    <!-- Chủ đạo cho Lesson -->
-    <color name="primary_purple">#6A5ACD</color>
-    <color name="primary_purple_light">#F5F4FF</color>
-    <color name="category_grammar_bg">#E8EAF6</color>
-    <color name="category_grammar_text">#3F51B5</color>
-    <color name="level_beginner_bg">#E8F5E9</color>
-    <color name="level_beginner_text">#2E7D32</color>
-    <color name="level_intermediate_bg">#FFF3E0</color>
-    <color name="level_intermediate_text">#E65100</color>
+    <color name="tertiary">#9D50FF</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#EADDFF</color>
+    <color name="on_tertiary_container">#24005A</color>
+
+    <color name="neutral">#F4F7FA</color>
+    <color name="background">#F4F7FA</color>
+    <color name="on_background">#1A1C1E</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1A1C1E</color>
+    <color name="outline">#74777F</color>
+
+    <!-- UI Specific Colors (Missing in themes.xml) -->
+    <color name="primary_light">@color/primary_container</color>
+    <color name="primary_dark">@color/on_primary_container</color>
+    <color name="secondary_light">@color/secondary_container</color>
+    <color name="secondary_dark">@color/on_secondary_container</color>
+    <color name="tertiary_light">@color/tertiary_container</color>
+    <color name="tertiary_dark">@color/on_tertiary_container</color>
+    <color name="neutral_bg">@color/background</color>
+    <color name="neutral_surface">@color/surface</color>
+    <color name="text_headline">@color/on_surface</color>
+    <color name="text_body">#49454F</color>
+    <color name="text_label">@color/outline</color>
+
+    <!-- Legacy / Compatibility -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">@color/primary</color>
+    <color name="purple_gradient_end">@color/tertiary</color>
+    <color name="bg_app">@color/background</color>
+    <color name="gray_text">#6B7280</color>
+    <color name="primary_purple">@color/tertiary</color>
+    <color name="primary_purple_light">@color/tertiary_container</color>
 </resources>

@@ -17,10 +17,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.englishlearningapp.ui.chat.ChatFragment;
 import com.example.englishlearningapp.ui.home.HomeFragment;
+import com.example.englishlearningapp.ui.home.NotificationFragment;
 import com.example.englishlearningapp.ui.lesson.GrammarFragment;
+import com.example.englishlearningapp.ui.lesson.LessonDetailFragment;
 import com.example.englishlearningapp.ui.lesson.LessonListFragment;
+import com.example.englishlearningapp.ui.mission.MissionFragment;
 import com.example.englishlearningapp.ui.profile.ProfileFragment;
-import com.example.englishlearningapp.ui.profile.VipFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -141,8 +143,17 @@ public class MainActivity extends AppCompatActivity {
         View fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer == null || bottomNavContainer == null) return;
 
-        bottomNavContainer.setVisibility(View.VISIBLE);
-        int paddingBottom = (int) (80 * getResources().getDisplayMetrics().density);
-        fragmentContainer.setPadding(0, 0, 0, paddingBottom);
+        // Kiểm tra nếu là MissionFragment, NotificationFragment, LessonDetailFragment hoặc GrammarFragment thì ẩn Bottom Nav
+        if (fragment instanceof MissionFragment || 
+            fragment instanceof NotificationFragment || 
+            fragment instanceof LessonDetailFragment || 
+            fragment instanceof GrammarFragment) {
+            bottomNavContainer.setVisibility(View.GONE);
+            fragmentContainer.setPadding(0, 0, 0, 0); // Xóa padding để hiển thị full màn hình
+        } else {
+            bottomNavContainer.setVisibility(View.VISIBLE);
+            int paddingBottom = (int) (80 * getResources().getDisplayMetrics().density);
+            fragmentContainer.setPadding(0, 0, 0, paddingBottom);
+        }
     }
 }

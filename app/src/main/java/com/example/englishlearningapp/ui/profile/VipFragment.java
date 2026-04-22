@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.englishlearningapp.R;
+import com.example.englishlearningapp.utils.UserStateManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 
@@ -21,17 +22,17 @@ import java.util.List;
 
 public class VipFragment extends Fragment {
 
-    private ImageView btnBack;
+    private Toolbar toolbar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vip, container, false);
 
-        btnBack = view.findViewById(R.id.btnBackVip);
+        toolbar = view.findViewById(R.id.toolbar);
 
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> {
                 if (getParentFragmentManager() != null) {
                     getParentFragmentManager().popBackStack();
                 }
@@ -47,7 +48,8 @@ public class VipFragment extends Fragment {
     private void setupSelectionButtons(View rootView) {
         List<MaterialButton> buttons = findButtons(rootView);
         for (MaterialButton btn : buttons) {
-            if (btn.getText().toString().equalsIgnoreCase("Chọn")) {
+            if (btn.getText().toString().equalsIgnoreCase("Chọn") || 
+                btn.getText().toString().equalsIgnoreCase("Nâng cấp ngay")) {
                 btn.setOnClickListener(v -> showPaymentMethodBottomSheet());
             }
         }
@@ -102,7 +104,10 @@ public class VipFragment extends Fragment {
             else if (rbZaloPay.isChecked()) method = "ZaloPay";
             else if (rbVietQR.isChecked()) method = "VietQR";
 
-            Toast.makeText(getContext(), "Đã chọn thanh toán qua: " + method, Toast.LENGTH_SHORT).show();
+            // LOGIC GLOBAL STATE: Cập nhật level mới
+            UserStateManager.getInstance().updateLevel("VIP");
+
+            Toast.makeText(getContext(), "Đã chọn thanh toán qua: " + method + ". Nâng cấp VIP thành công!", Toast.LENGTH_SHORT).show();
             bottomSheetDialog.dismiss();
 
             if (getParentFragmentManager() != null) {

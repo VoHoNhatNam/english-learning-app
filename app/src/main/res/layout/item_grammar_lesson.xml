@@ -3,67 +3,88 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="16dp"
     app:cardCornerRadius="24dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="#FFFFFF">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
-            android:id="@+id/tvIndex"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_circle_gray"
-            android:backgroundTint="#DCFCE7"
-            android:gravity="center"
-            android:text="01"
-            android:textColor="#166534"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:id="@+id/tvLessonNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LESSON 01"
+            android:textColor="#74777F"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:text="Câu điều kiện loại 1"
+            android:textColor="#1A1C1E"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/layoutStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLessonNumber" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Structure If + Present Simple"
+            android:textColor="#74777F"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <LinearLayout
+            android:id="@+id/layoutStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvStatusTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thì hiện tại hoàn thành"
-                android:textColor="#333"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:ellipsize="end"
-                android:singleLine="true" />
+                android:background="@drawable/bg_pill_popular"
+                android:backgroundTint="#FFDDA0"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="ĐÃ THUỘC"
+                android:textColor="#251A00"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Cấu trúc Have/Has + V3/ed..."
-                android:textColor="#999"
-                android:textSize="13sp"
-                android:ellipsize="end"
-                android:singleLine="true" />
+            <ImageView
+                android:id="@+id/ivStatusIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_circle_green_light"
+                android:backgroundTint="#D9E2FF"
+                android:padding="8dp"
+                android:src="@drawable/ic_check"
+                app:tint="#0066FF" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/ivStatus"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_check"
-            app:tint="#166534" />
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

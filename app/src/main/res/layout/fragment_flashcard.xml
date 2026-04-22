@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F8FC"
+    android:background="#F4F7FA"
     android:padding="20dp">
 
     <!-- Progress -->
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1 / 20"
-        android:textColor="#888"
+        android:textColor="#74777F"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardCornerRadius="24dp"
-        app:cardElevation="10dp"
+        app:cardElevation="2dp"
         app:layout_constraintTop_toBottomOf="@id/txtProgress"
         app:layout_constraintBottom_toTopOf="@id/layoutButtons"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,9 +35,10 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:background="#FFFFFF">
 
-            <!-- Word -->
+            <!-- Word (Secondary highlight context) -->
             <TextView
                 android:id="@+id/txtWord"
                 android:layout_width="match_parent"
@@ -45,18 +46,18 @@
                 android:text="Apple"
                 android:textSize="34sp"
                 android:textStyle="bold"
-                android:textColor="#4A6CF7"
+                android:textColor="#FFB800"
                 android:gravity="center"
                 android:layout_gravity="center"/>
 
-            <!-- Meaning (ẩn ban đầu) -->
+            <!-- Meaning -->
             <TextView
                 android:id="@+id/txtMeaning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Quả táo"
                 android:textSize="20sp"
-                android:textColor="#333"
+                android:textColor="#1A1C1E"
                 android:gravity="center"
                 android:visibility="gone"
                 android:layout_gravity="center"/>
@@ -71,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chạm để lật thẻ"
-        android:textColor="#999"
+        android:textColor="#74777F"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/cardFlashcard"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,11 +93,11 @@
         <Button
             android:id="@+id/btnPrev"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:text="← Trước"
-            android:backgroundTint="#E0E7FF"
-            android:textColor="#4A6CF7"/>
+            android:backgroundTint="#D9E2FF"
+            android:textColor="#0066FF"/>
 
         <Space
             android:layout_width="16dp"
@@ -105,10 +106,10 @@
         <Button
             android:id="@+id/btnNext"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="56dp"
             android:layout_weight="1"
             android:text="Tiếp →"
-            android:backgroundTint="#4A6CF7"
+            android:backgroundTint="#0066FF"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 

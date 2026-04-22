@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PHIÊN HỌC HIỆN TẠI"
-                android:textColor="#757575"
+                android:textColor="#74777F"
                 android:textSize="11sp"
                 android:letterSpacing="0.1"
                 android:textStyle="bold" />
@@ -40,7 +40,7 @@
                 app:cardElevation="0dp"
                 app:strokeWidth="1dp"
                 app:strokeColor="#E0E0E0"
-                app:cardBackgroundColor="#F1F8E9">
+                app:cardBackgroundColor="#F4F7FA">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,14 +52,14 @@
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:background="@drawable/circle"
-                        android:backgroundTint="#2E7D32" />
+                        android:backgroundTint="#FFB800" />
                     <TextView
                         android:id="@+id/tvCurrentRoadmap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Lộ trình: Đang tải..."
-                        android:textColor="#2E7D32"
+                        android:textColor="#1A1C1E"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -71,12 +71,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Chào mừng trở lại,\nElara."
-                android:textColor="#1A1A1A"
+                android:textColor="#1A1C1E"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:lineHeight="38sp" />
 
-            <!-- Chart Card -->
+            <!-- Chart Card (Sử dụng Neutral để nổi bật trên nền trắng) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 app:cardCornerRadius="28dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#F5F7F5">
+                app:cardBackgroundColor="#F4F7FA">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,13 +114,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:orientation="horizontal">
-                        <TextView android:id="@+id/tvDay1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 2" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 3" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 4" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 5" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 6" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 7" android:gravity="center" android:textSize="10sp" android:textColor="#757575" />
-                        <TextView android:id="@+id/tvDay7" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="CN" android:gravity="center" android:textSize="10sp" android:textColor="#2E7D32" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvDay1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 2" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 3" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 4" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 5" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 6" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay6" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="TH 7" android:gravity="center" android:textSize="10sp" android:textColor="#74777F" />
+                        <TextView android:id="@+id/tvDay7" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="CN" android:gravity="center" android:textSize="10sp" android:textColor="#0066FF" android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="84%"
-                        android:textColor="#2E7D32"
+                        android:textColor="#0066FF"
                         android:textSize="32sp"
                         android:textStyle="bold" />
 
@@ -137,14 +137,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Độ chính xác về ngữ nghĩa của bạn đã tăng 12%\ntrong tuần này."
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="13sp"
                         android:lineHeight="18sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- AI Tutor Banner -->
+            <!-- AI Tutor Banner (Màu Tertiary luôn nổi bật) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lnChat"
                 android:layout_width="match_parent"
@@ -153,7 +153,7 @@
                 app:cardCornerRadius="32dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#2D6A4F">
+                app:cardBackgroundColor="#9D50FF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -174,7 +174,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="Tham gia vào cuộc đối thoại được chọn lọc với gia sư ngôn ngữ AI của chúng tôi để nắm vững các cấu trúc cú pháp phức tạp thông qua phản hồi thời gian thực."
-                        android:textColor="#B7DBCB"
+                        android:textColor="#FFFFFF"
+                        android:alpha="0.8"
                         android:textSize="14sp"
                         android:lineHeight="20sp" />
 
@@ -184,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="Trò chuyện với Gia sư AI"
-                        android:textColor="#2D6A4F"
+                        android:textColor="#9D50FF"
                         android:textAllCaps="false"
                         android:paddingHorizontal="24dp"
                         android:paddingVertical="12dp"
@@ -194,7 +195,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Learning Modules -->
+            <!-- Learning Modules (Sử dụng Neutral nhạt trên nền trắng) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lnFlashcard"
                 android:layout_width="match_parent"
@@ -203,7 +204,7 @@
                 app:cardCornerRadius="28dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#F5F7F5">
+                app:cardBackgroundColor="#F4F7FA">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -217,13 +218,14 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_grammar_abstract" />
+                            android:src="@drawable/ic_grammar_abstract"
+                            app:tint="#0066FF" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="UNIT 04"
-                            android:textColor="#757575"
+                            android:textColor="#74777F"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -233,7 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="Ngữ pháp"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -242,13 +244,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Nắm vững những sắc thái tinh tế của thế giả định trong các câu điều kiện."
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="13sp"
                         android:lineHeight="18sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Vocabulary Module -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lnQuiz"
                 android:layout_width="match_parent"
@@ -257,7 +258,7 @@
                 app:cardCornerRadius="28dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#F5F7F5">
+                app:cardBackgroundColor="#F4F7FA">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -271,13 +272,14 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_lexicon_abstract" />
+                            android:src="@drawable/ic_lexicon_abstract"
+                            app:tint="#FFB800" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="TỪ ĐIỂN"
-                            android:textColor="#757575"
+                            android:textColor="#74777F"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -287,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="Từ vựng"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -296,13 +298,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Mở rộng vốn từ vựng học thuật của bạn với 50 thuật ngữ tần suất cao được chọn lọc."
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="13sp"
                         android:lineHeight="18sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Reading Module -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lnMore"
                 android:layout_width="match_parent"
@@ -311,7 +312,7 @@
                 app:cardCornerRadius="28dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#F5F7F5"
+                app:cardBackgroundColor="#F4F7FA"
                 android:layout_marginBottom="24dp">
 
                 <LinearLayout
@@ -326,13 +327,14 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_editorial_abstract" />
+                            android:src="@drawable/ic_editorial_abstract"
+                            app:tint="#9D50FF" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="XÃ LUẬN"
-                            android:textColor="#757575"
+                            android:textColor="#74777F"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -342,7 +344,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="Đọc hiểu"
-                        android:textColor="#1A1A1A"
+                        android:textColor="#1A1C1E"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -351,7 +353,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Phân tích một bài xã luận đương đại về đạo đức kỹ thuật số và ngôn ngữ học."
-                        android:textColor="#757575"
+                        android:textColor="#74777F"
                         android:textSize="13sp"
                         android:lineHeight="18sp" />
                 </LinearLayout>

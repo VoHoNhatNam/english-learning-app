@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardNotification"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:strokeWidth="0dp"
+    android:stateListAnimator="@null">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:id="@+id/flIconContainer"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/viewIconBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_circle_green_light" />
+
+            <ImageView
+                android:id="@+id/ivNotifIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_book"
+                app:tint="#1B4332" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvNotifTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Bài học mới"
+            android:textColor="#111827"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvNotifTime"
+            app:layout_constraintStart_toEndOf="@id/flIconContainer"
+            app:layout_constraintTop_toTopOf="@id/flIconContainer" />
+
+        <TextView
+            android:id="@+id/tvNotifTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 giờ trước"
+            android:textColor="#9CA3AF"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvNotifTitle" />
+
+        <TextView
+            android:id="@+id/tvNotifContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Chương &quot;Cấu trúc câu nâng cao&quot; đã sẵn sàng cho bạn khám phá."
+            android:textColor="#6B7280"
+            android:textSize="14sp"
+            android:lineHeight="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvNotifTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvNotifTitle" />
+
+        <LinearLayout
+            android:id="@+id/llAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/tvNotifTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvNotifContent"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvActionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Học ngay"
+                android:textColor="#059669"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="0.5dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="#059669" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewUnreadDot"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="#3B82F6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNotifTime"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FAFBFF">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -12,122 +12,332 @@
         android:background="#FFFFFF"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_back">
+            android:paddingHorizontal="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/back_black_50"
+                android:scaleType="centerInside"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvToolbarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chi tiết bài học"
-                android:textColor="#1A1A1A"
+                android:text="Bài 1"
+                android:textColor="#1A1C1E"
                 android:textSize="18sp"
-                android:textStyle="bold" />
-        </androidx.appcompat.widget.Toolbar>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/lessonProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progress="30"
-            app:indicatorColor="#2D6A4F"
-            app:trackColor="#E8F5E9"
-            app:trackThickness="3dp" />
+            <LinearLayout
+                android:id="@+id/btnGoPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="#F1F3F4"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/diamond_blue_50" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="FREE TIER"
+                    android:textColor="#44474E"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <!-- Lesson Header Section -->
-            <TextView
-                android:id="@+id/tvLessonTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Bài 1: Từ vựng Học thuật (Academic Words)"
-                android:textColor="#1A1A1A"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:lineSpacingExtra="4dp" />
-
-            <View
-                android:layout_width="40dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="16dp"
-                android:background="#2D6A4F" />
-
-            <!-- Body: Context Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Bối cảnh (Context)"
-                android:textColor="#9E9E9E"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
-
-            <TextView
-                android:id="@+id/tvLessonContext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="The study demonstrates a significant correlation between environmental factors and urban development. Researchers emphasize that sustainable practices are essential for long-term growth in modern society."
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:lineSpacingMultiplier="1.6"
-                android:fontFamily="serif" />
-
-            <!-- Body: Theory Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Giải thích (Theory)"
-                android:textColor="#9E9E9E"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/layoutTheoryContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp">
-                <!-- Theory items like word explanation will be added here -->
+                android:paddingHorizontal="24dp"
+                android:paddingTop="20dp">
+
+                <!-- Module Tag -->
+                <TextView
+                    android:id="@+id/tvLessonModule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button_gradient"
+                    android:backgroundTint="#E8EAF6"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="MODULE 6.4: ADVANCED SYNTACTIC STRUCTURES"
+                    android:textColor="#3F51B5"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <!-- Main Title -->
+                <TextView
+                    android:id="@+id/tvLessonTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="The Nuances of Subjunctive Pluperfect in Formal Discourse"
+                    android:textColor="#1A1C1E"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <!-- Metadata -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/task_64"
+                        app:tint="#74777F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="12 min read"
+                        android:textColor="#74777F"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_book"
+                        app:tint="#74777F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Academic Level"
+                        android:textColor="#74777F"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvLessonContext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:text="The intricacies of complex grammatical frameworks often reveal themselves through the subtle manipulation of tense and mood. Within the landscape of formal academic discourse, the subjunctive pluperfect serves as a critical instrument for navigating hypothetical scenarios that are situated firmly within a historical context. It is not merely a marker of time, but a vessel for expressing counterfactual dependence."
+                    android:textColor="#44474E"
+                    android:textSize="15sp" />
+
+                <!-- Illustration Image -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/thu_thach_hoc_tap" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:text="Consider the structure of conditional utterances where the protasis is marked by extreme temporal distance. When scholars posit that 'had the variable been isolated earlier, the conclusion might have diverged significantly,' they are employing a linguistic architecture designed to compartmentalize possibility. This 'had...been' construction signifies a completion of action before another past point, yet its subjunctive nature keeps the reality of that action purely speculative.\n\nFurthermore, the interplay between auxiliary verbs and participle forms requires a precise alignment of semantic intent. In rigorous environments, the deviation from these established norms can lead to profound interpretative ambiguity. One must be vigilant in distinguishing between the indicative past and the speculative pluperfect, as the functional difference between the two defines the logical boundaries of the entire thesis."
+                    android:textColor="#44474E"
+                    android:textSize="15sp" />
+
+                <!-- Pattern Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:cardBackgroundColor="#F4F6F8"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Key Syntactic Pattern"
+                            android:textColor="#1A1C1E"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:lineSpacingMultiplier="1.3"
+                            android:text="[Auxiliary Verb: Had] + [Subject] + [Past Participle: Isolated] ... [Conditional Perfect: Would/Might Have]"
+                            android:textColor="#44474E"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Select text above to ask the AI Tutor for a simpler breakdown."
+                            android:textColor="#74777F"
+                            android:textSize="11sp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:text="In the subsequent chapters, we shall explore how these paradigms have evolved through medieval transcription to modern philosophical literature. The shift from inflection-heavy systems to periphrastic constructions represents not just a linguistic evolution, but a change in how human intellect processes causality and time."
+                    android:textColor="#44474E"
+                    android:textSize="15sp" />
             </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-            <!-- Footer: Action Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPracticeAI"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1.0" />
+
+        <!-- Split Screen AI Chat (Initially Hidden) -->
+        <FrameLayout
+            android:id="@+id/chatContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginBottom="24dp"
-                android:text="Thực hành bài này với Gia sư AI"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:backgroundTint="#1B4332"
-                app:cornerRadius="32dp"
-                app:icon="@drawable/ic_chat"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <!-- Chat Header/Drag Handle -->
+                <View
+                    android:id="@+id/chatHandle"
+                    android:layout_width="40dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="12dp"
+                    android:background="#E0E0E0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ai_black_50"
+                        app:tint="#0066FF" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Hỏi đáp AI"
+                        android:textColor="#1A1C1E"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/btnCloseChat"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/left_arrow_100"
+                        android:rotation="-90"
+                        android:alpha="0.4"
+                        app:tint="#000000" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F0F0" />
+
+                <!-- Fragment container for ChatFragment -->
+                <FrameLayout
+                    android:id="@+id/innerChatContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAiAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/add_ai_50"
+        app:backgroundTint="#0066FF"
+        app:fabSize="normal"
+        app:tint="#FFFFFF" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

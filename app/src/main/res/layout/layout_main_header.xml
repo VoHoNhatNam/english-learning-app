@@ -34,7 +34,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:src="@drawable/task_100"
-                    app:tint="#2D6A4F" />
+                    app:tint="#0066FF" />
 
                 <!-- Badge / Pulse Dot -->
                 <View
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cheeky Lingua"
-                android:textColor="#2D6A4F"
+                android:textColor="#0066FF"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

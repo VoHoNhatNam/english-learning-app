@@ -4,178 +4,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F9F8">
+    android:background="#F8F9FE"
+    tools:context=".ui.chat.ChatFragment">
 
     <!-- Header -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/headerCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp"
+        app:cardElevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="64dp"
             android:paddingHorizontal="16dp">
 
             <ImageButton
-                android:id="@+id/btnMenu"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_menu"
+                android:contentDescription="Back"
+                android:src="@drawable/ic_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#1B4332" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="AI Curator"
-                android:textColor="#1B4332"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnMenu"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnHistory"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="16dp">
-
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/bg_circle_green"
-                    android:layout_marginEnd="6dp"/>
+                app:layout_constraintStart_toEndOf="@id/btnBack"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TUTOR ONLINE"
-                    android:textColor="#888"
-                    android:textSize="10sp"
+                    android:text="AI Tutor"
+                    android:textColor="#1A1C1E"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Online"
+                    android:textColor="#4CAF50"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/btnHistory"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/btnSettings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_history"
+                android:src="@drawable/ic_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#1B4332" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Chat Messages -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChat"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        tools:listitem="@layout/item_chat_ai" />
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@id/inputCard"
+        app:layout_constraintTop_toBottomOf="@id/headerCard"
+        tools:listitem="@layout/item_chat_message" />
 
-    <LinearLayout
-        android:id="@+id/layoutBottom"
+    <!-- Input Area -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/inputCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F7F9F8"
-        android:orientation="vertical"
-        android:paddingBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:strokeWidth="0dp">
 
-        <!-- Suggestion Chips -->
-        <HorizontalScrollView
-            android:id="@+id/scrollSuggestions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:paddingHorizontal="16dp"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_input_pill"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:text="Yes, I have been to Japan."
-                    android:textSize="14sp"
-                    android:textColor="#333"
-                    android:layout_marginEnd="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_input_pill"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:text="I've never traveled abroad."
-                    android:textSize="14sp"
-                    android:textColor="#333" />
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <!-- Input Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp">
-
-            <EditText
-                android:id="@+id/edtMessage"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_search_gray"
-                android:hint="Gõ phản hồi của bạn..."
-                android:paddingHorizontal="24dp"
-                android:textSize="15sp"
-                android:textColor="#333"
-                android:textColorHint="#999"
-                android:importantForAutofill="no"
-                android:inputType="textCapSentences" />
+            android:padding="8dp">
 
             <ImageButton
+                android:id="@+id/btnVoice"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_volume"
+                app:tint="#757575" />
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Type a message..."
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:minHeight="44dp"
+                android:paddingHorizontal="4dp"
+                android:textColor="#1A1C1E"
+                android:textColorHint="#757575"
+                android:textSize="16sp" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSend"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginStart="12dp"
-                android:background="@drawable/bg_send_button"
-                android:src="@drawable/send_48"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                app:tint="#FFFFFF" />
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:backgroundTint="#0061FF"
+                app:cornerRadius="22dp"
+                app:icon="@drawable/send_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/white" />
 
         </LinearLayout>
-    </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
