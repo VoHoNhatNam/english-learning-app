@@ -3,116 +3,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start"
     android:orientation="vertical"
     android:paddingVertical="8dp">
+
+    <!-- AI Profile Header (Optional/Dynamic) -->
+    <LinearLayout
+        android:id="@+id/layoutAiHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/add_ai_50"
+            app:tint="#0066FF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="AURA AI"
+            android:textColor="#64748B"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/bg_chat_ai"
-        android:backgroundTint="#9D50FF"
+        android:backgroundTint="#F8FAFC"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="16dp">
+        android:paddingVertical="16dp"
+        android:elevation="0dp">
+
+        <TextView
+            android:id="@+id/tvLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="#3B82F6"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="4dp"
-            android:text="AI message"
-            android:textColor="#FFFFFF"
+            android:lineSpacingExtra="6dp"
+            android:text="Chào bạn! Tôi đã xem qua bản nháp của bạn..."
+            android:textColor="#1E293B"
             android:textSize="15sp" />
 
-        <!-- Grammar/Word buttons (Hidden by default for AI Curator) -->
-        <LinearLayout
-            android:id="@+id/layoutActionButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_color_green"
-                android:backgroundTint="#FFDDA0"
-                android:gravity="center"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp">
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/ic_check"
-                    app:tint="#251A00" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="Grammar Fix"
-                    android:textColor="#251A00"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_color_blue"
-                android:backgroundTint="#D9E2FF"
-                android:gravity="center"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp">
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/ic_book"
-                    app:tint="#0066FF" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="Word Definition"
-                    android:textColor="#0066FF"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
+        <!-- Quote/Highlight box (Grammar Correction) -->
         <LinearLayout
             android:id="@+id/layoutCorrection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#EADDFF"
-            android:orientation="vertical"
-            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_search_gray"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="horizontal"
+            android:padding="2dp"
             android:visibility="gone">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#3B82F6" />
+
             <TextView
                 android:id="@+id/tvCorrection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="&quot;Việc tái cấu trúc tri thức giúp bộ não ghi nhớ sâu hơn.&quot;"
+                android:textColor="#3B82F6"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <!-- Suggested Actions -->
+        <LinearLayout
+            android:id="@+id/layoutActionButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Correction details here..."
-                android:textColor="#24005A"
-                android:textSize="13sp" />
+                android:background="@drawable/bg_button"
+                android:backgroundTint="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="Gợi ý từ vựng"
+                android:textColor="#3B82F6"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="#FFFFFF"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="Xem ví dụ"
+                android:textColor="#3B82F6"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="6dp"
-        android:text="CONVERSATION STARTER"
-        android:textColor="#74777F"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
 
 </LinearLayout>

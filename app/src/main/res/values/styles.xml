@@ -4,6 +4,13 @@
         <item name="cornerSize">8dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.TopCornerRadius" parent="">
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="BottomNavText">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">sans-serif</item>

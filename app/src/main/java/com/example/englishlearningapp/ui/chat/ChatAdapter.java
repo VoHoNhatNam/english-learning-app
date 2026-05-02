@@ -1,5 +1,8 @@
 package com.example.englishlearningapp.ui.chat;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.data.model.ChatMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,9 +36,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == ChatMessage.TYPE_USER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_user, parent, false);
             return new UserViewHolder(view);
-        } else {
+        } else if (viewType == ChatMessage.TYPE_AI) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_ai, parent, false);
             return new AiViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_typing, parent, false);
+            return new TypingViewHolder(view);
         }
     }
 
@@ -44,9 +51,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof UserViewHolder) {
             UserViewHolder userHolder = (UserViewHolder) holder;
             userHolder.tvMessage.setText(message.getText());
-            // In a real app, you'd format the timestamp
             userHolder.tvTime.setText("SENT • 10:02 AM");
-        } else {
+        } else if (holder instanceof AiViewHolder) {
             AiViewHolder aiHolder = (AiViewHolder) holder;
             aiHolder.tvMessage.setText(message.getText());
 
@@ -65,6 +71,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 aiHolder.layoutActionButtons.setVisibility(View.GONE);
                 aiHolder.layoutCorrection.setVisibility(View.GONE);
             }
+        } else if (holder instanceof TypingViewHolder) {
+            ((TypingViewHolder) holder).startAnimation();
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder instanceof TypingViewHolder) {
+            ((TypingViewHolder) holder).stopAnimation();
         }
     }
 
@@ -92,6 +108,52 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvCorrection = itemView.findViewById(R.id.tvCorrection);
             layoutActionButtons = itemView.findViewById(R.id.layoutActionButtons);
             layoutCorrection = itemView.findViewById(R.id.layoutCorrection);
+        }
+    }
+
+    static class TypingViewHolder extends RecyclerView.ViewHolder {
+        View dot1, dot2, dot3;
+        AnimatorSet animatorSet;
+
+        TypingViewHolder(View itemView) {
+            super(itemView);
+            dot1 = itemView.findViewById(R.id.dot1);
+            dot2 = itemView.findViewById(R.id.dot2);
+            dot3 = itemView.findViewById(R.id.dot3);
+        }
+
+        void startAnimation() {
+            if (animatorSet != null && animatorSet.isRunning()) {
+                return;
+            }
+
+            animatorSet = new AnimatorSet();
+            
+            ObjectAnimator anim1 = ObjectAnimator.ofFloat(dot1, "translationY", 0, -10, 0);
+            anim1.setDuration(600);
+            anim1.setRepeatCount(ObjectAnimator.INFINITE);
+
+            ObjectAnimator anim2 = ObjectAnimator.ofFloat(dot2, "translationY", 0, -10, 0);
+            anim2.setDuration(600);
+            anim2.setStartDelay(200);
+            anim2.setRepeatCount(ObjectAnimator.INFINITE);
+
+            ObjectAnimator anim3 = ObjectAnimator.ofFloat(dot3, "translationY", 0, -10, 0);
+            anim3.setDuration(600);
+            anim3.setStartDelay(400);
+            anim3.setRepeatCount(ObjectAnimator.INFINITE);
+
+            animatorSet.playTogether(anim1, anim2, anim3);
+            animatorSet.start();
+        }
+
+        void stopAnimation() {
+            if (animatorSet != null) {
+                animatorSet.cancel();
+                dot1.setTranslationY(0);
+                dot2.setTranslationY(0);
+                dot3.setTranslationY(0);
+            }
         }
     }
 }

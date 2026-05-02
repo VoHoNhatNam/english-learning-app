@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.englishlearningapp.R;
+import com.example.englishlearningapp.data.model.Vocabulary;
+import com.example.englishlearningapp.data.model.VocabularyLesson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,9 @@ public class VocabularyFragment extends Fragment {
     private Button btnPrev, btnNext;
 
     private TextToSpeech tts;
-    private List<WordModel> vocabularyList;
+    private List<Vocabulary> vocabularyList = new ArrayList<>();
     private int currentIndex = 0;
-    private String lessonName;
+    private VocabularyLesson lesson;
 
     @Nullable
     @Override
@@ -37,16 +39,16 @@ public class VocabularyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vocabulary, container, false);
 
         if (getArguments() != null) {
-            lessonName = getArguments().getString("lessonName");
+            lesson = (VocabularyLesson) getArguments().getSerializable("lesson");
+            if (lesson != null && lesson.getWords() != null) {
+                vocabularyList = lesson.getWords();
+            }
         }
 
         initViews(view);
-        setupData();
         setupTTS();
-
         updateUI();
 
-        // Xử lý sự kiện
         btnNext.setOnClickListener(v -> {
             if (currentIndex < vocabularyList.size() - 1) {
                 currentIndex++;
@@ -86,26 +88,6 @@ public class VocabularyFragment extends Fragment {
         btnNext = view.findViewById(R.id.btnNext);
     }
 
-    private void setupData() {
-        vocabularyList = new ArrayList<>();
-        
-        if (lessonName != null && lessonName.contains("Bài 1") && lessonName.contains("Greetings")) {
-            // Nội dung Bài 1: Greetings & Introductions
-            vocabularyList.add(new WordModel("Hello", "/həˈləʊ/", "Xin chào"));
-            vocabularyList.add(new WordModel("Goodbye", "/ˌɡʊdˈbaɪ/", "Tạm biệt"));
-            vocabularyList.add(new WordModel("Name", "/neɪm/", "Tên"));
-            vocabularyList.add(new WordModel("Student", "/ˈstjuːdnt/", "Học sinh/Sinh viên"));
-            vocabularyList.add(new WordModel("Teacher", "/ˈtiːtʃə(r)/", "Giáo viên"));
-            vocabularyList.add(new WordModel("Friend", "/frend/", "Người bạn"));
-            vocabularyList.add(new WordModel("Nice to meet you", "/naɪs tu miːt ju/", "Rất vui được gặp bạn"));
-        } else {
-            // Dữ liệu mặc định nếu không khớp bài học
-            vocabularyList.add(new WordModel("Apple", "/ˈæpl/", "Quả táo"));
-            vocabularyList.add(new WordModel("Banana", "/bəˈnænə/", "Quả chuối"));
-            vocabularyList.add(new WordModel("Orange", "/ˈɔːrɪndʒ/", "Quả cam"));
-        }
-    }
-
     private void setupTTS() {
         tts = new TextToSpeech(getContext(), status -> {
             if (status != TextToSpeech.ERROR) {
@@ -115,11 +97,14 @@ public class VocabularyFragment extends Fragment {
     }
 
     private void updateUI() {
-        if (vocabularyList.isEmpty()) return;
+        if (vocabularyList.isEmpty()) {
+            txtWord.setText("No data");
+            return;
+        }
         
-        WordModel currentWord = vocabularyList.get(currentIndex);
+        Vocabulary currentWord = vocabularyList.get(currentIndex);
         txtWord.setText(currentWord.getWord());
-        txtPhonetic.setText(currentWord.getPhonetic());
+        txtPhonetic.setText(currentWord.getPhonetic() != null ? currentWord.getPhonetic() : "");
         txtMeaning.setText(currentWord.getMeaning());
         txtProgress.setText((currentIndex + 1) + " / " + vocabularyList.size());
     }
@@ -131,18 +116,5 @@ public class VocabularyFragment extends Fragment {
             tts.shutdown();
         }
         super.onDestroy();
-    }
-
-    // Class nội bộ để quản lý dữ liệu từ vựng
-    static class WordModel {
-        private String word, phonetic, meaning;
-        public WordModel(String word, String phonetic, String meaning) {
-            this.word = word;
-            this.phonetic = phonetic;
-            this.meaning = meaning;
-        }
-        public String getWord() { return word; }
-        public String getPhonetic() { return phonetic; }
-        public String getMeaning() { return meaning; }
     }
 }
