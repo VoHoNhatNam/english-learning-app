@@ -200,6 +200,17 @@ public class ChatFragment extends Fragment {
     }
 
     private void callGemini(String text) {
+        // Thêm tin nhắn typing
+        ChatMessage typingMsg = new ChatMessage("", ChatMessage.TYPE_TYPING);
+        messageList.add(typingMsg);
+        int typingPos = messageList.size() - 1;
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                adapter.notifyItemInserted(typingPos);
+                rvChat.scrollToPosition(typingPos);
+            });
+        }
+
         Content prompt = new Content.Builder().addText(text).build();
         ListenableFuture<GenerateContentResponse> response = model.generateContent(prompt);
 
@@ -208,13 +219,29 @@ public class ChatFragment extends Fragment {
             public void onSuccess(GenerateContentResponse result) {
                 String resultText = result.getText();
                 if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> addAiMessage(resultText, null));
+                    getActivity().runOnUiThread(() -> {
+                        // Xóa tin nhắn typing
+                        if (typingPos < messageList.size()) {
+                            messageList.remove(typingPos);
+                            adapter.notifyItemRemoved(typingPos);
+                        }
+                        // Thêm tin nhắn AI thật
+                        addAiMessage(resultText, null);
+                    });
                 }
             }
 
             @Override
             public void onFailure(@NonNull Throwable t) {
                 Log.e(TAG, "Gemini Error", t);
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (typingPos < messageList.size()) {
+                            messageList.remove(typingPos);
+                            adapter.notifyItemRemoved(typingPos);
+                        }
+                    });
+                }
             }
         }, executor);
     }

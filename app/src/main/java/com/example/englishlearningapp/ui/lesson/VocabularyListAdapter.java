@@ -1,5 +1,6 @@
 package com.example.englishlearningapp.ui.lesson;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.englishlearningapp.R;
-import com.example.englishlearningapp.data.model.Vocabulary;
+import com.example.englishlearningapp.data.model.VocabularyLesson;
 
 import java.util.List;
 
 public class VocabularyListAdapter extends RecyclerView.Adapter<VocabularyListAdapter.ViewHolder> {
 
-    private List<Vocabulary> vocabularyList;
+    private List<VocabularyLesson> lessonList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Vocabulary vocabulary);
+        void onItemClick(VocabularyLesson lesson);
     }
 
-    public VocabularyListAdapter(List<Vocabulary> vocabularyList, OnItemClickListener listener) {
-        this.vocabularyList = vocabularyList;
+    public VocabularyListAdapter(List<VocabularyLesson> lessonList, OnItemClickListener listener) {
+        this.lessonList = lessonList;
         this.listener = listener;
     }
 
@@ -37,35 +38,34 @@ public class VocabularyListAdapter extends RecyclerView.Adapter<VocabularyListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Vocabulary vocab = vocabularyList.get(position);
-        holder.tvWordIndex.setText("LESSON " + String.format("%02d", position + 1));
-        holder.tvWord.setText(vocab.getWord());
-        holder.tvMeaning.setText(vocab.getMeaning());
+        VocabularyLesson lesson = lessonList.get(position);
+        holder.tvWordIndex.setText("BÀI " + (position + 1));
+        holder.tvWord.setText(lesson.getTitle());
+        holder.tvMeaning.setText(lesson.getDescription());
         
-        // Mock data logic for status based on position for demo
-        if (position == 0) {
+        if (lesson.getStatus() == 1) { // Completed
             holder.tvStatus.setText("ĐÃ THUỘC");
-            holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFD1E7DD));
+            holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(0xFFD1E7DD));
             holder.imgStatusIcon.setImageResource(R.drawable.ic_check);
-            holder.imgStatusIcon.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFD1E7DD));
-        } else if (position == 1) {
+            holder.imgStatusIcon.setBackgroundTintList(ColorStateList.valueOf(0xFFD1E7DD));
+        } else if (lesson.getStatus() == 2) { // In Progress
             holder.tvStatus.setText("ĐANG HỌC");
-            holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE2E8F0));
+            holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(0xFFE2E8F0));
             holder.imgStatusIcon.setImageResource(R.drawable.ic_more_horiz);
-            holder.imgStatusIcon.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE2E8F0));
-        } else {
+            holder.imgStatusIcon.setBackgroundTintList(ColorStateList.valueOf(0xFFE2E8F0));
+        } else { // Locked or Not Started
             holder.tvStatus.setText("CHƯA HỌC");
-            holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFF7FAFC));
-            holder.imgStatusIcon.setImageResource(R.drawable.ic_arrow_right);
-            holder.imgStatusIcon.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFF7FAFC));
+            holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(0xFFF7FAFC));
+            holder.imgStatusIcon.setImageResource(R.drawable.ic_next);
+            holder.imgStatusIcon.setBackgroundTintList(ColorStateList.valueOf(0xFFF7FAFC));
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(vocab));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(lesson));
     }
 
     @Override
     public int getItemCount() {
-        return vocabularyList.size();
+        return lessonList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

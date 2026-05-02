@@ -3,6 +3,7 @@ package com.example.englishlearningapp.data.model;
 public class ChatMessage {
     public static final int TYPE_USER = 0;
     public static final int TYPE_AI = 1;
+    public static final int TYPE_TYPING = 2;
 
     private String text;
     private int type;

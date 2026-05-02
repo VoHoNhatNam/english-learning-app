@@ -37,6 +37,26 @@ public class CustomLesson implements Serializable {
         this.status = 0;
     }
 
+    public CustomLesson(String title, String description, String id) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.readingTitle = title;
+        this.createdAt = System.currentTimeMillis();
+        this.status = 0;
+    }
+
+    // Constructor đầy đủ cho Reading
+    public CustomLesson(String title, String description, String id, String readingContent) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.readingTitle = title;
+        this.readingContent = readingContent;
+        this.createdAt = System.currentTimeMillis();
+        this.status = 0;
+    }
+
     // --- Getter và Setter ---
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

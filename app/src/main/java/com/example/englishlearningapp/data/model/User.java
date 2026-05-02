@@ -8,6 +8,7 @@ public class User {
     private String username;
     private String email;
     private boolean isVip;
+    private String role; // "admin" or "user"
     private String profilePicture;
     private int age;
     private String englishLevel;
@@ -22,6 +23,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.isVip = false;
+        this.role = "user";
         this.onboardingCompleted = false;
         this.createdAt = System.currentTimeMillis();
     }
@@ -36,7 +38,10 @@ public class User {
     public void setEmail(String email) { this.email = email; }
 
     public boolean isVip() { return isVip; }
-    public void setVip(boolean vip) { isVip = vip; }
+    public void setVip(boolean vip) { this.isVip = vip; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
     public String getProfilePicture() { return profilePicture; }
     public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }

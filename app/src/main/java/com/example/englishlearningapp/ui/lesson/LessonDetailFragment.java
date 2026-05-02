@@ -2,13 +2,8 @@ package com.example.englishlearningapp.ui.lesson;
 
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +18,18 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.englishlearningapp.R;
 import com.example.englishlearningapp.data.model.CustomLesson;
+import com.example.englishlearningapp.data.model.LessonBlock;
 import com.example.englishlearningapp.ui.chat.ChatFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +45,9 @@ public class LessonDetailFragment extends Fragment {
     private Guideline guideline;
     private FloatingActionButton fabAiAction;
     private boolean isChatOpen = false;
+
+    private RecyclerView rvLessonContent;
+    private LessonContentAdapter contentAdapter;
 
     public static LessonDetailFragment newInstance(CustomLesson lesson) {
         LessonDetailFragment fragment = new LessonDetailFragment();
@@ -72,12 +75,12 @@ public class LessonDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lesson_detail, container, false);
 
         initViews(view);
+        setupContentRecyclerView(view);
 
         return view;
     }
 
     private void initViews(View view) {
-        // Split Screen Views
         chatContainer = view.findViewById(R.id.chatContainer);
         guideline = view.findViewById(R.id.guideline);
         View btnCloseChat = view.findViewById(R.id.btnCloseChat);
@@ -86,41 +89,25 @@ public class LessonDetailFragment extends Fragment {
             btnCloseChat.setOnClickListener(v -> closeSplitChat());
         }
 
-        // Toolbar Navigation
         View btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
         }
 
-        // Binding Views
         TextView tvToolbarTitle = view.findViewById(R.id.tvToolbarTitle);
         TextView tvTitle = view.findViewById(R.id.tvLessonTitle);
-        TextView tvContext = view.findViewById(R.id.tvLessonContext);
         fabAiAction = view.findViewById(R.id.fabAiAction);
         View btnGoPremium = view.findViewById(R.id.btnGoPremium);
 
-        // Populate Data
         String fullTitle = "Lesson";
         if (lesson != null) {
             fullTitle = lesson.getTitle();
             tvTitle.setText(lesson.getTitle());
-            if (lesson.getDescription() != null && !lesson.getDescription().isEmpty()) {
-                tvContext.setText(lesson.getDescription());
-            }
-        } else {
-            if (lessonTitle != null) {
-                fullTitle = lessonTitle;
-                tvTitle.setText(lessonTitle);
-            }
-            if (lessonContent != null) {
-                displayFormattedContent(tvContext, lessonContent);
-                hidePlaceholderContent(view);
-            } else if (lessonDescription != null) {
-                tvContext.setText(lessonDescription);
-            }
+        } else if (lessonTitle != null) {
+            fullTitle = lessonTitle;
+            tvTitle.setText(lessonTitle);
         }
 
-        // Extract strictly "Bài X" for Toolbar
         String toolbarTitle = "Bài";
         if (fullTitle != null) {
             if (fullTitle.contains(":")) {
@@ -135,7 +122,6 @@ public class LessonDetailFragment extends Fragment {
             }
         }
 
-        // Fallback to Lesson ID
         if (toolbarTitle.equals("Bài") && lessonId != null) {
             try {
                 int idNum = Integer.parseInt(lessonId);
@@ -148,11 +134,8 @@ public class LessonDetailFragment extends Fragment {
             tvToolbarTitle.setText(toolbarTitle);
         }
 
-        // Interaction
         if (btnGoPremium != null) {
-            btnGoPremium.setOnClickListener(v -> {
-                // Handle premium upgrade
-            });
+            btnGoPremium.setOnClickListener(v -> {});
         }
 
         if (fabAiAction != null) {
@@ -160,40 +143,70 @@ public class LessonDetailFragment extends Fragment {
         }
     }
 
-    private void displayFormattedContent(TextView textView, String content) {
-        // Simple modern formatting for the lesson content
-        String formatted = content
-            .replace("1. Mục tiêu", "<b>1. Mục tiêu</b>")
-            .replace("2. Cách dùng", "<br><br><b>2. Cách dùng</b>")
-            .replace("3. Cấu trúc", "<br><br><b>3. Cấu trúc</b>")
-            .replace("a. Động từ “TO BE”", "<br><i>a. Động từ “TO BE”</i>")
-            .replace("b. Động từ thường", "<br><br><i>b. Động từ thường</i>")
-            .replace("4. Lưu ý quan trọng", "<br><br><b>4. Lưu ý quan trọng</b>")
-            .replace("5. Lỗi sai phổ biến", "<br><br><b>5. Lỗi sai phổ biến</b>")
-            .replace("👉 Ví dụ:", "<br><br>👉 <u>Ví dụ:</u>")
-            .replace("❌", "<br>❌")
-            .replace("✅", "<br>✅")
-            .replace("→", " → ");
-
-        textView.setText(Html.fromHtml(formatted, Html.FROM_HTML_MODE_COMPACT));
-        textView.setLineSpacing(0f, 1.4f); // Increase line spacing for better readability
+    private void setupContentRecyclerView(View view) {
+        rvLessonContent = view.findViewById(R.id.rvLessonContent);
+        rvLessonContent.setLayoutManager(new LinearLayoutManager(getContext()));
+        
+        List<LessonBlock> blocks;
+        if (lessonContent != null && !lessonContent.isEmpty()) {
+            blocks = parseContentToBlocks(lessonContent);
+        } else {
+            blocks = new ArrayList<>();
+            blocks.add(new LessonBlock("text", lessonDescription != null ? lessonDescription : "Nội dung đang được cập nhật..."));
+        }
+        
+        contentAdapter = new LessonContentAdapter(blocks);
+        rvLessonContent.setAdapter(contentAdapter);
     }
 
-    private void hidePlaceholderContent(View view) {
-        ViewGroup parent = (ViewGroup) view.findViewById(R.id.tvLessonContext).getParent();
-        if (parent != null) {
-            boolean foundContext = false;
-            for (int i = 0; i < parent.getChildCount(); i++) {
-                View child = parent.getChildAt(i);
-                if (child.getId() == R.id.tvLessonContext) {
-                    foundContext = true;
-                    continue;
+    private List<LessonBlock> parseContentToBlocks(String content) {
+        List<LessonBlock> blocks = new ArrayList<>();
+        String[] lines = content.split("\n");
+        
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i].trim();
+            if (line.isEmpty()) continue;
+
+            // Header: "1. Mục tiêu", "2. Cách dùng", ...
+            if (Pattern.matches("^\\d+\\..*", line)) {
+                blocks.add(new LessonBlock("header", line));
+            }
+            // Section Title: "a. Động từ...", "b. Động từ..."
+            else if (Pattern.matches("^[a-z]\\..*", line)) {
+                blocks.add(new LessonBlock("section_title", line));
+            }
+            // Note/Example: "👉 Ví dụ:", "👉 Lưu ý:"
+            else if (line.startsWith("👉")) {
+                blocks.add(new LessonBlock("note", line));
+            }
+            // Error Correction: ❌ và ✅
+            else if (line.startsWith("❌")) {
+                String wrong = line;
+                String correct = "";
+                if (i + 1 < lines.length && lines[i+1].trim().startsWith("✅")) {
+                    correct = lines[++i].trim();
                 }
-                if (foundContext) {
-                    child.setVisibility(View.GONE);
-                }
+                blocks.add(new LessonBlock("error_correction", "", wrong.replace("❌", "").trim(), correct.replace("✅", "").trim()));
+            }
+            // Bullet points
+            else if (line.startsWith("-") || line.startsWith("•")) {
+                blocks.add(new LessonBlock("bullet", line.substring(1).trim()));
+            }
+            // Default text
+            else {
+                blocks.add(new LessonBlock("text", line));
             }
         }
+        return blocks;
+    }
+
+    private String findBàiPattern(String text) {
+        Pattern pattern = Pattern.compile("(?i)Bài\\s*\\d+");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return "Bài";
     }
 
     private void showAiHelperBottomSheet(String lessonTitle) {
@@ -211,49 +224,30 @@ public class LessonDetailFragment extends Fragment {
             openSplitChat("Chào bạn! Mình là trợ lý AI. Bạn có thắc mắc gì về bài học '" + lessonTitle + "' không?");
         });
 
-        view.findViewById(R.id.btnTakeQuiz).setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
-            // Handle take quiz
-        });
-
-        view.findViewById(R.id.btnUpgrade).setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
-            // Handle upgrade
-        });
-
         bottomSheetDialog.show();
     }
 
     private void openSplitChat(String initialMessage) {
         if (chatContainer == null || guideline == null) return;
-
         isChatOpen = true;
         chatContainer.setVisibility(View.VISIBLE);
         if (fabAiAction != null) fabAiAction.setVisibility(View.GONE);
-        
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) guideline.getLayoutParams();
         params.guidePercent = 0.45f;
         guideline.setLayoutParams(params);
-
         Bundle bundle = new Bundle();
         bundle.putString("initial_topic", initialMessage);
         bundle.putBoolean("is_split_screen", true);
-
         ChatFragment chatFragment = new ChatFragment();
         chatFragment.setArguments(bundle);
-
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.innerChatContainer, chatFragment)
-                .commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.innerChatContainer, chatFragment).commit();
     }
 
     private void closeSplitChat() {
         if (chatContainer == null || guideline == null) return;
-
         isChatOpen = false;
         chatContainer.setVisibility(View.GONE);
         if (fabAiAction != null) fabAiAction.setVisibility(View.VISIBLE);
-        
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) guideline.getLayoutParams();
         params.guidePercent = 1.0f;
         guideline.setLayoutParams(params);
@@ -263,39 +257,15 @@ public class LessonDetailFragment extends Fragment {
         Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_quick_note);
-
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            
             WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
             params.gravity = Gravity.BOTTOM | Gravity.END;
-            params.y = 50;
-            params.x = 20;
+            params.y = 50; params.x = 20;
             dialog.getWindow().setAttributes(params);
         }
-
         dialog.findViewById(R.id.btnCloseNote).setOnClickListener(v -> dialog.dismiss());
-        
-        dialog.findViewById(R.id.btnSaveDraft).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Đã lưu bản nháp ghi chú", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        });
-
-        dialog.findViewById(R.id.btnSendNote).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "AI đang xử lý ghi chú của bạn...", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        });
-
         dialog.show();
-    }
-
-    private String findBàiPattern(String text) {
-        Pattern pattern = Pattern.compile("(?i)Bài\\s*\\d+");
-        Matcher matcher = pattern.matcher(text);
-        if (matcher.find()) {
-            return matcher.group();
-        }
-        return "Bài";
     }
 }

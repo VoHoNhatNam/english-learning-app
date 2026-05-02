@@ -21,6 +21,9 @@ import com.example.englishlearningapp.ui.home.NotificationFragment;
 import com.example.englishlearningapp.ui.lesson.GrammarFragment;
 import com.example.englishlearningapp.ui.lesson.LessonDetailFragment;
 import com.example.englishlearningapp.ui.lesson.LessonListFragment;
+import com.example.englishlearningapp.ui.lesson.ReadingDetailFragment;
+import com.example.englishlearningapp.ui.lesson.VocabularyDetailFragment;
+import com.example.englishlearningapp.ui.lesson.VocabularyListFragment;
 import com.example.englishlearningapp.ui.mission.MissionFragment;
 import com.example.englishlearningapp.ui.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -143,11 +146,16 @@ public class MainActivity extends AppCompatActivity {
         View fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer == null || bottomNavContainer == null) return;
 
-        // Kiểm tra nếu là MissionFragment, NotificationFragment, LessonDetailFragment hoặc GrammarFragment thì ẩn Bottom Nav
+        // Thêm các Fragment cần ẩn Bottom Nav vào danh sách
         if (fragment instanceof MissionFragment || 
             fragment instanceof NotificationFragment || 
             fragment instanceof LessonDetailFragment || 
-            fragment instanceof GrammarFragment) {
+            fragment instanceof GrammarFragment ||
+            fragment instanceof VocabularyDetailFragment ||
+            fragment instanceof LessonListFragment ||
+            fragment instanceof VocabularyListFragment ||
+            fragment instanceof ReadingDetailFragment ||
+            fragment instanceof ChatFragment) {
             bottomNavContainer.setVisibility(View.GONE);
             fragmentContainer.setPadding(0, 0, 0, 0); // Xóa padding để hiển thị full màn hình
         } else {

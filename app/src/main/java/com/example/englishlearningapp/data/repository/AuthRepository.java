@@ -5,17 +5,43 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AuthRepository {
 
     private FirebaseAuthManager authManager;
+    private FirebaseFirestore db;
+
+    public interface OnAdminCheckListener {
+        void onResult(boolean isAdmin);
+        void onError(Exception e);
+    }
 
     public AuthRepository() {
         authManager = new FirebaseAuthManager();
+        db = FirebaseFirestore.getInstance();
     }
 
     public FirebaseUser getCurrentUser() {
         return authManager.getCurrentUser();
+    }
+
+    /**
+     * Kiểm tra xem người dùng hiện tại có phải là Admin không
+     */
+    public void checkIsAdmin(String uid, OnAdminCheckListener listener) {
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String role = documentSnapshot.getString("role");
+                        listener.onResult("admin".equals(role));
+                    } else {
+                        listener.onResult(false);
+                    }
+                })
+                .addOnFailureListener(listener::onError);
     }
 
     // 🔐 Login Email + Password
